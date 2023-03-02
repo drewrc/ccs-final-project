@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'css-final-project-drewrc.herokuapp.com',
+    'ccs-final-project-drewrc.herokuapp.com'
 ]
 
 # Application definition
