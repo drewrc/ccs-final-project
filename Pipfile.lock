@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "43e545ae5e01b9bf909e7edd1fa7c844c0637680a87429daddb30210258336b7"
+            "sha256": "2d8bfd60f8632fa23f3c92afa59dc923aa6a1a89b06b050866acc67d13a85eab"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -248,6 +248,22 @@
             "index": "pypi",
             "version": "==0.52.0"
         },
+        "django-phonenumber-field": {
+            "hashes": [
+                "sha256:9edad2b2602af25f2aefc73c4cf53eaf7abf9e17d73c1c4372bd3052bebb26f9",
+                "sha256:de3e47b986b4959949762c16fd8fe26b3e462ef3e5531ed00950bd20c698576a"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==7.0.2"
+        },
+        "django-twilio": {
+            "hashes": [
+                "sha256:13976287223b139bbabfe504d4e45498967625ffca3006f4151c69c409fd4f07",
+                "sha256:7686fb80dad9b17c9140295ec4efe138c5e444710dae9aeaac3416e3e7810ce4"
+            ],
+            "index": "pypi",
+            "version": "==0.14.3.1"
+        },
         "djangorestframework": {
             "hashes": [
                 "sha256:579a333e6256b09489cbe0a067e66abe55c6595d8926be6b99423786334350c8",
@@ -279,6 +295,13 @@
             ],
             "markers": "python_version >= '3.6'",
             "version": "==3.2.2"
+        },
+        "phonenumbers": {
+            "hashes": [
+                "sha256:253bb0e01250d21a11f2b42b3e6e161b7f6cb2ac440e2e2a95c1da71d221ee1a",
+                "sha256:d3e3555b38c89b121f5b2e917847003bdd07027569d758d5f40156c01aeac089"
+            ],
+            "version": "==8.13.7"
         },
         "psycopg2-binary": {
             "hashes": [
@@ -420,6 +443,14 @@
             ],
             "markers": "python_version >= '3.5'",
             "version": "==0.4.3"
+        },
+        "twilio": {
+            "hashes": [
+                "sha256:594b2b594d2181e6f765e8af37f1d28277fa54b0f651ca7e5c0f54aa45797fd3",
+                "sha256:7dead87cf3b92fae5db07ce553b571b315a1bfff2cc6a13bdf5bdfc4675409e5"
+            ],
+            "index": "pypi",
+            "version": "==7.16.4"
         },
         "urllib3": {
             "hashes": [
