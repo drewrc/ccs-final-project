@@ -9,8 +9,7 @@ function Location() {
     return (
 
         <div>
-            
-
+        
         </div>
   
     );
