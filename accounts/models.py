@@ -8,12 +8,21 @@ from django.contrib.auth.models import AbstractUser
 
 #CUSTOM USER MODEL CLASS
 class User(AbstractUser):
-    pass
-
-class Profile(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True)
-    user_name = models.CharField(max_length=255)
-
+    buddies = models.ManyToManyField("User", blank=True)
     def __str__(self):
-        return self.user.username
+        return self.username
+    
+class Friend_Request(models.Model):
+    from_user = models.ForeignKey(
+        User, related_name='from_user', on_delete=models.CASCADE)
+    to_user = models.ForeignKey(
+        User, related_name='to_user', on_delete=models.CASCADE)
+
+
+# class Profile(models.Model):
+#     user = models.OneToOneField(
+#         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True)
+#     user_name = models.CharField(max_length=255)
+
+#     def __str__(self):
+#         return self.user.username

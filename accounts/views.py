@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
-from .models import Profile, User
+from .models import User
 from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 # Create your views here.
 
