@@ -5,6 +5,7 @@ from django.conf import settings
 class Conversation(models.Model):
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="members", unique=False)
 
+
 class Message(models.Model):
     text = models.TextField(max_length=500, default='', blank=False)
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="sender", unique=False)
@@ -12,3 +13,5 @@ class Message(models.Model):
     conversation = models.ForeignKey(Conversation, related_name="conversations", on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now=True, null=True)
     is_read = models.BooleanField(default=False, blank=False)
+    def __str__(self):
+        return self.text
