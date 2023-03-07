@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'frontend.apps.FrontendConfig',
     'api.apps.ApiConfig',
     'conversations.apps.ConversationsConfig',
+    'timelines.apps.TimelinesConfig',
 ]
 
 REST_FRAMEWORK = {
