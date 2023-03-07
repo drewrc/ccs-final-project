@@ -18,11 +18,3 @@ class Friend_Request(models.Model):
     to_user = models.ForeignKey(
         User, related_name='to_user', on_delete=models.CASCADE)
 
-
-# class Profile(models.Model):
-#     user = models.OneToOneField(
-#         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True)
-#     user_name = models.CharField(max_length=255)
-
-#     def __str__(self):
-#         return self.user.username
