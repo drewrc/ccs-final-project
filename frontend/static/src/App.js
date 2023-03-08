@@ -12,6 +12,10 @@ import UnauthenticatedHeader from "./apps/components/UnauthenticatedHeader";
 import AuthenticatedHeader from "./apps/components/AuthenticatedHeader";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./apps/auth/routes/ProtectedRoute";
+import UserFeed from "./apps/auth/views/UserFeed";
+import UserMessages from "./apps/auth/views/UserMessages";
+import UserMatch from "./apps/auth/views/UserMatch";
+import UserTimeline from "./apps/auth/views/UserTimeline";
 
 function App() {
   const { isAuthenticated } = useContext(AuthContext);
@@ -21,7 +25,12 @@ function App() {
       <Routes>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Registration />} />
-          <Route path="/" element={<ProtectedRoute />} />
+          <Route path="/" element={<ProtectedRoute />} >
+            <Route path="user-feed" element={<UserFeed/>} />
+            <Route path="user-messages" element={<UserMessages/>} />
+            <Route path="user-match" element={<UserMatch/>} />
+            <Route path="user-timeline" element={<UserTimeline/>} />
+          </Route>
       </Routes>
       <Footer />
     </div>

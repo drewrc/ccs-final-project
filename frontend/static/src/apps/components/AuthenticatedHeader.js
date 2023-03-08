@@ -38,6 +38,18 @@ return (
                     <Link to="/logout" id="nav">
                         Logout
                     </Link>
+                    <Link to="/user-feed" id="nav">
+                        Home
+                    </Link>
+                    <Link to="/user-messages" id="nav">
+                        Messages
+                    </Link>
+                    <Link to="/user-match" id="nav">
+                        Match
+                    </Link>
+                    <Link to="/user-timeline" id="nav">
+                        Profile
+                    </Link>
 
                     <NavDropdown
                         title="Dropdown"
