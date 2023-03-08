@@ -29,12 +29,12 @@ return (
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                     <Nav className="justify-content-end flex-grow-1 pe-3">
-                    <Link to="/register" id="nav">
+                    {/* <Link to="/register" id="nav">
                         Register
                     </Link>
                     <Link to="/login" id="nav">
                         Login
-                    </Link>
+                    </Link> */}
                     <Link to="/logout" id="nav">
                         Logout
                     </Link>
