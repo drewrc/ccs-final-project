@@ -16,6 +16,7 @@ import UserFeed from "./apps/auth/views/UserFeed";
 import UserMessages from "./apps/auth/views/UserMessages";
 import UserMatch from "./apps/auth/views/UserMatch";
 import UserTimeline from "./apps/auth/views/UserTimeline";
+// import Logout from './apps/auth/auth-context/AuthContext';
 
 function App() {
   const { isAuthenticated } = useContext(AuthContext);
@@ -30,6 +31,7 @@ function App() {
             <Route path="user-messages" element={<UserMessages/>} />
             <Route path="user-match" element={<UserMatch/>} />
             <Route path="user-timeline" element={<UserTimeline/>} />
+            <Route path="logout" element={<LogOut />} />
           </Route>
       </Routes>
       <Footer />
