@@ -5,9 +5,9 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LogOut from "./components/Auth/Logout";
-import Login from "./components/Auth/Login";
-import Registration from "./components/Auth/Registration";
+import LogOut from "./apps/auth/pages/Logout";
+import Login from "./apps/auth/pages/Login";
+import Registration from "./apps/auth/pages/Registration";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
