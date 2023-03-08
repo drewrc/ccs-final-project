@@ -8,7 +8,7 @@ function Message ({conversation, text, id, user_from, user_to, receiver, date_cr
             <p>Body: {text}</p>
             <p>{date_created}</p>
         </div>
-    )
-}
+    );
+};
 
 export default Message
