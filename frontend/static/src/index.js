@@ -8,12 +8,16 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LogOut from "./apps/auth/pages/Logout";
 import Login from "./apps/auth/pages/Login";
 import Registration from "./apps/auth/pages/Registration";
+import { AuthContextProvider } from "./apps/auth/auth-context/AuthContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Router>
-      <Routes>
+      <AuthContextProvider>
+        <App />
+      </AuthContextProvider>
+      {/* <Routes>
         <Route path="/" element={<App />}>
           <Route path="logout" element={<LogOut />} />
           <Route path="login" element={<Login />} />
@@ -27,7 +31,7 @@ root.render(
             </main>
           }
         />
-      </Routes>
+      </Routes> */}
     </Router>
   </React.StrictMode>
 );

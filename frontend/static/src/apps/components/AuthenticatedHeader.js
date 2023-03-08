@@ -7,10 +7,11 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { Link } from "react-router-dom";
 
-function Header () {
+function AuthenticatedHeader () {
 
 return (
     <>
+    <div>
         {[false].map((expand) => (
             <Navbar key={expand} expand={expand} className="mb-3">
             <Container fluid>
@@ -66,9 +67,10 @@ return (
             </Container>
             </Navbar>
         ))}
+        </div>
     </>
 )
 }
-export default Header
+export default AuthenticatedHeader
 
 

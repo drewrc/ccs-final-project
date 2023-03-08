@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 export const AuthContext = createContext();
 
 //instead of sending props, we send children
-export const AuthContextProver = ({ children }) => {
+export const AuthContextProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(null)
     const navigate = useNavigate();
 
