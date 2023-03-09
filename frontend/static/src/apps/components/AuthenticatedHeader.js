@@ -12,7 +12,7 @@ import { useState, useEffect } from "react";
 
 function AuthenticatedHeader () {
     const [matchRequestCount, setMatchRequestCount] = useState(0);
-
+  
     useEffect(() => {
         const getMatches = async () => {
           const response = await fetch(`/api_v1/match_request_count/`);
@@ -24,9 +24,8 @@ function AuthenticatedHeader () {
         };
         getMatches();
       }, []);
-   
-      console.log({matchRequestCount})
-      console.log(matchRequestCount.count)
+  
+
 return (
     <>
     <div>
@@ -34,8 +33,8 @@ return (
             <Navbar key={expand} expand={expand} className="mb-3">
             <Container fluid>
                 <Navbar.Brand href="#">Navbar
-                {matchRequestCount.count > 0 && (
-                <span className="badge bg-danger ms-2">{matchRequestCount.count}</span>
+                {matchRequestCount > 0 && (
+                <span className="badge bg-danger ms-2">{matchRequestCount}</span>
                 )}
                 
                 <FontAwesomeIcon icon={faBell} />

@@ -11,3 +11,6 @@ urlpatterns = [
     path('accept_match_request/<int:requestID>/', accept_match_request, name='accept_friend_request'),
     path('match_request_count/', match_request_count, name='match_request_count')
 ]
+
+#, 'POST'
+# <int:userID>/

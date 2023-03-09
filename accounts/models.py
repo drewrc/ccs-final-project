@@ -12,7 +12,7 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
     
-class Friend_Request(models.Model):
+class FriendRequest(models.Model):
     from_user = models.ForeignKey(
         User, related_name='from_user', on_delete=models.CASCADE)
     to_user = models.ForeignKey(
