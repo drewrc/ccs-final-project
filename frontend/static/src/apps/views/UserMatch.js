@@ -6,6 +6,7 @@ import '../styles/views.css'
 function UserMatch () {
     const [profiles, setProfiles] = useState([]);
     const [lastDirection, setLastDirection] = useState()
+    const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
 
     console.log({lastDirection})
     useEffect(() => {
@@ -35,21 +36,14 @@ function UserMatch () {
     
       const outOfFrame = (name) => {
         console.log(name + ' left the screen!')
+        if (currentProfileIndex === profiles.length - 1) {
+            setCurrentProfileIndex(0);
+        } else {
+            setCurrentProfileIndex(currentProfileIndex + 1);
+        }
       }
 
-    // const matchHTML = profiles.map((profile) => (
-    //   <div key={profile.id}>
-    //     <TinderCard 
-    //         className="pressable"
-    //         onSwipe={onSwipe} 
-    //         onCardLeftScreen={() => onCardLeftScreen('fooBar')} 
-    //         preventSwipe={['right', 'left']}>
-    //     <UserMatchObject {...profile} />
-    //     </TinderCard>
-    //   </div>
-    // ));
-
-
+    const currentProfile = profiles[currentProfileIndex];
 
     return (
         <div>
@@ -59,17 +53,15 @@ function UserMatch () {
         </div>
 
         <div className="user-object-placeholder">
-        <div>
-        {profiles.map((profile) =>
-        <TinderCard 
-        className="swipe" 
-        key={profile.id}
-        onSwipe={(dir) => swiped(dir, profile.username)}
-        onCardLeftScreen={() => outOfFrame(profile.username)}>
-        {profile.username}
-        </TinderCard>
-        )}
-        </div>
+        {currentProfile && (
+                <TinderCard 
+                className="swipe" 
+                key={currentProfile.id}
+                onSwipe={(dir) => swiped(dir, currentProfile.username)}
+                onCardLeftScreen={() => outOfFrame(currentProfile.username)}>
+                {currentProfile.username}
+                </TinderCard>
+            )}
         </div>
         <div className="swipe-direction">
         {lastDirection ? <h2 className='infoText'>You swiped {lastDirection}</h2> : <h2 className='infoText' />}
