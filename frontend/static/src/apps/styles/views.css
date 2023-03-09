@@ -15,3 +15,49 @@
     align-items: center;    
     justify-content: center; 
 }
+
+/***** Styles for User Message component *****/
+
+.message-container {
+    /* text-align: center; */
+}
+.message-form {
+    padding: 20px;
+}
+.span-message-page {
+    min-height: 60vh;
+}
+.message-form {
+    display: inline;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.user-info-card {
+    text-align: center;
+}
+.message-card {
+    text-align: center;
+}
+.message-object {
+    background-color: orange;
+    border-radius: 8px;
+    border: 3px solid orange;
+}
+#send-button {
+    padding: 10px;
+    margin: 5px;
+}
+#send-text {
+}
+
+.triangle {
+    cursor:pointer;
+    width: 0;
+    border-top: 28px solid orange;
+    /* border-left: 45px solid transparent; */
+    border-right: 45px solid transparent;
+    margin-top: -16px;
+    margin-bottom: 20px;
+    margin-left: 50px;
+  }

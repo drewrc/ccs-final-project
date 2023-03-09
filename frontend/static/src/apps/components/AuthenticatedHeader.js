@@ -32,12 +32,12 @@ return (
         {[false].map((expand) => (
             <Navbar key={expand} expand={expand} className="mb-3">
             <Container fluid>
-                <Navbar.Brand href="#">Navbar
+                <Navbar.Brand href="#">Navbar 
+               
+                <FontAwesomeIcon icon={faBell} /> 
                 {matchRequestCount > 0 && (
                 <span className="badge bg-danger ms-2">{matchRequestCount}</span>
                 )}
-                
-                <FontAwesomeIcon icon={faBell} />
                 <FontAwesomeIcon icon={faMessage} />
                 </Navbar.Brand>
                 
