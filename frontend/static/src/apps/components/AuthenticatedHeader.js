@@ -6,16 +6,42 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBell, faMessage } from '@fortawesome/free-solid-svg-icons'
+import { useState, useEffect } from "react";
 
 function AuthenticatedHeader () {
+    const [matchRequestCount, setMatchRequestCount] = useState(0);
 
+    useEffect(() => {
+        const getMatches = async () => {
+          const response = await fetch(`/api_v1/match_request_count/`);
+          if (!response.ok) {
+            throw new Error("Network response not OK");
+          }
+          const data = await response.json();
+          setMatchRequestCount(data);
+        };
+        getMatches();
+      }, []);
+   
+      console.log({matchRequestCount})
+      console.log(matchRequestCount.count)
 return (
     <>
     <div>
         {[false].map((expand) => (
             <Navbar key={expand} expand={expand} className="mb-3">
             <Container fluid>
-                <Navbar.Brand href="#">Navbar</Navbar.Brand>
+                <Navbar.Brand href="#">Navbar
+                {matchRequestCount.count > 0 && (
+                <span className="badge bg-danger ms-2">{matchRequestCount.count}</span>
+                )}
+                
+                <FontAwesomeIcon icon={faBell} />
+                <FontAwesomeIcon icon={faMessage} />
+                </Navbar.Brand>
+                
                 <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
                 <Navbar.Offcanvas
                 id={`offcanvasNavbar-expand-${expand}`}
@@ -29,12 +55,7 @@ return (
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                     <Nav className="justify-content-end flex-grow-1 pe-3">
-                    {/* <Link to="/register" id="nav">
-                        Register
-                    </Link>
-                    <Link to="/login" id="nav">
-                        Login
-                    </Link> */}
+              
                     <Link to="/logout" id="nav">
                         Logout
                     </Link>

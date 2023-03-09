@@ -6,6 +6,8 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBell } from '@fortawesome/free-solid-svg-icons'
 
 function UnauthenticatedHeader () {
 
@@ -23,7 +25,9 @@ return (
                     <Link to="/login" id="nav">
                         Login
                     </Link>
-            
+                <Link to="/">
+                <FontAwesomeIcon icon="fa-duotone fa-bell" />
+                </Link>
                 
                 
                 </Navbar.Brand>

@@ -34,3 +34,8 @@ def accept_match_request(request, requestID):
         return HttpResponse('friend request accepted')
     else:
         return HttpResponse('friend request not accepted')
+    
+@login_required
+def match_request_count(request):
+    count = Friend_Request.objects.filter(to_user=request.user).count()
+    return JsonResponse({'count': count})

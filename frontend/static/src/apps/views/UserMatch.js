@@ -2,13 +2,15 @@ import { useState, useEffect } from "react";
 import UserMatchObject from "../components/UserMatchObject";
 import TinderCard from 'react-tinder-card'
 import '../styles/views.css'
+import Cookies from "js-cookie";
 
 function UserMatch () {
     const [profiles, setProfiles] = useState([]);
     const [lastDirection, setLastDirection] = useState()
     const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
 
-    console.log({lastDirection})
+    // console.log({lastDirection})ew
+    
     useEffect(() => {
       const getProfiles = async () => {
         const response = await fetch(`/api_v1/profiles/`);
@@ -20,30 +22,44 @@ function UserMatch () {
       };
       getProfiles();
     }, []);
-  
-    const onSwipe = (direction) => {
-        console.log('You swiped: ' + 'right')
-    }
-      
-    const onCardLeftScreen = (myIdentifier) => {
-        console.log(myIdentifier + ' left the screen')
-    }
 
-    const swiped = (direction, nameToDelete) => {
+    const swipe = (dir, nameToDelete, userID) => {
         console.log('removing: ' + nameToDelete)
-        setLastDirection(direction)
+        setLastDirection(dir)
+        if (dir === 'down') {
+            sendMatchRequest(userID)
+        }
       }
     
-      const outOfFrame = (name) => {
+      const offScreen = (name) => {
         console.log(name + ' left the screen!')
+        //reset logic as long as currentProfileIndex < profiles.length
         if (currentProfileIndex === profiles.length - 1) {
             setCurrentProfileIndex(0);
         } else {
+        //increase index of currentprofileindex by 1 
             setCurrentProfileIndex(currentProfileIndex + 1);
         }
       }
 
     const currentProfile = profiles[currentProfileIndex];
+
+    const sendMatchRequest = async (userID) => {
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": Cookies.get("csrftoken")
+            },
+        }
+        const response = await fetch(`/api_v1/send_match_request/${userID}/`, options
+        );
+        const data = await response.json();
+        console.log({data})
+        // if (!response.ok) {
+        //     throw new Error("Network response not OK!")
+        // }
+    }
 
     return (
         <div>
@@ -57,8 +73,8 @@ function UserMatch () {
                 <TinderCard 
                 className="swipe" 
                 key={currentProfile.id}
-                onSwipe={(dir) => swiped(dir, currentProfile.username)}
-                onCardLeftScreen={() => outOfFrame(currentProfile.username)}>
+                onSwipe={(dir) => swipe(dir, currentProfile.username, currentProfile.id)}
+                onCardLeftScreen={() => offScreen(currentProfile.username)}>
                 {currentProfile.username}
                 </TinderCard>
             )}
