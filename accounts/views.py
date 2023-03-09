@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .serializers import UserSerializer
+from .serializers import UserSerializer, BuddySerializer
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth import get_user_model
@@ -16,6 +16,10 @@ class UserListAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+# class BuddiesListAPIView(generics.ListAPIView):
+#     queryset = User.objects.filter()
+#     serializer_class = UserSerializer
+
 
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
@@ -29,6 +33,7 @@ def send_match_request(request, userID):
             return HttpResponse('friend request sent')
         else:
             return HttpResponse('friend request already sent')
+
 
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
@@ -45,8 +50,19 @@ def accept_match_request(request, requestID):
 
 
 @api_view(['GET'])
-@permission_classes((permissions.AllowAny,))
+@permission_classes((permissions.IsAuthenticated,))
 def match_request_count(request):
     if request.method == 'GET':
         count = FriendRequest.objects.filter(to_user=request.user).count()
     return Response(count, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes((permissions.AllowAny,))
+def buddies_list(request):
+    if request.method == 'GET':
+        # import pdb
+        # pdb.set_trace()
+        buddies = User.objects.filter(buddies=request.user)
+    serializer = BuddySerializer(buddies, many=True)
+    return Response(serializer.data)

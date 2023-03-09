@@ -2,6 +2,9 @@ from rest_framework import serializers
 from .models import Conversation, Message
 
 class ConversationSerializer(serializers.ModelSerializer):
+    # member_name = serializers.ManyRelatedField(child_relation=serializers.PrimaryKeyRelatedField(queryset=User.objects.all()), source='members.username')
+    creator_object = serializers.ReadOnlyField(source='creator.username')
+    participant_object = serializers.ReadOnlyField(source='participant.username')
     class Meta:
         model= Conversation
         fields= ('__all__')

@@ -4,6 +4,8 @@ from django.conf import settings
 # Create your models here.
 class Conversation(models.Model):
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="members", unique=False)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="creator", unique=False, null=True)
+    participant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="participant", unique=False, null=True)   
 
 
 class Message(models.Model):
