@@ -18,6 +18,51 @@
 
 /***** Styles for User Message component *****/
 
+
+.conversations-side-bar {
+    text-align: center;
+    margin-right: 20px;
+}
+
+.button {
+    border-radius: 4px;
+    background-color: transparent;
+    border: none;
+    color: orange;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+  
+  .button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .button:hover span {
+    padding-right: 25px;
+  }
+  
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+
 .message-container {
     /* text-align: center; */
 }
@@ -26,6 +71,7 @@
 }
 .span-message-page {
     min-height: 60vh;
+    
 }
 .message-form {
     display: inline;
@@ -61,3 +107,15 @@
     margin-bottom: 20px;
     margin-left: 50px;
   }
+
+  /* AUTHENTICATED HEADER */
+#bell-icon-parent {
+  position: relative;
+}
+#alert-notification {
+    position: absolute;
+    top: 13px;
+    left: 77px;
+    font-size: 7px;
+    z-index: 1000;
+}

@@ -4,10 +4,12 @@ import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import { TextField, Button } from '@mui/material'
+import Conversation from "../components/Conversation";
 
 
 function UserMessages() {
   const [messages, setMessages] = useState([]);
+  const [conversations, setConversations] = useState([]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -21,6 +23,20 @@ function UserMessages() {
     getMessages();
   }, []);
 
+  useEffect(() => {
+    const getFriends = async () => {
+      const response = await fetch(`/api_v1/buddies_list/`);
+      if (!response.ok) {
+        throw new Error("Network response not OK");
+      }
+      const data = await response.json();
+      setConversations(data);
+    };
+    getFriends();
+  }, []);
+
+  console.log({conversations})
+
   const messageHTML = messages.map((message) => (
     <div > 
     <div className="message-object" key={message.id}>
@@ -30,6 +46,13 @@ function UserMessages() {
       </div>
     </div>
   ));
+  const conversationHTML = conversations.map((conversation) => (
+    <div > 
+      <button class="button">
+        <span><Conversation {...conversation} /> </span>
+      </button>
+    </div>
+  ));
 
   return (
   <>
@@ -37,7 +60,8 @@ function UserMessages() {
       <Row className="span-message-page">
         <Col>
           <div className="conversations-side-bar">
-            <h3>Conversations</h3>
+            <h3>Friends List</h3>
+            {conversationHTML}
           </div>
         </Col>
         <Col>

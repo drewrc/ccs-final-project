@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faMessage } from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect } from "react";
+import '../styles/views.css'
 
 function AuthenticatedHeader () {
     const [matchRequestCount, setMatchRequestCount] = useState(0);
@@ -32,15 +33,15 @@ return (
         {[false].map((expand) => (
             <Navbar key={expand} expand={expand} className="mb-3">
             <Container fluid>
+                <div className="right-side-nav">
                 <Navbar.Brand href="#">Navbar 
-               
-                <FontAwesomeIcon icon={faBell} /> 
                 {matchRequestCount > 0 && (
-                <span className="badge bg-danger ms-2">{matchRequestCount}</span>
+                <span id="alert-notification" className="badge bg-danger ms-2">{matchRequestCount}</span>
                 )}
+                <FontAwesomeIcon className="fa-fw" id="bell-icon-parent" icon={faBell} />
                 <FontAwesomeIcon icon={faMessage} />
                 </Navbar.Brand>
-                
+                </div>
                 <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
                 <Navbar.Offcanvas
                 id={`offcanvasNavbar-expand-${expand}`}
