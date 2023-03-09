@@ -25,7 +25,7 @@ function App() {
       {isAuthenticated ? <AuthenticatedHeader /> : <UnauthenticatedHeader />}
       <Routes>
         <Route path="login" element={<Login />} />
-        <Route path="register" element={<Registration />} />
+        <Route path="register" element={<Registration/>} />
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="user-feed" element={<UserFeed />} />
           <Route path="user-messages" element={<UserMessages />} />

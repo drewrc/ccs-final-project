@@ -4,13 +4,20 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Cookies from 'js-cookie';
-import React, { useState } from 'react';
+import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router';
+import { AuthContext } from '../auth/auth-context/AuthContext';
+
 
 function Registration () {
+    const { isAuthenticated } = useContext(AuthContext);
     const [username, setUsername] = useState("");
     const [password1, setPassword1] = useState("");
     const [password2, setPassword2] = useState("");
     const [email, setEmail] = useState("")
+
+    const history = useNavigate()
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -36,6 +43,11 @@ function Registration () {
         setPassword2("");
         setEmail("");
       };
+      if (isAuthenticated ) {
+        setTimeout(() => {
+        history('/');
+      }, 2000);
+    }
 
     return(
         <Container className='login-container'>

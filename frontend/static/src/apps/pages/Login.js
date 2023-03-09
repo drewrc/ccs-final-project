@@ -1,14 +1,20 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import React, { useState } from "react";
+import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router';
+import { AuthContext } from '../auth/auth-context/AuthContext';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Cookies from "js-cookie";
 
+
 function Login() {
+  const { isAuthenticated } = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const history = useNavigate()
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -34,6 +40,13 @@ function Login() {
     setPassword("");
     setUsername("");
   };
+
+  // console.log({isAuthenticated})
+  if (isAuthenticated ) {
+    setTimeout(() => {
+    history('/');
+  }, 2000);
+}
 
   return (
     <>

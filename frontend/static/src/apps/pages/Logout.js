@@ -1,9 +1,13 @@
 import Cookies from "js-cookie";
-import { useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router';
+import { AuthContext } from '../auth/auth-context/AuthContext';
 import Spinner from 'react-bootstrap/Spinner';
 
 function LogOut() {
+  const { isAuthenticated } = useContext(AuthContext);
+
+  const history = useNavigate()
 
     const handleLogout = async (event) => {
     event.preventDefault();
@@ -17,15 +21,21 @@ function LogOut() {
     };
 
     const response = await fetch("/dj-rest-auth/logout/", options);
+
     if (!response.ok) {
       console.log(response.status);
       throw new Error("Network response not OK.");
     } else {
-        console.log('logged out successfully')
-        console.log(response.status);
+    console.log('logged out successfully')
+    console.log(response.status);
     Cookies.remove("Authorization");
     }
   }
+  if (!isAuthenticated ) {
+    setTimeout(() => {
+    history('/login');
+  }, 2000);
+}
 
   return (
     <>
