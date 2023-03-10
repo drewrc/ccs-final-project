@@ -138,3 +138,14 @@
     font-size: 7px;
     z-index: 1000;
 }
+/* Message.js */
+
+.edit-message-object {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+
+.edit-message-form {
+    min-width: 100%;
+}

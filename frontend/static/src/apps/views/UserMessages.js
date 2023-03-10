@@ -28,7 +28,19 @@ function UserMessages() {
     getFriendProfile()
   }, [selectedConversation])
 
-  // console.log({selectedProfile})
+  const handleDelete = async (id) => {
+    const response = await fetch(`/api_v1/messages/${id}/`, {
+      method: 'DELETE',
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      }
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not OK");
+    }
+    // Remove the deleted message from the local state
+    setMessage(message.filter(article => message.id !== id));
+  };
 
   useEffect(() => {
     const getAuthUser = async () => {
@@ -80,7 +92,10 @@ function UserMessages() {
   .map((message) => (
     <div key={message.id}>
       <div className="message-object">
-        <Message {...message} />
+        <Message {...message} 
+        
+        handleDelete ={() => handleDelete(message.id)}
+        />
       </div>
       <div class="triangle"></div>
         <div id="message-date">
@@ -111,16 +126,13 @@ function UserMessages() {
     </div>
   ))
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
     const formData = new FormData();
     formData.append("text", message);
     formData.append("sender", authUser.pk);
     formData.append("receiver", selectedConversation);
     formData.append("conversation", 1);
-
     const options = {
       method: "POST",
       headers: {
@@ -128,13 +140,8 @@ function UserMessages() {
       },
       body: formData,
     };
-  
     const response = await fetch("/api_v1/messages/", options);
     const data = await response.json();
-  
-    console.log({ data });
-    
-    // Clear the message input field after submitting the form
     setMessage("");
   };  
 
@@ -158,7 +165,6 @@ function UserMessages() {
         <Col md={3}>
           <div className="user-info-card" >
             <h3>User info</h3>
-            {/* <MessageFriendProfile /> */}
             {friendProfileHTML}
           </div>
         </Col>
@@ -168,7 +174,8 @@ function UserMessages() {
         </Col>
         <Col className="message-form">
         <form onSubmit={handleSubmit}>
-        <TextField label="Message"
+        <TextField 
+          label="Message"
           id="outlined-multiline-flexible"
           multiline
           maxRows={4} 

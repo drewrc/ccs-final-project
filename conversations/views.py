@@ -10,12 +10,14 @@ class UserMessageListCreate(generics.ListCreateAPIView):
     serializer_class = MessageSerializer
     def get_queryset(self):
         return Message.objects.filter(
-            Q(sender=self.request.user) | Q(receiver=self.request.user)
-        )
+            Q(sender=self.request.user) | Q(receiver=self.request.user))
     
 class UserMessageRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = MessageSerializer
+    def get_queryset(self):
+        user = self.request.user
+        return Message.objects.all()
     
 class ConversationListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
