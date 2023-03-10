@@ -6,6 +6,7 @@ from dj_rest_auth.models import TokenModel
 
 class TokenSerializer(serializers.ModelSerializer):
     user_name = serializers.ReadOnlyField(source='user.username')
+
     class Meta:
         model = TokenModel
         fields = '__all__'
@@ -20,10 +21,10 @@ class UserSerializer(serializers.ModelSerializer):
 class BuddySerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'id','buddies')
+        fields = ('username', 'id', 'buddies')
+
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'id', 'buddies', 'last_login',)
-   

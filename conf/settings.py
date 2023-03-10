@@ -15,7 +15,7 @@ import os
 
 import dj_database_url
 
-## TO DO: SET UP AUTHENTICATION
+# TO DO: SET UP AUTHENTICATION
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -55,9 +55,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth.registration',
     'django_twilio',
-    'phone_field',
+    "phonenumber_field",
 
-    #local
+    # local
     'accounts.apps.AccountsConfig',
     'frontend.apps.FrontendConfig',
     'api.apps.ApiConfig',
@@ -113,11 +113,12 @@ WSGI_APPLICATION = 'conf.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-#if os.environ.get('DATABASE_URL'):
+# if os.environ.get('DATABASE_URL'):
 #   DATABASES = {
 #   'default': dj_database_url.config(default=os.environ['DATABASE_URL'])
 #   }
-#else: 
+# else:
+
 
 if os.environ.get('DATABASE_URL'):
     DATABASES = {
@@ -179,8 +180,8 @@ REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend/static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#Substituting a custom User model
-#https://docs.djangoproject.com/en/4.1/topics/auth/customizing/#substituting-a-custom-user-model
+# Substituting a custom User model
+# https://docs.djangoproject.com/en/4.1/topics/auth/customizing/#substituting-a-custom-user-model
 # ie. AUTH_USER_MODEL = 'myapp.MyUser'
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -190,5 +191,5 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-#https://docs.djangoproject.com/en/4.1/ref/settings/#site-id
+# https://docs.djangoproject.com/en/4.1/ref/settings/#site-id
 SITE_ID = 1

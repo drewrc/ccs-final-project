@@ -5,14 +5,14 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 # IMPORT CUSTOM USER MODEL FROM:
 # https://docs.djangoproject.com/en/4.1/topics/auth/customizing/
-from django.contrib.auth.models import AbstractUser
+# from django.contrib.auth.models import AbstractUser
 
 # CUSTOM USER MODEL CLASS
 
 
 class User(AbstractUser):
     buddies = models.ManyToManyField("User", blank=True)
-    phone_number = PhoneNumberField("User", null=True)
+    phone = PhoneNumberField(blank=True)
 
     def __str__(self):
         return self.username
