@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash, faPencil } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faPencil, faFloppyDisk, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react';
 import Cookies from 'js-cookie';
 import { TextField } from '@mui/material';
@@ -49,7 +49,8 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
         <div>
         <p className="sender-message-object">Sender: {user_from}</p>
             {editMode ? (
-            <div className='edit-message-object'>
+            <span className='edit-message-object'>
+                <div className='edit-form'>
                 <TextField 
                 fullWidth
                 className='edit-message-form'
@@ -59,14 +60,21 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
                 maxRows={4}  
                 value={editText} 
                 onChange={handleChange} />
+                </div>
+                <div className='edit-buttons'>
                 <button 
-                className='edit-button'
-                onClick={handleSaveClick}>Save</button>
+                className="trash-button"
+                onClick={handleSaveClick}>
+                <FontAwesomeIcon icon={faFloppyDisk} />
+                </button>
                 <button 
-                className='edit-button'
+                className="trash-button"
                 onClick={handleCancelClick}
-                >Cancel</button>
-            </div>
+                >
+                <FontAwesomeIcon icon={faTrash} />
+                </button>
+                </div>
+            </span>
             ):(
             <div>
             <p>{text}</p>

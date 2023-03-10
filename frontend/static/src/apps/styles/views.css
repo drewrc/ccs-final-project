@@ -17,6 +17,13 @@
 }
 
 /***** Styles for User Message component *****/
+#read-message {
+    text-align: right;
+    margin-top: -40px;
+    padding-bottom: 20px;
+    font-size: 12px;
+}
+
 #message-date {
     text-align: left;
     margin-top: -10px;
@@ -146,6 +153,14 @@
  justify-content: center;
 }
 
+/* .edit-buttons {
+    min-width: 100%;
+} */
+
 .edit-message-form {
     min-width: 100%;
 }
+
+/* .edit-form {
+    min-width: 100%;
+} */

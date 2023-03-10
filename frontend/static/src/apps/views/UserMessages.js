@@ -7,6 +7,8 @@ import { TextField, Button } from '@mui/material'
 import Conversation from "../components/Conversation";
 import Cookies from "js-cookie";
 import MessageFriendProfile from "../components/MessageUserProfile";
+import { faCheckDouble } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function UserMessages() {
   const [message, setMessage] = useState("")
@@ -98,7 +100,7 @@ function UserMessages() {
         />
       </div>
       <div class="triangle"></div>
-        <div id="message-date">
+        <div id="message-date" >
           Sent: {(()=>{
             const date = new Date(message.date_created);
             const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear().toString().substr(-2)}`
@@ -106,6 +108,10 @@ function UserMessages() {
             const formattedDateTime = `${formattedDate} ${formattedTime}`;
             return formattedDateTime;
           })()}
+        </div>
+        <div id="read-message" >
+          read?
+          <FontAwesomeIcon icon={faCheckDouble} />
         </div>
     </div>
   ));
