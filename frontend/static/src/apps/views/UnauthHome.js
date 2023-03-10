@@ -1,10 +1,16 @@
 import Post from "../components/Post";
+import '../styles/unauthhome.css'
 
 function UnauthHome() {
   return (
     <>
-      <div>I am the user feed component!</div>
-      <Post />
+      <div id="home-container">
+        <div 
+        className="animation-border">
+        </div>
+        unauth home 
+      </div>
+   
     </>
   );
 }

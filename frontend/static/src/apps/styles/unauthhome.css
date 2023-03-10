@@ -1,0 +1,23 @@
+/* animation */
+
+#home-container {
+    background-color: rgba(244, 225, 209, 0.5);
+    height: 100vh;
+    width: 100wv;
+}
+
+.animation-border {
+    animation-duration: 0.5s;
+    animation-name: animate-fade;
+    animation-delay: 0.5s;
+    animation-fill-mode: backwards;
+    background-color: rgb(161, 79, 55);
+    min-width: 100%;
+    min-height: 50vh;
+}
+
+
+@keyframes animate-fade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}

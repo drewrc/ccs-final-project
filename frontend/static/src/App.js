@@ -17,6 +17,7 @@ import UserMessages from "./apps/views/UserMessages";
 import UserMatch from "./apps/views/UserMatch";
 import UserTimeline from "./apps/views/UserTimeline";
 // import Logout from './apps/auth/auth-context/AuthContext';
+import UnauthHome from "./apps/views/UnauthHome";
 
 function App() {
   const { isAuthenticated } = useContext(AuthContext);
@@ -24,6 +25,7 @@ function App() {
     <div>
       {isAuthenticated ? <AuthenticatedHeader /> : <UnauthenticatedHeader />}
       <Routes>
+        <Route path="UnauthHome" element={<UnauthHome />}/>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Registration/>} />
         <Route path="/" element={<ProtectedRoute />}>
