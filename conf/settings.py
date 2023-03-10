@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth.registration',
     'django_twilio',
+    'phone_field',
 
     #local
     'accounts.apps.AccountsConfig',

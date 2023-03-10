@@ -153,12 +153,14 @@
  justify-content: center;
 }
 
-/* .edit-buttons {
-    min-width: 100%;
-} */
+#edit-buttons {
+    text-align: right;
+}
 
-.edit-message-form {
-    min-width: 100%;
+#edit-message-form {
+    /* min-width: 90vw; */
+    /* padding: 20px;
+    margin: -20px; */
 }
 
 /* .edit-form {

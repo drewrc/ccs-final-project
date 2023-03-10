@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "2d8bfd60f8632fa23f3c92afa59dc923aa6a1a89b06b050866acc67d13a85eab"
+            "sha256": "2777de89d8baf227de8157cff77e7d3685f075e8b4a0d13eaf9384344c026411"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -248,6 +248,14 @@
             "index": "pypi",
             "version": "==0.52.0"
         },
+        "django-phone-field": {
+            "hashes": [
+                "sha256:407e74b65e8f7dd14d0a0aa89e277516d57ad6a09ce992cdd94e15b1624b9961",
+                "sha256:db63af60fc3a3c66b9faa7e72bb7972cd1518299f2e93d68dd95d8df6214f7ed"
+            ],
+            "index": "pypi",
+            "version": "==1.8.1"
+        },
         "django-phonenumber-field": {
             "hashes": [
                 "sha256:9edad2b2602af25f2aefc73c4cf53eaf7abf9e17d73c1c4372bd3052bebb26f9",
@@ -430,11 +438,11 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:15136a251127da2d2e77ac7a1bc231eb504654f7e3346d93613a13f2e2787535",
-                "sha256:1c39d42bda4cb89f7fdcad52b6762e3c309ec8f8715b27c684176b7d71283242"
+                "sha256:2ee892cd5f29f3373097f5a814697e397cf3ce313616df0af11231e2ad118077",
+                "sha256:b78aaa36f6b90a074c1fa651168723acbf45d14cb1196b6f02c0fd07f17623b2"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==67.5.1"
+            "version": "==67.6.0"
         },
         "sqlparse": {
             "hashes": [
@@ -446,11 +454,11 @@
         },
         "twilio": {
             "hashes": [
-                "sha256:594b2b594d2181e6f765e8af37f1d28277fa54b0f651ca7e5c0f54aa45797fd3",
-                "sha256:7dead87cf3b92fae5db07ce553b571b315a1bfff2cc6a13bdf5bdfc4675409e5"
+                "sha256:27a0f80611da27fee07a4c9436063d74a6b6612b0d543324f83ea4d050a97c08",
+                "sha256:c9ffc1d96331aedaba8fd0b7be691125057ace3e425a3c8d11b75039d788e735"
             ],
             "index": "pypi",
-            "version": "==7.16.4"
+            "version": "==7.16.5"
         },
         "urllib3": {
             "hashes": [

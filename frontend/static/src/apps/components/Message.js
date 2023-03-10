@@ -49,10 +49,10 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
         <div>
         <p className="sender-message-object">Sender: {user_from}</p>
             {editMode ? (
-            <span className='edit-message-object'>
+            <span id='edit-message-object'>
                 <div className='edit-form'>
                 <TextField 
-                fullWidth
+              
                 className='edit-message-form'
                 label="Message"
                 id="outlined-multiline-flexible"
@@ -61,7 +61,7 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
                 value={editText} 
                 onChange={handleChange} />
                 </div>
-                <div className='edit-buttons'>
+                <div id='edit-buttons'>
                 <button 
                 className="trash-button"
                 onClick={handleSaveClick}>
