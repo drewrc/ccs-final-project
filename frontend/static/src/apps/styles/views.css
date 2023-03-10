@@ -17,12 +17,32 @@
 }
 
 /***** Styles for User Message component *****/
+#message-date {
+    text-align: left;
+    margin-top: -10px;
+    padding-bottom: 20px;
+    font-size: 12px;
+}
 
+.trash-button {
+    background-color: transparent;
+    border: none;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.sender-message-object {
+    padding-left: 10px;
+    padding-top: 10px;
+    text-align: left;
+    font-size: 12px;
+}
 
 .conversations-side-bar {
     text-align: center;
     /* margin-right: 20px; */
 }
+
 
 .button {
     border-radius: 4px;

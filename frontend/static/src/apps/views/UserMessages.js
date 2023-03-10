@@ -6,6 +6,7 @@ import Col from "react-bootstrap/esm/Col";
 import { TextField, Button } from '@mui/material'
 import Conversation from "../components/Conversation";
 import Cookies from "js-cookie";
+import MessageFriendProfile from "../components/MessageUserProfile";
 
 function UserMessages() {
   const [message, setMessage] = useState("")
@@ -13,6 +14,21 @@ function UserMessages() {
   const [friends, setFriends] = useState([]);
   const [authUser, setAuthUser] = useState(null);
   const [selectedConversation, setSelectedConversation] = useState(null);
+  const [selectedProfile, setSelectedProfile] = useState([]);
+
+  useEffect(() => {
+    const getFriendProfile = async () => {
+      const response = await fetch (`/api_v1/users/${selectedConversation}/`)
+      if (!response.ok) {
+        throw new Error('Network response not OK')
+      }
+      const data = await response.json();
+      setSelectedProfile([data]);
+    }
+    getFriendProfile()
+  }, [selectedConversation])
+
+  // console.log({selectedProfile})
 
   useEffect(() => {
     const getAuthUser = async () => {
@@ -25,9 +41,6 @@ function UserMessages() {
     };
     getAuthUser();
   }, []);
-
-  // const userID = authUser.pk
-
 
   useEffect(() => {
     const getMessages = async () => {
@@ -70,6 +83,15 @@ function UserMessages() {
         <Message {...message} />
       </div>
       <div class="triangle"></div>
+        <div id="message-date">
+          Sent: {(()=>{
+            const date = new Date(message.date_created);
+            const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear().toString().substr(-2)}`
+            const formattedTime = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+            const formattedDateTime = `${formattedDate} ${formattedTime}`;
+            return formattedDateTime;
+          })()}
+        </div>
     </div>
   ));
 
@@ -82,6 +104,12 @@ function UserMessages() {
       </button>
     </div>
   ));
+
+  const friendProfileHTML = selectedProfile.map((profile) => (
+    <div>
+       <MessageFriendProfile {...profile}/>
+    </div>
+  ))
 
 
   const handleSubmit = async (e) => {
@@ -130,6 +158,8 @@ function UserMessages() {
         <Col md={3}>
           <div className="user-info-card" >
             <h3>User info</h3>
+            {/* <MessageFriendProfile /> */}
+            {friendProfileHTML}
           </div>
         </Col>
       </Row>

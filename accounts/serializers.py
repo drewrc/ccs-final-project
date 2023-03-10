@@ -21,4 +21,9 @@ class BuddySerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'id','buddies')
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'id', 'buddies', 'last_login',)
    

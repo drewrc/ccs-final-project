@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .serializers import UserSerializer, BuddySerializer
+from .serializers import UserSerializer, BuddySerializer, UserProfileSerializer
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
@@ -71,3 +71,16 @@ class UserBuddyAPIView(generics.RetrieveAPIView):
         user_id = self.kwargs.get('user_id')
         user = get_object_or_404(User, id=user_id)
         return user.buddies.all()
+    
+# class UserProfileView (generics.ListAPIView):
+#     permission_classes = [IsAuthenticated]
+#     serializer_class = UserSerializer
+#     def get_queryset(self):
+#         return super().get_queryset()
+
+@api_view(['GET'])
+@permission_classes((permissions.IsAuthenticated,))
+def UserProfileView(request, pk):
+    user_profile = get_object_or_404(User, pk=pk)
+    serializer = UserProfileSerializer(user_profile)
+    return Response(serializer.data, status=status.HTTP_200_OK)

@@ -13,6 +13,10 @@ class UserMessageListCreate(generics.ListCreateAPIView):
             Q(sender=self.request.user) | Q(receiver=self.request.user)
         )
     
+class UserMessageRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = MessageSerializer
+    
 class ConversationListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ConversationSerializer
