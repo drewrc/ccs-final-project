@@ -18,3 +18,14 @@ class ConversationListCreate(generics.ListCreateAPIView):
     serializer_class = ConversationSerializer
     def get_queryset(self):
         return Conversation.objects.filter(members=self.request.user)
+    
+class UserMessageList(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = MessageSerializer
+
+    def get_queryset(self):
+        conversation_id = self.kwargs.get('pk')
+        return Message.objects.filter(
+            Q(sender=self.request.user, conversation__id=conversation_id) |
+            Q(receiver=self.request.user, conversation__id=conversation_id)
+        )

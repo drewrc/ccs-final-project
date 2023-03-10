@@ -1,10 +1,10 @@
 
 
-function Conversation ({username}) {
+function Conversation ({username, id}) {
     return (
-        <div>
+        <>
          {username}
-        </div>
+        </>
     );
 };
 

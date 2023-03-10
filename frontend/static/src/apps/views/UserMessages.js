@@ -5,11 +5,29 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import { TextField, Button } from '@mui/material'
 import Conversation from "../components/Conversation";
-
+import Cookies from "js-cookie";
 
 function UserMessages() {
+  const [message, setMessage] = useState("")
   const [messages, setMessages] = useState([]);
-  const [conversations, setConversations] = useState([]);
+  const [friends, setFriends] = useState([]);
+  const [authUser, setAuthUser] = useState(null);
+  const [selectedConversation, setSelectedConversation] = useState(null);
+
+  useEffect(() => {
+    const getAuthUser = async () => {
+      const response = await fetch("/dj-rest-auth/user/")
+      if (!response.ok) {
+        throw new Error("Network response not OK");
+      }
+      const data = await response.json();
+      setAuthUser(data);
+    };
+    getAuthUser();
+  }, []);
+
+  // const userID = authUser.pk
+
 
   useEffect(() => {
     const getMessages = async () => {
@@ -30,48 +48,87 @@ function UserMessages() {
         throw new Error("Network response not OK");
       }
       const data = await response.json();
-      setConversations(data);
+      setFriends(data);
     };
     getFriends();
   }, []);
 
-  console.log({conversations})
-
-  const messageHTML = messages.map((message) => (
-    <div > 
-    <div className="message-object" key={message.id}>
-      <Message {...message} />
+  const messageHTML = messages
+  .filter((message) => {
+    if (selectedConversation) {
+      return (
+        (message.sender === authUser.pk && message.receiver === selectedConversation) ||
+        (message.sender === selectedConversation && message.receiver === authUser.pk)
+      );
+    } else {
+      return false;
+    }
+  })
+  .map((message) => (
+    <div key={message.id}>
+      <div className="message-object">
+        <Message {...message} />
       </div>
-      <div class="triangle">
-      </div>
+      <div class="triangle"></div>
     </div>
   ));
-  const conversationHTML = conversations.map((conversation) => (
-    <div > 
-      <button class="button">
-        <span><Conversation {...conversation} /> </span>
+
+  const friendsHTML = friends.map((friend) => (
+    <div key={friend.id}> 
+      <button class="button" onClick={() => setSelectedConversation(friend.id)}> 
+        <span>
+          <Conversation {...friend} />
+        </span>
       </button>
     </div>
   ));
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const formData = new FormData();
+    formData.append("text", message);
+    formData.append("sender", authUser.pk);
+    formData.append("receiver", selectedConversation);
+    formData.append("conversation", 1);
+
+    const options = {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+      body: formData,
+    };
+  
+    const response = await fetch("/api_v1/messages/", options);
+    const data = await response.json();
+  
+    console.log({ data });
+    
+    // Clear the message input field after submitting the form
+    setMessage("");
+  };  
 
   return (
   <>
     <Container className="message-container">
       <Row className="span-message-page">
-        <Col>
+        <Col md={3}>
           <div className="conversations-side-bar">
             <h3>Friends List</h3>
-            {conversationHTML}
+            {friendsHTML}
           </div>
         </Col>
-        <Col>
-            <div className="message-card">
+        <Col md={6}>
+            <div className="message-card" >
             <h3>Messages</h3>
+            {selectedConversation && <h4>Conversation with {selectedConversation}</h4>}
               {messageHTML}
             </div>
         </Col>
-        <Col>
-          <div className="user-info-card">
+        <Col md={3}>
+          <div className="user-info-card" >
             <h3>User info</h3>
           </div>
         </Col>
@@ -80,11 +137,22 @@ function UserMessages() {
         <Col>
         </Col>
         <Col className="message-form">
+        <form onSubmit={handleSubmit}>
         <TextField label="Message"
           id="outlined-multiline-flexible"
           multiline
-          maxRows={4} />
-        <Button id="send-button" size="medium">Send</Button>
+          maxRows={4} 
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        <Button 
+        type="submit" 
+        id="send-button" 
+        size="medium"
+        >
+          Send
+        </Button>
+        </form>
         </Col>
         <Col>
         </Col>
