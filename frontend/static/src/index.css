@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Climate+Crisis&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Bangers&family=Comfortaa&family=Fugaz+One&family=Gochi+Hand&family=Monoton&family=Oswald&family=Quicksand&family=Raleway&family=Roboto:ital@1&family=Ubuntu&display=swap');
+
 body {
   
   margin: 0;
@@ -6,9 +10,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  .animate { animation: none !important; }
 }

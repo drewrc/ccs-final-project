@@ -1,27 +1,163 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Climate+Crisis&family=Poppins&display=swap');
 /* animation */
 
 #home-container {
     background-color: rgba(244, 225, 209, 0.5);
+    /* background-color: rgba(109, 104, 104, 0.5); */
     height: 100vh;
     width: 100wv;
+    margin-top: -15px;
 }
 
 .animation-border {
-    animation-duration: 0.5s;
-    animation-name: animate-fade;
-    animation-delay: 0.5s;
-    animation-fill-mode: backwards;
-    /* background-color: rgb(161, 79, 55); */
-    background: linear-gradient(217deg, rgba(183,38,61,.8), rgba(255,0,0,0.1) 70.71%),            
-    linear-gradient(127deg, rgba(246,198,0,.8), rgba(133, 0, 173, 0.5) 70.71%),            
-    linear-gradient(336deg, rgba(80,28,68,.8), rgba(162, 6, 6, 0.9) 70.71%);
+    position: relative;
+    background: linear-gradient(217deg, rgba(183,38,61,.5), rgba(255,0,0,0.1) 70.71%),            
+    linear-gradient(127deg, rgba(246,198,0,.6), rgba(173, 0, 81, 0.5) 70.71%),            
+    linear-gradient(336deg, rgba(79, 9, 29, 0.8), rgba(162, 6, 6, 0.8) 70.71%),
+    url(../assets/gymscene.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
     min-width: 100%;
-    min-height: 60vh;
-    
+    min-height: 50vh;
+    box-shadow: 5px 5px 10px rgb(39, 1, 0);
+}
+.entrance-text{
+    font-family: 'Raleway', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+    height: 25vh;
+}
+.entrance-text-p {
+    margin-bottom: 4px;
+}
+
+.enter-button {
+    font-family: 'Gochi Hand', cursive;
+    background: linear-gradient(to bottom right, rgb(246, 127, 0, 0.9), rgba(183,38,61,1));
+    border: 0;
+    border-radius: 12px;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 2.5;
+    outline: transparent;
+    padding: 0 1rem;
+    text-align: center;
+    text-decoration: none;
+    transition: box-shadow .2s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+}
+
+.enter-button:not([disabled]):hover {
+    box-shadow: 1px 1px 10px rgba(211, 108, 108, 0.5);
+    text-shadow: 1px 1px 1px rgba(246, 244, 235, 0.5);
+}
+
+.header-text {
+    position: absolute;
+    text-align: center;
+    top: 30%;
+    left: 50%;
+    width: 100vw;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    font-size: 80px;
+    color: rgba(249, 232, 218, 1);
+    font-family: 'Monoton', cursive;
+    letter-spacing: 1px;
+    font-size: 50px;
+    padding-top: 75px;
+    padding-bottom: 75px;
+    background-color: rgba(244, 222, 193, 0.3);
+    text-transform: uppercase;
+    border: 2px solid rgb(250, 239, 239, 0.2);
+    opacity: 0.9;
+}
+
+@keyframes rotate {
+	100% {
+		transform: rotate(1turn);
+	}
+}
+
+.header-text::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 1px solid rgb(228, 224, 204, 0.9);
+    border-bottom: 1px solid rgb(228, 224, 204, 0.9);
+    animation-iteration-count: 2;
+    animation: clippath 3s linear; 
 }
 
 
-@keyframes animate-fade {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+@keyframes clippath {
+    0%,
+    100% {
+        clip-path: inset(0 0 95% 0);
+    }
+    25% {
+        clip-path: inset(0 95% 0 0);
+    }
+    50% {
+        clip-path: inset(95% 0 0 0);
+    }
+    75% {
+        clip-path: inset(0 0 0 95%);
+    }
 }
+
+
+.shadow-gradient-box {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    background-color: rgb(241, 236, 231);
+  }
+
+.shadow-gradient-box::before {
+    content: "";
+    position: absolute;
+    inset: -5px; /* control the spread */
+    transform: translate(10px, 8px); /* control the offsets */
+    z-index: -1; /* place the element behind */
+    background: linear-gradient(217deg, rgba(183,38,61,.8), rgba(255,0,0,0.1) 70.71%),            
+    linear-gradient(127deg, rgba(246,198,0,.8), rgba(173, 0, 81, 0.5) 70.71%),            
+    linear-gradient(336deg, rgba(79, 9, 29, 0.8), rgba(162, 6, 6, 0.9) 70.71%);
+    filter: blur(10px); /* control the blur */
+  }
+
+  @keyframes slide-in-arrow {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.arrow-down {
+    animation: slide-in-arrow 1s ease-out;
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 0; 
+    height: 0; 
+    border-left: 50vw solid transparent; 
+    border-right: 50vw solid transparent; 
+    border-top: 80px solid rgba(154, 1, 21, 0.9);
+    background-image: linear-gradient( rgb(209, 110, 5), rgb(213, 122, 48, 0.5));
+  }

@@ -13,6 +13,18 @@
   }
 }
 
+body {
+  color: white;
+}
+
+a:link, a:visited {
+  color: white;
+  text-decoration: none;
+}
+a:hover {
+  color: white;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

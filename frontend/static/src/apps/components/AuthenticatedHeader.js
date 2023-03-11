@@ -31,16 +31,21 @@ return (
     <>
     <div>
         {[false].map((expand) => (
-            <Navbar key={expand} expand={expand} className="mb-3">
+            <Navbar id="header" key={expand} expand={expand} className="mb-3">
             <Container fluid>
                 <div className="right-side-nav">
-                <Navbar.Brand href="#">Navbar 
+                <Link to="/user-feed" id="nav">
+                    Home 
+                </Link>
                 {matchRequestCount > 0 && (
                 <span id="alert-notification" className="badge bg-danger ms-2">{matchRequestCount}</span>
                 )}
+                <Link to="/user-match" id="nav" >
                 <FontAwesomeIcon className="fa-fw" id="bell-icon-parent" icon={faBell} />
+                </Link>
+                <Link to="/user-messages" id="nav" >
                 <FontAwesomeIcon icon={faMessage} />
-                </Navbar.Brand>
+                </Link>
                 </div>
                 <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
                 <Navbar.Offcanvas
@@ -56,19 +61,19 @@ return (
                 <Offcanvas.Body>
                     <Nav className="justify-content-end flex-grow-1 pe-3">
               
-                    <Link to="/logout" id="nav">
+                    <Link to="/logout" id="side-nav">
                         Logout
                     </Link>
-                    <Link to="/user-feed" id="nav">
+                    <Link to="/user-feed" id="side-nav">
                         Home
                     </Link>
-                    <Link to="/user-messages" id="nav">
+                    <Link to="/user-messages" id="side-nav">
                         Messages
                     </Link>
-                    <Link to="/user-match" id="nav">
+                    <Link to="/user-match" id="side-nav">
                         Match
                     </Link>
-                    <Link to="/user-timeline" id="nav">
+                    <Link to="/user-timeline" id="side-nav">
                         Profile
                     </Link>
 

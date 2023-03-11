@@ -40,21 +40,20 @@ function Login() {
     setPassword("");
     setUsername("");
   };
-
-  // console.log({isAuthenticated})
-  if (isAuthenticated ) {
-    setTimeout(() => {
-    history('/');
-  }, 2000);
+if (isAuthenticated ) {
+  setTimeout(() => {
+  history('/user-feed');
+}, 10);
 }
 
   return (
     <>
-    <Container id="login-container">
+    <div className="login-page">
+    <Container id="login-container" >
       <Row>
-        <h3>Log in below</h3>
+        <h3 id='login-header'>Login below</h3>
       </Row>
-      <Row>
+      <Row >
         <Col>
           <Form onSubmit={handleSubmit}>
             <div className="login-text">
@@ -77,18 +76,21 @@ function Login() {
               <Button type="submit">Login</Button>
             </div>
           </Form>
-          <a className="help-links" href="#">
+          <div className="help-links">
+          <a id="help-links" href="#">
             <h4>Create new account</h4>
           </a>
-          <a className="help-links" href="#">
+          <a id="help-links" href="#">
             <h4>Forgot username?</h4>
           </a>
-          <a className="help-links" href="#">
+          <a id="help-links" href="#">
             <h4>Forgot password?</h4>
           </a>
+          </div>
         </Col>
       </Row>
     </Container>
+    </div>
   </>
   );
 }

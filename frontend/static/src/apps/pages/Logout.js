@@ -34,7 +34,8 @@ function LogOut() {
   if (!isAuthenticated ) {
     setTimeout(() => {
     history('/login');
-  }, 2000);
+  }, 1000);
+  
 }
 
   return (

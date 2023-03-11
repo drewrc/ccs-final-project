@@ -15,31 +15,24 @@ return (
     <>
     <div>
         {[false].map((expand) => (
-            <Navbar key={expand} expand={expand} className="mb-3">
+            <Navbar id="header" key={expand} expand={expand} className="mb-3">
             <Container fluid>
-                <Navbar.Brand href="#">Navbar
-
-                <Link to="/register" id="nav">
-                        Register
-                    </Link>
-                    <Link to="/login" id="nav">
-                        Login
-                    </Link>
+                <Link id="nav" to="/UnauthHome">
+                Gym Buddies
+                </Link>
+                
                 <Link to="/">
                 <FontAwesomeIcon icon="fa-duotone fa-bell" />
                 </Link>
-                
-                
-                </Navbar.Brand>
                 <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
                 <Navbar.Offcanvas
                 id={`offcanvasNavbar-expand-${expand}`}
                 aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
                 placement="end"
                 >
-     
-                    
-
+                        <Link to="/user-feed" id="side-nav">
+                        Home
+                         </Link>
                     <Form className="d-flex">
                         <Form.Control
                         type="search"
@@ -48,6 +41,12 @@ return (
                          aria-label="Search"
                         />
                         <Button variant="outline-success">Search</Button>
+                            
+
+                        <Link to="/user-feed" id="nav">
+                        Home
+                         </Link>
+
                         </Form>
          
                 </Navbar.Offcanvas>

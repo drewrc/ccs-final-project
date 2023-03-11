@@ -8,7 +8,7 @@ const ProtectedRoute = () => {
   console.log({ isAuthenticated });
   //if isAuthenticated = False, we are redirected to login page
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/UnauthHome" />;
   }
   //if isAuthenticated = True, we see rendered content components
   return <Outlet />;

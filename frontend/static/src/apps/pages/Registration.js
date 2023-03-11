@@ -45,18 +45,15 @@ function Registration () {
       };
       if (isAuthenticated ) {
         setTimeout(() => {
-        history('/');
-      }, 2000);
+        history('/user-feed');
+      }, 10);
     }
 
     return(
-        <Container className='login-container'>
-             <Row>
-                <h2>Welcome</h2>
-                <h3>create new account</h3>
-            </Row>
-            <Row>    
-                <Col>  
+        <Container className='registration-container'>
+            <Row id="registration-container" >    
+                <Col >  
+                  <h3 id="registraiton-header">create new account</h3>
                     <Form onSubmit={handleSubmit}>
                     <div>
                     <Form.Group className="mb-3" controlId="username">
@@ -94,7 +91,7 @@ function Registration () {
                     Register
                     </Button> 
                     </div>
-                    <a href="#"><h4>Already have an account?</h4></a>
+                    <a id="help-links" href="#"><h4>Already have an account?</h4></a>
                     </Form>
                 </Col>  
             </Row>
