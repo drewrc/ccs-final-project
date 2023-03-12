@@ -16,7 +16,7 @@ function Post ({id, text, img, author, showFullText, toggleText }) {
           component="img"
           height="100%"
           image={img}
-          alt="green iguana"
+          alt="a string for now"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">

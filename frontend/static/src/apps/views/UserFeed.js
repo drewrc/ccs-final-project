@@ -15,7 +15,20 @@ function UserFeed() {
   const [file, setFile] = useState();
   const [authUser, setAuthUser] = useState("")
   const [activeCard, setActiveCard] = useState("posts")
-  console.log({file})
+  const [timelineId, setTimelineId] = useState(null);
+  // console.log({file})
+
+  useEffect(() => {
+    const fetchTimelineId = async () => {
+      const response = await fetch("/api_v1/timelines/");
+      const data = await response.json();
+      setTimelineId(data.id);
+    };
+
+    fetchTimelineId();
+  }, []);
+
+  // console.log({timelineId})
 
   useEffect(() => {
     const getAuthUser = async () => {
@@ -77,6 +90,7 @@ function UserFeed() {
     formData.append("img", file);
     formData.append("text", newPost);
     formData.append("author", authUser.pk);
+    formData.append("timeline", timelineId);
     console.log(formData);
     
     const options = {

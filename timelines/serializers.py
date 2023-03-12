@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from .models import Story, Timeline
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class StorySerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
@@ -19,3 +22,4 @@ class TimelineSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Timeline
         fields = ('__all__')
+    
