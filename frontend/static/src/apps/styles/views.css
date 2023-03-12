@@ -276,7 +276,6 @@
     font-size: 8px;
 }
 
-
 /**** registration component ****/
 
 #registraiton-header {
@@ -311,4 +310,14 @@
 .registration-container {
     height: 100vh;
     width: 100vw;
+}
+
+/** user profile **/
+
+.profile-banner {
+    height: 30vh;
+    width: 100%;
+    background: linear-gradient(217deg, rgba(183,38,61,.5), rgba(255,0,0,0.1) 70.71%),            
+    linear-gradient(127deg, rgba(246,198,0,.6), rgba(173, 0, 81, 0.5) 70.71%),            
+    linear-gradient(336deg, rgba(79, 9, 29, 0.8), rgba(162, 6, 6, 0.8) 70.71%);
 }

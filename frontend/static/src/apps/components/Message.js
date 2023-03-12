@@ -50,7 +50,6 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
             <span id='edit-message-object'>
                 <div className='edit-form'>
                 <TextField 
-              
                 className='edit-message-form'
                 label="Message"
                 id="outlined-multiline-flexible"

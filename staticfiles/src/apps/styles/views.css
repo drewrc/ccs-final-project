@@ -1,0 +1,314 @@
+#header {
+    background: linear-gradient(217deg, rgba(183,38,61,.8), rgba(255,0,0,0.1) 70.71%),            
+    linear-gradient(127deg, rgba(246,198,0,.8), rgba(173, 0, 81, 0.5) 70.71%),            
+    linear-gradient(336deg, rgba(79, 9, 29, 0.8), rgba(162, 6, 6, 0.9) 70.71%);
+    /* margin-bottom: 0px; */
+    font-family: 'Raleway', sans-serif;
+    animation: slide-in-header 1s ease-out;
+}
+
+.left-nav {
+    margin: 5px;
+}
+
+@keyframes slide-in-header {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+@keyframes slide-in-footer {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.footer {
+    background: linear-gradient(217deg, rgba(183,38,61,.5), rgba(255,0,0,0.1) 70.71%),            
+    linear-gradient(127deg, rgba(246,198,0,.6), rgba(173, 0, 81, 0.5) 70.71%),            
+    linear-gradient(336deg, rgba(79, 9, 29, 0.8), rgba(162, 6, 6, 0.8) 70.71%);
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    text-transform: uppercase;
+    animation: slide-in-footer 1s ease-out;
+}
+
+.user-object-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header {
+    display: flex;
+    align-items: center;    
+    justify-content: center;
+}
+
+.swipe-direction {
+    display: flex;
+    align-items: center;    
+    justify-content: center; 
+}
+
+/***** Styles for User Message component *****/
+#read-message {
+    text-align: right;
+    margin-top: -40px;
+    padding-bottom: 20px;
+    font-size: 12px;
+}
+
+#message-date {
+    text-align: left;
+    margin-top: -10px;
+    padding-bottom: 20px;
+    font-size: 12px;
+}
+
+.trash-button {
+    background-color: transparent;
+    border: none;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.sender-message-object {
+    padding-left: 10px;
+    padding-top: 10px;
+    text-align: left;
+    font-size: 12px;
+}
+
+.conversations-side-bar {
+    text-align: center;
+    /* margin-right: 20px; */
+}
+
+
+.button {
+    border-radius: 4px;
+    background-color: transparent;
+    border: none;
+    color: orange;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+  
+  .button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .button:hover span {
+    padding-right: 25px;
+  }
+  
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+
+.message-container {
+    /* text-align: center; */
+}
+.message-form {
+    padding: 20px;
+}
+.span-message-page {
+    min-height: 60vh;
+}
+
+#nav:link, #nav:visited {
+    text-transform: capitalize; 
+    color: white;
+
+}
+
+#nav:hover {
+    text-decoration: none;
+    color: white;
+    text-shadow: 1px 1px 1px rgba(246, 244, 235, 0.5);
+}
+.message-form {
+    display: inline;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.user-info-card {
+    text-align: center;
+}
+.message-card {
+    text-align: center;
+}
+.message-object {
+    background-color: orange;
+    border-radius: 8px;
+    border: 3px solid orange;
+}
+#send-button {
+    padding: 10px;
+    margin: 5px;
+}
+#send-text {
+}
+
+.triangle {
+    cursor:pointer;
+    width: 0;
+    border-top: 28px solid orange;
+    /* border-left: 45px solid transparent; */
+    border-right: 45px solid transparent;
+    margin-top: -16px;
+    margin-bottom: 20px;
+    margin-left: 50px;
+  }
+
+  /* AUTHENTICATED HEADER */
+#bell-icon-parent {
+  position: relative;
+}
+#alert-notification {
+    position: absolute;
+    top: 17px;
+    left: 72px;
+    font-size: 7px;
+    z-index: 2000;
+}
+
+
+/* Message.js */
+.edit-message-object {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+
+#edit-buttons {
+    text-align: right;
+}
+
+#edit-message-form {
+    /* min-width: 90vw; */
+    /* padding: 20px;
+    margin: -20px; */
+}
+
+/* .edit-form {
+    min-width: 100%;
+} */
+
+/******** login component ********/
+#login-header {
+    text-transform: uppercase;
+    color: white;
+    text-decoration: underline;
+    text-align: center;
+}
+
+#login-container {
+    width: 80vw;
+    color: white;
+    font-size: 18px;
+    background-color: rgba(250, 250, 255, 0.3);
+    border-radius: 10px;
+    box-shadow: 5px 15px 20px rgb(129, 129, 129);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    margin-bottom: auto;
+    background: linear-gradient(217deg, rgba(183,38,61,.2), rgba(255,0,0,0.1) 70.71%),            
+    linear-gradient(127deg, rgba(246,198,0,.6), rgba(173, 0, 81, 0.4) 70.71%),            
+    linear-gradient(336deg, rgba(151, 6, 47, 0.5), rgba(162, 6, 6, 0.8) 70.71%),
+    url(../assets/gymscene.png);
+    padding: 50px;
+    animation-name: slide-up;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    font-family: 'Raleway', sans-serif;
+}
+
+@keyframes slide-up {
+    from {
+        transform: translateY(50%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+#side-nav {
+    color: black;
+}
+
+#help-links:visited, #help-links:link {
+    text-align: left;
+    font-size: 8px;
+}
+
+#help-links:hover {
+    text-decoration: none; 
+    color:rgb(255, 255, 255); 
+    text-shadow: 1px 1px 1px rgba(246, 244, 235, 0.5);
+    font-size: 8px;
+}
+
+
+/**** registration component ****/
+
+#registraiton-header {
+    text-transform: uppercase;
+    color: white;
+    text-decoration: underline;
+    text-align: center;
+}
+
+#registration-container {
+    width: 80vw;
+    color: white;
+    font-size: 18px;
+    background-color: rgba(250, 250, 255, 0.3);
+    border-radius: 10px;
+    box-shadow: 5px 15px 20px rgb(129, 129, 129);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    margin-bottom: auto;
+    background: linear-gradient(217deg, rgba(183,38,61,.2), rgba(255,0,0,0.1) 70.71%),            
+    linear-gradient(127deg, rgba(246,198,0,.6), rgba(173, 0, 81, 0.4) 70.71%),            
+    linear-gradient(336deg, rgba(151, 6, 47, 0.5), rgba(162, 6, 6, 0.8) 70.71%),
+    url(../assets/gymscene.png);
+    padding: 50px;
+    animation-name: slide-up;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    font-family: 'Raleway', sans-serif;
+}
+
+.registration-container {
+    height: 100vh;
+    width: 100vw;
+}
