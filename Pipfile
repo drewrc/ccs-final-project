@@ -16,6 +16,7 @@ twilio = "~=7.16.4"
 django-twilio = "~=0.14.3.1"
 install = "*"
 django-phonenumber-field = {version = "~=7.0.2", extras = ["phonenumberslite"]}
+pillow = "~=9.4.0"
 
 [dev-packages]
 autopep8 = "*"
