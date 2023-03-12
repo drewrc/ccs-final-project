@@ -10,6 +10,7 @@ class UserTimelineListCreateView (generics.ListCreateAPIView):
 
 class UserStoryListCreateView (generics.ListCreateAPIView):
     serializer_class = StorySerializer
-    queryset = Story.objects.all()
+    def get_queryset(self):
+        return Story.objects.filter(author__id=self.request.user.id)
     # def get_queryset(self):   
     #     return Story.objects.filter(author = self.request.user)

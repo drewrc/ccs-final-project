@@ -180,6 +180,10 @@ REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend/static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+#PILLOW
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 # Substituting a custom User model
 # https://docs.djangoproject.com/en/4.1/topics/auth/customizing/#substituting-a-custom-user-model
 # ie. AUTH_USER_MODEL = 'myapp.MyUser'
@@ -189,7 +193,9 @@ AUTH_USER_MODEL = 'accounts.User'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# #EMAIL BACKEND
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # https://docs.djangoproject.com/en/4.1/ref/settings/#site-id
 SITE_ID = 1
+
