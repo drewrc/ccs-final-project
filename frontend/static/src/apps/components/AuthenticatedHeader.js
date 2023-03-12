@@ -34,16 +34,16 @@ return (
             <Navbar id="header" key={expand} expand={expand} className="mb-3">
             <Container fluid>
                 <div className="right-side-nav">
-                <Link to="/user-feed" id="nav">
+                <Link to="/user-feed" className="left-nav" id="nav">
                     Home 
                 </Link>
                 {matchRequestCount > 0 && (
                 <span id="alert-notification" className="badge bg-danger ms-2">{matchRequestCount}</span>
                 )}
-                <Link to="/user-match" id="nav" >
-                <FontAwesomeIcon className="fa-fw" id="bell-icon-parent" icon={faBell} />
+                <Link to="/user-match" className="left-nav" id="nav" >
+                <FontAwesomeIcon className="fa-fw " id="bell-icon-parent" icon={faBell} />
                 </Link>
-                <Link to="/user-messages" id="nav" >
+                <Link to="/user-messages" className="left-nav" id="nav" >
                 <FontAwesomeIcon icon={faMessage} />
                 </Link>
                 </div>

@@ -43,8 +43,6 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
         setEditText(event.target.value);
      };
     
-
-
     return (
         <div>
         <p className="sender-message-object">Sender: {user_from}</p>

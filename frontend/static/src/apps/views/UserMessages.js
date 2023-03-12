@@ -64,6 +64,7 @@ function UserMessages() {
     };
   }, []);
 
+  
   //fetch user friends
   useEffect(() => {
     const getFriends = async () => {
@@ -110,7 +111,9 @@ function UserMessages() {
     .map((message) => (
       <div key={message.id}>
         <div className="message-object">
-          <Message {...message} handleDelete={() => handleDelete(message.id)} />
+          <Message {...message} 
+          handleDelete={() => handleDelete(message.id)} 
+          />
         </div>
         <div class="triangle"></div>
         <div id="message-date">
@@ -138,7 +141,9 @@ function UserMessages() {
 
   const friendsHTML = friends.map((friend) => (
     <div key={friend.id}>
-      <button class="button" onClick={() => setSelectedConversation(friend.id)}>
+      <button class="button" 
+      onClick={() => setSelectedConversation(friend.id)}
+      >
         <span>
           <Conversation {...friend} />
         </span>

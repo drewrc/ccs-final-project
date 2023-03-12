@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router';
+import { Navigate, useNavigate } from 'react-router';
 import { AuthContext } from '../auth/auth-context/AuthContext';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -13,6 +13,7 @@ function Login() {
   const { isAuthenticated } = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
 
   const history = useNavigate()
 
@@ -39,11 +40,20 @@ function Login() {
     console.log(Cookies.get("Authorization"));
     setPassword("");
     setUsername("");
+    // isAuthenticated(true);
+    setRedirect(true);
   };
+
 if (isAuthenticated ) {
   setTimeout(() => {
-  history('/user-feed');
+  history('/');
 }, 10);
+}
+
+if (redirect) {
+  setTimeout(() => {
+  history('/');
+}, 1000);
 }
 
   return (

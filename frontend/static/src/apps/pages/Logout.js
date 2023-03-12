@@ -1,16 +1,18 @@
 import Cookies from "js-cookie";
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, Navigate } from 'react-router';
 import { AuthContext } from '../auth/auth-context/AuthContext';
 import Spinner from 'react-bootstrap/Spinner';
 
 function LogOut() {
   const { isAuthenticated } = useContext(AuthContext);
+  const [redirect, setRedirect] = useState(true);
 
   const history = useNavigate()
 
     const handleLogout = async (event) => {
     event.preventDefault();
+    console.log({isAuthenticated})
 
     const options = {
       method: "POST",
@@ -29,13 +31,20 @@ function LogOut() {
     console.log('logged out successfully')
     console.log(response.status);
     Cookies.remove("Authorization");
+    // isAuthenticated(false);
+    setRedirect(true);
     }
+    
   }
   if (!isAuthenticated ) {
     setTimeout(() => {
     history('/login');
   }, 1000);
-  
+}
+if (!redirect) {
+  setTimeout(() => {
+  history('/login');
+}, 1000);
 }
 
   return (

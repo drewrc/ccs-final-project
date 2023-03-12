@@ -7,6 +7,10 @@
     animation: slide-in-header 1s ease-out;
 }
 
+.left-nav {
+    margin: 5px;
+}
+
 @keyframes slide-in-header {
     from {
         transform: translateY(-100%);
@@ -187,13 +191,14 @@
 }
 #alert-notification {
     position: absolute;
-    top: 15px;
-    left: 57px;
+    top: 17px;
+    left: 72px;
     font-size: 7px;
     z-index: 2000;
 }
-/* Message.js */
 
+
+/* Message.js */
 .edit-message-object {
  display: flex;
  align-items: center;
