@@ -16,21 +16,27 @@ import UserFeed from "./apps/views/UserFeed";
 import UserMessages from "./apps/views/UserMessages";
 import UserMatch from "./apps/views/UserMatch";
 import UserTimeline from "./apps/views/UserTimeline";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 
 // import Logout from './apps/auth/auth-context/AuthContext';
 import UnauthHome from "./apps/views/UnauthHome";
 
 function App() {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, login, register, logout } = useContext(AuthContext);
   return (
     <div>
-      {isAuthenticated ? <AuthenticatedHeader /> : <UnauthenticatedHeader />}
+      {isAuthenticated ? (
+        <AuthenticatedHeader logout={logout} />
+      ) : (
+        <UnauthenticatedHeader />
+      )}
       <Routes>
-        <Route path="UnauthHome" element={<UnauthHome />}/>
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Registration/>} />
-        <Route path="/" element={<Navigate from="/" to="/user-feed" />} />
+        <Route path="UnauthHome" element={<UnauthHome />} />
+        <Route
+          path="login"
+          element={<Login isAuthenticated={isAuthenticated} login={login} />}
+        />
+        <Route path="register" element={<Registration isAuthenticated={isAuthenticated} register={register} />} />
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="user-feed" element={<UserFeed />} />
           <Route path="user-messages" element={<UserMessages />} />

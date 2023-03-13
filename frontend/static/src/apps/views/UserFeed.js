@@ -6,18 +6,20 @@ import Row from "react-bootstrap/esm/Row";
 import { Card } from "@mui/material";
 import { TextField, Button } from "@mui/material";
 import Cookies from "js-cookie";
-import { useMediaQuery } from '@mui/material'
+import { useMediaQuery } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMountainSun } from "@fortawesome/free-solid-svg-icons";
+import ProfileFeed from "../components/Profile-feed";
 
 function UserFeed() {
-  const [userStories, setUserStories ] = useState ([])
+  const [userStories, setUserStories] = useState([]);
   const [showFullText, setShowFullText] = useState(false);
-  const [newPost, setNewPost]= useState("")
+  const [newPost, setNewPost] = useState("");
   const [file, setFile] = useState();
-  const [authUser, setAuthUser] = useState("")
-  const [activeCard, setActiveCard] = useState("posts")
+  const [authUser, setAuthUser] = useState("");
+  const [activeCard, setActiveCard] = useState("posts");
   const [timelineId, setTimelineId] = useState(null);
+  const [preview, setPreview] = useState("");
   // console.log({file})
 
   useEffect(() => {
@@ -45,14 +47,15 @@ function UserFeed() {
   }, []);
 
   const handleImage = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0]; // this is the actual file
     setFile(file);
-  
 
     const reader = new FileReader();
+
     reader.onloadend = () => {
-      setFile(reader.result);
+      setPreview(reader.result);
     };
+
     reader.readAsDataURL(file);
     console.log(file);
   };
@@ -74,7 +77,7 @@ function UserFeed() {
   }, []);
 
   const userFeedHTML = userStories.map((post) => (
-    <Post 
+    <Post
       {...post}
       key={post.id}
       id={post.id}
@@ -84,17 +87,25 @@ function UserFeed() {
       showFullText={showFullText}
       toggleText={toggleText}
     />
-  ))
+  ));
+
+  console.log({authUser})
+
+  //  const userProfileHTML = authUser.map((profile) => (
+  //   <ProfileFeed
+  //     // {...profile}
+  //   /> 
+  //  ))
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("img", file);
     formData.append("text", newPost);
-    formData.append("author", authUser.pk);
+    // formData.append("author", authUser.pk);
     formData.append("timeline", timelineId);
-    console.log(formData);
-    
+    // console.log(formData);
+
     const options = {
       method: "POST",
       headers: {
@@ -107,7 +118,7 @@ function UserFeed() {
     setNewPost("");
   };
 
-  const isMobile = useMediaQuery('(max-width:600px)'); 
+  const isMobile = useMediaQuery("(max-width:600px)");
 
   return (
     <div>
@@ -115,22 +126,28 @@ function UserFeed() {
         <Row>
           <Col className="profile-top">
           <div className="profile-banner"></div>
-          <h1>{authUser.username}</h1>
-            Profile component goes here! 
-              {isMobile && (
-                    <div className="profile-nav">
-                      <Button onClick={() => setActiveCard('bio')}>Bio</Button>
-                      <Button onClick={() => setActiveCard('pictures')}>Pictures</Button>
-                      <Button onClick={() => setActiveCard('createNew')}>Create New Post</Button>
-                      <Button onClick={() => setActiveCard('posts')}>Your Posts</Button>
-                    </div>
-                  )}
+            <h1>{authUser.username}</h1>
+            Profile component goes here!
+            {isMobile && (
+              <div className="profile-nav">
+                <Button onClick={() => setActiveCard("bio")}>Bio</Button>
+                <Button onClick={() => setActiveCard("pictures")}>
+                  Pictures
+                </Button>
+                <Button onClick={() => setActiveCard("createNew")}>
+                  Create New Post
+                </Button>
+                <Button onClick={() => setActiveCard("posts")}>
+                  Your Posts
+                </Button>
+              </div>
+            )}
           </Col>
         </Row>
-        
-            {isMobile && (
-              <Row>
-                <Col className="mobile-profile-container">
+
+        {isMobile && (
+          <Row>
+            <Col className="mobile-profile-container">
               <>
                 {activeCard === "bio" && (
                   <Card className="profile-left-side">
@@ -151,9 +168,13 @@ function UserFeed() {
                 {activeCard === "createNew" && (
                   <Card className="new-post-card">
                     <h2 className="profile-header">Create New Post</h2>
-                    <form className="profile-content" onSubmit={handleSubmit} encType="multipart/form-data">
-                      <img className="preview-image" src={file} height="100"/>
-                      <input className='file-input' type="file" onChange={handleImage} />
+                    <form className="profile-content" onSubmit={handleSubmit}>
+                      <img className="preview-image" src={file} height="100" />
+                      <input
+                        className="file-input"
+                        type="file"
+                        onChange={handleImage}
+                      />
                       <TextField
                         label="New Post"
                         id="outlined-multiline-flexible"
@@ -168,55 +189,55 @@ function UserFeed() {
                     </form>
                   </Card>
                 )}
-                {activeCard === "posts" && (
-                <>
-                  {userFeedHTML}
-                </>
-                )}
+                {activeCard === "posts" && <>{userFeedHTML}</>}
               </>
-              </Col>
-              </Row>
-            )}
-      
-      {!isMobile && (
-        <Row className="profile-mid">
-          <Col>
-          <Card className="profile-left-side">
-            <h2 className="profile-header">Bio</h2>
-            <p className="profile-content">gender</p>
-            <p className="profile-content">about text</p>
-            <p className="profile-content">location</p>
-          </Card>
-          <Card className="profile-left-side">
-            <h2 className="profile-header">Pictures</h2>
-            <p className="profile-content">img 1</p>
-            <p className="profile-content">img 2</p>
-            <p className="profile-content">img 3</p>
-          </Card>
-          </Col>
-          <Col>
-            <Card className="new-post-card">
-              <h2 className="profile-header">Create New Post</h2>
-                <form className="profile-content" onSubmit={handleSubmit} encType="multipart/form-data">
-                  <img className="preview-image" src={file} height="100"/>
-                  <FontAwesomeIcon icon={faMountainSun} />
-                    <input className='file-input' type="file" onChange={handleImage} />
-                      <TextField
-                        label="New Post"
-                        id="outlined-multiline-flexible"
-                        multiline
-                        maxRows={4}
-                        value={newPost}
-                        onChange={(e) => setNewPost(e.target.value)}
-                      />
-                      <Button type="submit" id="send-button" size="medium">
-                        Post
-                      </Button>
-                  </form>
+            </Col>
+          </Row>
+        )}
+
+        {!isMobile && (
+          <Row className="profile-mid">
+            <Col>
+              <Card className="profile-left-side">
+                <h2 className="profile-header">Bio</h2>
+                <p className="profile-content">gender</p>
+                <p className="profile-content">about text</p>
+                <p className="profile-content">location</p>
               </Card>
-            {userFeedHTML}
-          </Col>
-        </Row>
+              <Card className="profile-left-side">
+                <h2 className="profile-header">Pictures</h2>
+                <p className="profile-content">img 1</p>
+                <p className="profile-content">img 2</p>
+                <p className="profile-content">img 3</p>
+              </Card>
+            </Col>
+            <Col>
+              <Card className="new-post-card">
+                <h2 className="profile-header">Create New Post</h2>
+                <form className="profile-content" onSubmit={handleSubmit}>
+                  <img className="preview-image" src={preview} height="100" />
+                  <FontAwesomeIcon icon={faMountainSun} />
+                  <input
+                    className="file-input"
+                    type="file"
+                    onChange={handleImage}
+                  />
+                  <TextField
+                    label="New Post"
+                    id="outlined-multiline-flexible"
+                    multiline
+                    maxRows={4}
+                    value={newPost}
+                    onChange={(e) => setNewPost(e.target.value)}
+                  />
+                  <Button type="submit" id="send-button" size="medium">
+                    Post
+                  </Button>
+                </form>
+              </Card>
+              {userFeedHTML}
+            </Col>
+          </Row>
         )}
       </Container>
     </div>

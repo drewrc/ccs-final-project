@@ -24,3 +24,7 @@ class FriendRequest(models.Model):
         User, related_name='from_user', on_delete=models.CASCADE)
     to_user = models.ForeignKey(
         User, related_name='to_user', on_delete=models.CASCADE)
+
+# class Profile(models.Model):
+#     img = models.ImageField(upload_to='images/', blank=True)
+#     location = models.PointField(null=True, blank=True)
