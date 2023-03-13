@@ -7,6 +7,8 @@ import { Card } from "@mui/material";
 import { TextField, Button } from "@mui/material";
 import Cookies from "js-cookie";
 import { useMediaQuery } from '@mui/material'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMountainSun } from "@fortawesome/free-solid-svg-icons";
 
 function UserFeed() {
   const [userStories, setUserStories ] = useState ([])
@@ -197,6 +199,7 @@ function UserFeed() {
               <h2 className="profile-header">Create New Post</h2>
                 <form className="profile-content" onSubmit={handleSubmit} encType="multipart/form-data">
                   <img className="preview-image" src={file} height="100"/>
+                  <FontAwesomeIcon icon={faMountainSun} />
                     <input className='file-input' type="file" onChange={handleImage} />
                       <TextField
                         label="New Post"

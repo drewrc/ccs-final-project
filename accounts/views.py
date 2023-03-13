@@ -20,8 +20,22 @@ class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
+# @api_view(['POST'])
+# @permission_classes((permissions.AllowAny,))
+# def send_match_request(request, userID):
+#     if request.method == 'POST':
+#         from_user = request.user
+#         to_user = User.objects.get(id=userID)
+#         friend_request, created = FriendRequest.objects.get_or_create(
+#             from_user=from_user, to_user=to_user)
+#         if created:
+#             return Response('friend request sent')
+#         else:
+#             return Response('friend request already sent')
+
+#refactored w twilio 
 @api_view(['POST'])
-@permission_classes((permissions.AllowAny,))
+@permission_classes((permissions.IsAuthenticated,))
 def send_match_request(request, userID):
     if request.method == 'POST':
         from_user = request.user
@@ -29,6 +43,15 @@ def send_match_request(request, userID):
         friend_request, created = FriendRequest.objects.get_or_create(
             from_user=from_user, to_user=to_user)
         if created:
+            # send notification to the to_user
+            message = f"You have a new friend request from {from_user.username}."
+            to_phone_number = to_user.phone.as_e164
+            from_phone_number = "+18888419554"
+            client.messages.create(
+                to=to_phone_number,
+                from_=from_phone_number,
+                body=message
+            )
             return Response('friend request sent')
         else:
             return Response('friend request already sent')
@@ -101,3 +124,5 @@ def send_message(request, user_id):
         body=message
     )
     return Response({'status': 'Message sent'})
+
+

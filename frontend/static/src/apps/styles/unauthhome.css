@@ -3,11 +3,11 @@
 /* animation */
 
 #home-container {
-    background-color: rgba(244, 225, 209, 0.5);
+    /* background-color: rgba(244, 225, 209, 0.5); */
     /* background-color: rgba(109, 104, 104, 0.5); */
     height: 100vh;
     width: 100wv;
-    margin-top: -15px;
+    margin-top: -16px;
 }
 
 .animation-border {
@@ -29,12 +29,34 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 80px;
-    height: 25vh;
+    margin-top: 50px;
+    /* height: 25vh; */
+    width: 50vw;
+    margin-bottom: 90px;
+    margin-left: auto;
+    margin-right: auto;
+    /* background-color: #ede9e9;
+    background-color: rgba(239, 237, 235, 0.5);
+    box-shadow: 1px 2px 12px rgba(255, 138, 21, 0.5); */
+    border-radius: 10px;
 }
+
 .entrance-text-p {
-    margin-bottom: 4px;
+    font-family: 'Gochi Hand', cursive;
+    margin-top: 50px;
+    margin-bottom: 10px;
+    color: #EF6C00;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgb(228, 142, 21);
+    letter-spacing: 1px;
+    font-weight: bold;
 }
+.entrance-text-p:hover {
+    cursor: default;
+    color: #ffa631;
+    text-shadow: 1px 2px 2px rgb(155, 74, 4);
+}
+
 
 .enter-button {
     font-family: 'Gochi Hand', cursive;
@@ -125,7 +147,7 @@
     position: relative;
     width: 200px;
     height: 200px;
-    background-color: rgb(241, 236, 231);
+    /* background-color: rgb(241, 236, 231); */
   }
 
 .shadow-gradient-box::before {
