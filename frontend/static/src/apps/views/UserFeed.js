@@ -20,6 +20,7 @@ function UserFeed() {
   const [activeCard, setActiveCard] = useState("posts");
   const [timelineId, setTimelineId] = useState(null);
   const [preview, setPreview] = useState("");
+  const [profile, setProfile] = useState([])
   // console.log({file})
 
   useEffect(() => {
@@ -32,7 +33,30 @@ function UserFeed() {
     fetchTimelineId();
   }, []);
 
-  // console.log({timelineId})
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const response = await fetch('/api_v1/new_user/')
+      const data = await response.json();
+      setProfile(data);
+    }
+    fetchUserProfile();
+  }, []);
+
+  const profileHTML = profile.map((profile) => (
+    <ProfileFeed
+    {...profile}
+    />
+  ))
+
+  const bioHTML = profile.map((bio)=> (
+    <div key={bio.id}>
+    <p className="profile-content">{bio.pronouns}</p>
+    <p className="profile-content">{bio.gender}</p>
+    <p className="profile-content">{bio.biography}</p>
+    <p className="profile-content">{bio.location}</p>
+    </div>
+  ))
+
 
   useEffect(() => {
     const getAuthUser = async () => {
@@ -91,6 +115,8 @@ function UserFeed() {
 
   console.log({authUser})
 
+
+
   //  const userProfileHTML = authUser.map((profile) => (
   //   <ProfileFeed
   //     // {...profile}
@@ -125,8 +151,9 @@ function UserFeed() {
       <Container>
         <Row>
           <Col className="profile-top">
-          <div className="profile-banner"></div>
-            <h1>{authUser.username}</h1>
+          {/* <div className="profile-banner"></div> */}
+            {/* <h1>{authUser.username}</h1> */}
+            {profileHTML}
             Profile component goes here!
             {isMobile && (
               <div className="profile-nav">
@@ -200,9 +227,10 @@ function UserFeed() {
             <Col>
               <Card className="profile-left-side">
                 <h2 className="profile-header">Bio</h2>
-                <p className="profile-content">gender</p>
-                <p className="profile-content">about text</p>
-                <p className="profile-content">location</p>
+                {bioHTML}
+              
+                {/* <p className="profile-content">about text</p>
+                <p className="profile-content">location</p> */}
               </Card>
               <Card className="profile-left-side">
                 <h2 className="profile-header">Pictures</h2>

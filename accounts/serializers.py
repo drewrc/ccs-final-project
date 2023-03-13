@@ -24,7 +24,7 @@ class BuddySerializer(serializers.ModelSerializer):
         fields = ('username', 'id', 'buddies')
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    friends = serializers.ReadOnlyField(source='user.buddies')
+    # friends = serializers.ReadOnlyField(source='user.buddies')
     class Meta:
         model = Profile
         fields = '__all__'

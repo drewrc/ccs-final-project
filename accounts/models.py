@@ -46,3 +46,5 @@ class Profile(models.Model):
     # location = models.PointField( blank=True)
     # favorite_gym = models.PointField(blank=True)
     biography = models.CharField(max_length=255, blank=True)
+    def __str__(self):
+        return self.user.username

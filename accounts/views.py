@@ -5,6 +5,8 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from .models import User, FriendRequest, Profile
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -21,9 +23,17 @@ class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
 class UserProfileListAPIView(generics.ListCreateAPIView):
-    queryset = Profile.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        queryset = Profile.objects.all()
+        queryset = queryset.select_related('user') 
+        return queryset
+
+@receiver(post_save, sender=get_user_model())
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
 
 # @api_view(['POST'])
 # @permission_classes((permissions.AllowAny,))
