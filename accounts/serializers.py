@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import User
+from .models import User, Profile
 from dj_rest_auth.models import TokenModel
 
 
@@ -23,8 +23,8 @@ class BuddySerializer(serializers.ModelSerializer):
         model = User
         fields = ('username', 'id', 'buddies')
 
-
 class UserProfileSerializer(serializers.ModelSerializer):
+    friends = serializers.ReadOnlyField(source='user.buddies')
     class Meta:
-        model = User
-        fields = ('username', 'id', 'buddies', 'last_login',)
+        model = Profile
+        fields = '__all__'

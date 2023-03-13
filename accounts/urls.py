@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import UserRetrieveUpdateDestroyAPIView, send_match_request, accept_match_request, match_request_count, UserProfileView, buddies_list
+from .views import UserRetrieveUpdateDestroyAPIView,UserProfileListAPIView, send_match_request, accept_match_request, match_request_count, UserProfileView, buddies_list
 
 
 app_name = 'accounts'
@@ -13,5 +13,6 @@ urlpatterns = [
     path('buddies_list/', buddies_list, name='buddies_list'),
     path('users/<int:pk>/', UserProfileView, name="user_profile_select" ),
     path('send-message/<int:user_id>/', views.send_message, name='send_message'),
-    path('user/<int:pk>/', UserRetrieveUpdateDestroyAPIView.as_view(), name='user_update')
+    path('user/<int:pk>/', UserRetrieveUpdateDestroyAPIView.as_view(), name='user_update'),
+    path('new_user/', UserProfileListAPIView.as_view(), name='new_profile'),
 ]

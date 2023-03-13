@@ -1,6 +1,7 @@
+from django.db import models
+# from django.contrib.gis.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
 # IMPORT CUSTOM USER MODEL FROM:
@@ -9,15 +10,12 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 # CUSTOM USER MODEL CLASS
 
-
 class User(AbstractUser):
     buddies = models.ManyToManyField("User", blank=True)
     phone = PhoneNumberField(blank=True)
     # location = models.PointField(null=True, blank=True)
-
     def __str__(self):
         return self.username
-
 
 class FriendRequest(models.Model):
     from_user = models.ForeignKey(
@@ -25,6 +23,26 @@ class FriendRequest(models.Model):
     to_user = models.ForeignKey(
         User, related_name='to_user', on_delete=models.CASCADE)
 
-# class Profile(models.Model):
-#     img = models.ImageField(upload_to='images/', blank=True)
-#     location = models.PointField(null=True, blank=True)
+class Profile(models.Model):
+    MALE = 'M'
+    FEMALE = 'F'
+    NONBINARY = 'NB'
+    TRANS = 'T'
+    OTHER = 'O'
+
+    GENDER_CHOICES = [
+        (MALE, 'M'),
+        (FEMALE, 'F'),
+        (NONBINARY, 'NB'),
+        (TRANS, 'T'),
+        (OTHER, 'O'),
+    ]
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, related_name="profile", on_delete=models.CASCADE)
+    pronouns = models.CharField(max_length=255, blank=True)
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, blank=True)
+    profile_pic = models.ImageField(upload_to='images/', blank=True)
+    profile_banner = models.ImageField(upload_to='images/', blank=True)
+    # location = models.PointField( blank=True)
+    # favorite_gym = models.PointField(blank=True)
+    biography = models.CharField(max_length=255, blank=True)
