@@ -9,8 +9,6 @@ import { faArrowPointer, faMeteor, faReply } from "@fortawesome/free-solid-svg-i
 function UnauthHome() {
   React.useEffect(() => {
     document.body.style.background = "repeating-linear-gradient(160deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5) 5px, rgba(220, 138, 80, 0.1) 5px, rgba(243, 203, 136, 0.1) 10px)";
-
-    // replace "#F0F0F0" with your desired color value
   }, []);
   return (
     <>
@@ -18,11 +16,14 @@ function UnauthHome() {
         <div 
         className="animation-border">
         </div>
-        <div className="header-text"> SWOLEMATES </div>
+        <div className="header-text"> GYM BUDDIES </div>
         <div className="arrow-down"></div>
         <div className="entrance-text">
           <div className="entrance-text-p">
-           <h3> <FontAwesomeIcon icon={faArrowPointer} /> make new friends</h3>
+           <h3> 
+            {/* <FontAwesomeIcon icon={faArrowPointer} />  */}
+            
+            make new friends</h3>
             <h2>stay healthy <FontAwesomeIcon icon={faReply} /></h2>
           </div>
             

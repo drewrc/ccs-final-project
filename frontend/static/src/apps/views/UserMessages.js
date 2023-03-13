@@ -54,7 +54,6 @@ function UserMessages() {
       const data = await response.json();
       setMessages(data);
     };
-
     getMessages();
 
     const getMessagesInterval = setInterval(getMessages, 3000);
@@ -175,7 +174,7 @@ function UserMessages() {
     const response = await fetch("/api_v1/messages/", options);
     const data = await response.json();
 
-    // Send the message to the specific user
+    // Send the message to the # phone user
     const response2 = await fetch(`/api_v1/send-message/${selectedConversation}/`, options);
     const data2 = await response2.json();
 
