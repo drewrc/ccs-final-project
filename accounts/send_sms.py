@@ -1,13 +1,13 @@
 from twilio.rest import Client
 import os
 
-AUTH_TOKEN = os.environ['auth_token']
-ACCOUNT_SID = os.environ['account_sid']
+TWILIO_AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
+TWILIO_ACCOUNT_SID = os.environ['TWILIO_ACCOUNT_SID']
 
-client = Client(ACCOUNT_SID, AUTH_TOKEN)
+client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
 # message = client.messages.create(
-#     to="+18648712004", 
+#     to="+18648712004",
 #     from_="+18888419554",
 #     body="Hello from Twilio")
 
@@ -20,5 +20,3 @@ client = Client(ACCOUNT_SID, AUTH_TOKEN)
 #         body=body)
 #     print("Notification sent to", to)
 #     return message.sid
-
-
