@@ -63,7 +63,6 @@ function UserMessages() {
       clearInterval(getMessagesInterval);
     };
   }, []);
-
   
   //fetch user friends
   useEffect(() => {
@@ -164,6 +163,7 @@ function UserMessages() {
     formData.append("sender", authUser.pk);
     formData.append("receiver", selectedConversation);
     formData.append("conversation", 1);
+    formData.append("message", message);
     const options = {
       method: "POST",
       headers: {
@@ -171,8 +171,14 @@ function UserMessages() {
       },
       body: formData,
     };
+    // Send the message to the conversation
     const response = await fetch("/api_v1/messages/", options);
     const data = await response.json();
+
+    // Send the message to the specific user
+    const response2 = await fetch(`/api_v1/send-message/${selectedConversation}/`, options);
+    const data2 = await response2.json();
+
     setMessage("");
   };
 

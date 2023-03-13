@@ -9,12 +9,16 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly, I
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import permissions, status
-
+from .send_sms import client
 
 class UserListAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
 
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
@@ -29,7 +33,6 @@ def send_match_request(request, userID):
         else:
             return Response('friend request already sent')
 
-
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
 def accept_match_request(request, requestID):
@@ -43,7 +46,6 @@ def accept_match_request(request, requestID):
         else:
             return Response('request not accepted')
 
-
 @api_view(['GET'])
 @permission_classes((permissions.IsAuthenticated,))
 def match_request_count(request):
@@ -53,7 +55,7 @@ def match_request_count(request):
 
 
 @api_view(['GET'])
-@permission_classes((permissions.AllowAny,))
+@permission_classes((permissions.IsAuthenticated,))
 def buddies_list(request):
     if request.method == 'GET':
         # import pdb
@@ -84,3 +86,18 @@ def UserProfileView(request, pk):
     user_profile = get_object_or_404(User, pk=pk)
     serializer = UserProfileSerializer(user_profile)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+#for sending messages 
+@api_view(['POST'])
+@permission_classes((permissions.IsAuthenticated,))
+def send_message(request, user_id):
+    message = request.data.get('message')
+    to_user = get_object_or_404(User, id=user_id)
+    to_phone_number = to_user.phone.as_e164
+    from_phone_number = "+18888419554" 
+    client.messages.create(
+        to=to_phone_number,
+        from_=from_phone_number,
+        body=message
+    )
+    return Response({'status': 'Message sent'})
