@@ -37,13 +37,14 @@ class Profile(models.Model):
         (TRANS, 'Trans'),
         (OTHER, 'Other'),
     ]
-    
+
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, related_name="profile", on_delete=models.CASCADE)
     pronouns = models.CharField(max_length=255, blank=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, blank=True)
     profile_pic = models.ImageField(upload_to='images/', blank=True)
     profile_banner = models.ImageField(upload_to='images/', blank=True)
+    # gym_location = models.PointField(null=True, blank=True)
     # location = models.PointField( blank=True)
     # favorite_gym = models.PointField(blank=True)
     biography = models.CharField(max_length=255, blank=True)

@@ -29,6 +29,11 @@ class UserProfileListAPIView(generics.ListCreateAPIView):
         queryset = Profile.objects.all()
         queryset = queryset.select_related('user') 
         return queryset
+    
+    # def get_queryset(self):
+    #     queryset = Profile.objects.all()
+    #     queryset = Profile.objects.prefetch_related('user')  ???
+    #     return queryset
 
 @receiver(post_save, sender=get_user_model())
 def create_user_profile(sender, instance, created, **kwargs):

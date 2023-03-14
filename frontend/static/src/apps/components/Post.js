@@ -10,7 +10,7 @@ function Post ({id, text, img, author, showFullText, toggleText }) {
   
     return (
     <>
-        <Card key={id} sx={{ maxWidth: 545 }}>
+        <Card id="post-display" key={id} sx={{ maxWidth: 545 }}>
       <CardActionArea>
         <CardMedia
           component="img"

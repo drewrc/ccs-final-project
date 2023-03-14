@@ -29,12 +29,16 @@ class UserProfileSerializer(serializers.ModelSerializer):
     username = serializers.ReadOnlyField(source='user.username')
     buddies = serializers.SerializerMethodField()
     buddies_count = serializers.SerializerMethodField()
+    # gym_location = serializers.CharField()
+
     def get_buddies(self, obj):
         return obj.user.buddies.values_list('username', flat=True)
     
     class Meta:
         model = Profile
-        fields = ['user', 'username', 'pronouns', 'gender', 'profile_pic', 'profile_banner', 'biography', 'first_name', 'last_name', 'buddies', 'buddies_count']
+        fields = ['user', 'username', 'pronouns', 'gender', 'profile_pic', 'profile_banner', 'biography', 'first_name', 'last_name', 'buddies', 'buddies_count',] 
+                #   'gym_location'
+                
         read_only_fields = ['user']
 
     def get_buddies_count(self, obj):

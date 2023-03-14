@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     'django.contrib.sites',
     'django.contrib.staticfiles',
+    # 'django.contrib.gis',
 
     'rest_framework',
     'rest_framework.authtoken',
@@ -56,6 +57,7 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     'django_twilio',
     "phonenumber_field",
+    
 
     # local
     'accounts.apps.AccountsConfig',
@@ -132,7 +134,7 @@ else:
         }
     }
 
-
+#changed 'ENGINE': 'django.db.backends.sqlite3', to 'ENGINE': 'django.contrib.gis.db.backends.sqlite3', to
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -190,6 +192,11 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880
 # ie. AUTH_USER_MODEL = 'myapp.MyUser'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+#GDAL package for pointlocation
+# GDAL_LIBRARY_PATH = '/opt/homebrew/Cellar/gdal/3.6.2_4/lib/libgdal.dylib'
+# GEOS_LIBRARY_PATH = '/opt/homebrew/Cellar/geos/3.11.1/lib/libgeos_c.dylib'
+
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

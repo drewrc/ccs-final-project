@@ -1,5 +1,6 @@
 import Post from "../components/Post";
 import { useState, useEffect } from "react";
+import React from "react";
 import Container from "react-bootstrap/esm/Container";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
@@ -8,10 +9,15 @@ import { TextField, Button } from "@mui/material";
 import Cookies from "js-cookie";
 import { useMediaQuery } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMountainSun } from "@fortawesome/free-solid-svg-icons";
+import { faMountainSun, faVideo } from "@fortawesome/free-solid-svg-icons";
 import ProfileFeed from "../components/Profile-feed";
+import Form from 'react-bootstrap/esm/Form'
 
 function UserFeed() {
+  React.useEffect(() => {
+    document.body.style.backgroundColor = "rgba(160, 160, 160, 0.2)";
+  }, []);
+
   const [userStories, setUserStories] = useState([]);
   const [showFullText, setShowFullText] = useState(false);
   const [newPost, setNewPost] = useState("");
@@ -72,13 +78,13 @@ function UserFeed() {
   }, []);
 
   const handleImage = (e) => {
-    const file = e.target.files[0]; // this is the actual file
+    const file = e.target.files[0]; // set file
     setFile(file);
 
     const reader = new FileReader();
 
     reader.onloadend = () => {
-      setPreview(reader.result);
+      setPreview(reader.result); // set preview 
     };
 
     reader.readAsDataURL(file);
@@ -133,6 +139,22 @@ function UserFeed() {
 
   const isMobile = useMediaQuery("(max-width:600px)");
 
+
+    // Create a reference to the hidden file input element
+    // const hiddenFileInput = React.useRef(null);
+    
+    // Programatically click the hidden file input element
+    // when the Button component is clicked
+    // const handleClick = event => {
+    //   hiddenFileInput.current.click();
+    // };
+    // Call a function (passed as a prop from the parent component)
+    // to handle the user-selected file 
+    // const handleChange = event => {
+    //   const fileUploaded = event.target.files[0];
+    //   props.handleFile(fileUploaded);
+    // };
+
   return (
     <div>
       <Container>
@@ -164,13 +186,13 @@ function UserFeed() {
             <Col className="mobile-profile-container">
               <>
                 {activeCard === "bio" && (
-                  <Card className="profile-left-side">
+                  <Card  id="bio-display" className="profile-left-side">
                     <h2 className="profile-header">Bio</h2>
                     {bioHTML}
                   </Card>
                 )}
                 {activeCard === "pictures" && (
-                  <Card className="profile-left-side">
+                  <Card id="picture-display" className="profile-left-side">
                     <h2 className="profile-header">Pictures</h2>
                     <p className="profile-content">img 1</p>
                     <p className="profile-content">img 2</p>
@@ -178,11 +200,12 @@ function UserFeed() {
                   </Card>
                 )}
                 {activeCard === "createNew" && (
-                  <Card className="new-post-card">
+                  <Card id="new-post" className="new-post-card">
                     <h2 className="profile-header">Create New Post</h2>
                     <form className="profile-content" onSubmit={handleSubmit}>
                       <img className="preview-image" src={file} height="100" />
                       <input
+                        // ref={hiddenFileInput}
                         className="file-input"
                         type="file"
                         onChange={handleImage}
@@ -210,14 +233,14 @@ function UserFeed() {
         {!isMobile && (
           <Row className="profile-mid">
             <Col>
-              <Card className="profile-left-side">
+              <Card id="bio-display" className="profile-left-side">
                 <h2 className="profile-header">Bio</h2>
                 {bioHTML}
               
                 {/* <p className="profile-content">about text</p>
                 <p className="profile-content">location</p> */}
               </Card>
-              <Card className="profile-left-side">
+              <Card id="picture-display" className="profile-left-side">
                 <h2 className="profile-header">Pictures</h2>
                 <p className="profile-content">img 1</p>
                 <p className="profile-content">img 2</p>
@@ -225,27 +248,74 @@ function UserFeed() {
               </Card>
             </Col>
             <Col>
-              <Card className="new-post-card">
+              <Card id="new-post" className="new-post-card">
                 <h2 className="profile-header">Create New Post</h2>
                 <form className="profile-content" onSubmit={handleSubmit}>
                   <img className="preview-image" src={preview} height="100" />
-                  <FontAwesomeIcon icon={faMountainSun} />
-                  <input
+                  
+                  
+                  {/* <input
+                    id="file-upload"
                     className="file-input"
                     type="file"
                     onChange={handleImage}
+                  /> */}
+                  <div class="upload-btn-wrapper">
+                  <input
+                    id="file-upload"
+                    className="file-input"
+                    type="file"
+                    onChange={handleImage}
+                    style={{display: 'none'}}
                   />
-                  <TextField
+                    {/* <label htmlFor="file-upload">
+                      <button 
+                      // onClick={handleClick}
+                      style={{backgroundColor: '#CACACA' }} 
+                      class="btn">
+                      <FontAwesomeIcon icon={faMountainSun} /> Upload a file
+                      </button>
+                    </label> */}
+                 
+                    {/* <input 
+                    
+                    type="file" 
+                    name="myfile" 
+                    /> */}
+                  </div>
+               
+                  {/* <TextField
                     label="New Post"
                     id="outlined-multiline-flexible"
                     multiline
                     maxRows={4}
                     value={newPost}
                     onChange={(e) => setNewPost(e.target.value)}
-                  />
+                  /> */}
+
+                  <Form.Group className="mb-3" controlId="new-post-textarea">
+                    <Form.Label style={{display: 'none'}}>
+                      for later?
+                    </Form.Label>
+                    <Form.Control 
+                    value={newPost}
+                    onChange={(e) => setNewPost(e.target.value)}
+                    as="textarea" rows={2} 
+                    />
+                  </Form.Group>
+                  <div id="post-button-container">
+                  <label htmlFor="file-upload"> 
+                      <button 
+                      // onClick={handleClick}
+                      style={{backgroundColor: '#CACACA' }} 
+                      class="btn">
+                      <FontAwesomeIcon icon={faMountainSun} /> Upload a file
+                      </button>
+                    </label>
                   <Button type="submit" id="send-button" size="medium">
                     Post
                   </Button>
+                  </div>
                 </form>
               </Card>
               {userFeedHTML}
