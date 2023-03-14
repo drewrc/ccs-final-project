@@ -75,8 +75,6 @@ function UserFeed() {
     </div>
   ))
 
-  // console.log({profileHTML})
-
   useEffect(() => {
     const getAuthUser = async () => {
       const response = await fetch("/dj-rest-auth/user/");

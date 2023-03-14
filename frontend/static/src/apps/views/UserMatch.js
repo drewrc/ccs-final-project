@@ -79,24 +79,28 @@ function UserMatch () {
                     </Col>
                     <Col md={8}>
                     <div className="header">
-                    <h1>Find new friends!</h1>
                         </div>
                         <div className="user-object-placeholder">
                         {currentProfile && (
+                            
                                 <TinderCard 
+                                
                                 className="swipe" 
                                 key={currentProfile.id}
                                 onSwipe={(dir) => swipe(dir, currentProfile.username, currentProfile.id)}
                                 onCardLeftScreen={() => offScreen(currentProfile.username)}>
+                                <div className="tinder-card-placeholder">
                                 <div className="profile-banner-tinder-card">
-                                <img className="profile-banner-display-tinder-card" src={currentProfile.profile_banner} height="100%" width="100%"/>
+                                <img className="profile-banner-display-tinder-card" src={currentProfile.profile_banner} width="100%" height='50%'  />
                                 <div className="profile-pic-container-tinder-card">
-                                    <img className="profile-pic-tinder-card" src={currentProfile.profile_pic} height="250" />
+                                    <img className="profile-pic-tinder-card" src={currentProfile.profile_pic} width="250"/>
                                 </div>
                                 </div>
                                 <p>{currentProfile.username}</p>
                                 <p>{currentProfile.pronouns}</p>
+                                </div>
                                 </TinderCard>
+                        
                             )}
                         </div>
                         <div className="swipe-direction">
