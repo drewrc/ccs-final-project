@@ -15,4 +15,5 @@ urlpatterns = [
     path('send-message/<int:user_id>/', views.send_message, name='send_message'),
     path('user/<int:pk>/', UserRetrieveUpdateDestroyAPIView.as_view(), name='user_update'),
     path('new_user/', UserProfileListAPIView.as_view(), name='new_profile'),
+    # path('current_user/', CurrentUserListAPIView.as_view(), name='auth_user'),
 ]

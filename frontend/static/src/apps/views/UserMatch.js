@@ -3,17 +3,26 @@ import UserMatchObject from "../components/UserMatchObject";
 import TinderCard from 'react-tinder-card'
 import '../styles/views.css'
 import Cookies from "js-cookie";
+import React from "react";
+import Container from "react-bootstrap/esm/Container";
+import Col from "react-bootstrap/esm/Col";
+import Row from "react-bootstrap/esm/Row";
 
 function UserMatch () {
     const [profiles, setProfiles] = useState([]);
     const [lastDirection, setLastDirection] = useState()
     const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
 
-    // console.log({lastDirection})ew
+
+    React.useEffect(() => {
+        document.body.style.backgroundColor = "rgba(160, 160, 160, 0.2)";
+      }, []);
+
+    console.log({profiles})
     
     useEffect(() => {
       const getProfiles = async () => {
-        const response = await fetch(`/api_v1/profiles/`);
+        const response = await fetch(`/api_v1/new_user/`);
         if (!response.ok) {
           throw new Error("Network response not OK");
         }
@@ -63,25 +72,41 @@ function UserMatch () {
 
     return (
         <div>
-
-        <div className="header">
-            <h1>card container</h1>
-        </div>
-
-        <div className="user-object-placeholder">
-        {currentProfile && (
-                <TinderCard 
-                className="swipe" 
-                key={currentProfile.id}
-                onSwipe={(dir) => swipe(dir, currentProfile.username, currentProfile.id)}
-                onCardLeftScreen={() => offScreen(currentProfile.username)}>
-                {currentProfile.username}
-                </TinderCard>
-            )}
-        </div>
-        <div className="swipe-direction">
-        {lastDirection ? <h2 className='infoText'>You swiped {lastDirection}</h2> : <h2 className='infoText' />}
-        </div>
+            <Container>
+                <Row>
+                    <Col className="new-matches-list-display" md={3}>
+                    <h2>New Matches!</h2>
+                    </Col>
+                    <Col md={8}>
+                    <div className="header">
+                    <h1>Find new friends!</h1>
+                        </div>
+                        <div className="user-object-placeholder">
+                        {currentProfile && (
+                                <TinderCard 
+                                className="swipe" 
+                                key={currentProfile.id}
+                                onSwipe={(dir) => swipe(dir, currentProfile.username, currentProfile.id)}
+                                onCardLeftScreen={() => offScreen(currentProfile.username)}>
+                                <div className="profile-banner-tinder-card">
+                                <img className="profile-banner-display-tinder-card" src={currentProfile.profile_banner} height="100%" width="100%"/>
+                                <div className="profile-pic-container-tinder-card">
+                                    <img className="profile-pic-tinder-card" src={currentProfile.profile_pic} height="250" />
+                                </div>
+                                </div>
+                                <p>{currentProfile.username}</p>
+                                <p>{currentProfile.pronouns}</p>
+                                </TinderCard>
+                            )}
+                        </div>
+                        <div className="swipe-direction">
+                        {lastDirection ? <h2 className='infoText'>You swiped {lastDirection}</h2> : <h2 className='infoText' />}
+                        </div>
+                    </Col>
+                    <Col md={2}>
+                    </Col>
+                </Row>
+            </Container>
         </div>
     );
 };

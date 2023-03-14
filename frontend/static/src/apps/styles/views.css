@@ -63,7 +63,12 @@ font-family: 'Ubuntu', sans-serif; */
     display: flex;
     align-items: center;    
     justify-content: center;
+    /* background-color: white; */
 }
+.new-matches-list-display {
+    background-color: white;
+}
+
 .swipe-direction {
     display: flex;
     align-items: center;    
@@ -332,15 +337,17 @@ font-family: 'Ubuntu', sans-serif; */
 }
 
 .profile-banner {
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
     height: 40vh;
     width: 100%;
     /* background: linear-gradient(217deg, rgba(183,38,61,.5), rgba(255,0,0,0.1) 70.71%),            
     linear-gradient(127deg, rgba(246,198,0,.6), rgba(173, 0, 81, 0.5) 70.71%),            
     linear-gradient(336deg, rgba(79, 9, 29, 0.8), rgba(162, 6, 6, 0.8) 70.71%); */
 }
+.profile-banner-tinder-card {
+    height: 40vh;
+    width: 100%;
+}
+
 .profile-nav {
     height: 10vh;
     width: 100%;
@@ -494,6 +501,14 @@ font-family: 'Ubuntu', sans-serif; */
     object-fit: cover;
 }
 
+.profile-pic-tinder-card{
+    display: block; 
+    width: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 10px solid white;
+}
+
 @media screen and (max-width: 600px) {
     .profile-pic-container {
     top: 50% !important;
@@ -508,6 +523,14 @@ font-family: 'Ubuntu', sans-serif; */
         
     }
   }
+
+  @media screen and (max-width: 600px) {
+    .profile-pic-container-tinder-card {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    }
+}
 
 .name-holder {
 
@@ -524,6 +547,15 @@ font-family: 'Ubuntu', sans-serif; */
     display: inline-block;
     width: 250px;
 }
+.profile-pic-container-tinder-card {
+    position: absolute;
+    top: 45%;
+    left: 20%;
+    transform: translate(-50%, -50%) ;
+    display: inline-block;
+    width: 250px;
+}
+
 .profile-pic-container::before {
     content: "";
     position: absolute;
@@ -542,6 +574,14 @@ font-family: 'Ubuntu', sans-serif; */
     background-color: rgba(255, 255, 255, 0.5); 
 }
 .profile-banner-display {
+    position: relative;
+    z-index: -1;
+    object-fit: cover;
+    box-shadow: 2px 1px 10px rgba(44, 44, 44, 0.8);
+    border: 10px solid white;
+}
+
+.profile-banner-display-tinder-card {
     position: relative;
     z-index: -1;
     object-fit: cover;

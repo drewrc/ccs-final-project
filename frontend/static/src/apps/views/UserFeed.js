@@ -1,5 +1,5 @@
 import Post from "../components/Post";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import React from "react";
 import Container from "react-bootstrap/esm/Container";
 import Col from "react-bootstrap/esm/Col";
@@ -12,8 +12,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMountainSun, faVideo } from "@fortawesome/free-solid-svg-icons";
 import ProfileFeed from "../components/Profile-feed";
 import Form from 'react-bootstrap/esm/Form'
+import { AuthContext } from '../auth/auth-context/AuthContext';
 
 function UserFeed() {
+  const { isAuthenticated, userID } = useContext(AuthContext);
+
   React.useEffect(() => {
     document.body.style.backgroundColor = "rgba(160, 160, 160, 0.2)";
   }, []);
@@ -48,11 +51,21 @@ function UserFeed() {
     fetchUserProfile();
   }, []);
 
-  const profileHTML = profile.map((profile) => (
-    <ProfileFeed
-    {...profile}
-    />
-  ))
+ 
+  const filterUser =  profile.filter((profile) => profile.user === userID.pk)
+  .map((profile) => 
+  <ProfileFeed {...profile} />
+  )
+  // console.log(userID.pk)
+  // console.log(profile)
+
+  // const profileHTML = profile.map((profile) => (
+  //   <ProfileFeed
+  //   {...profile}
+  //   />
+  // ))
+
+
 
   const bioHTML = profile.map((bio)=> (
     <div key={bio.id}>
@@ -63,7 +76,7 @@ function UserFeed() {
     </div>
   ))
 
-  console.log({profileHTML})
+  // console.log({profileHTML})
 
   useEffect(() => {
     const getAuthUser = async () => {
@@ -162,7 +175,7 @@ function UserFeed() {
           <Col className="profile-top">
           {/* <div className="profile-banner"></div> */}
             {/* <h1>{authUser.username}</h1> */}
-            {profileHTML}
+            {filterUser}
        
             {isMobile && (
               <div className="profile-nav">

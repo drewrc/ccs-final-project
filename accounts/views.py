@@ -17,6 +17,12 @@ class UserListAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+# class CurrentUserListAPIView(generics.RetrieveAPIView):
+#     serializer_class = UserProfileSerializer
+#     permission_classes = [IsAuthenticated]
+#     def get_object(self): 
+#         return self.request.profile
+
 class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -39,6 +45,19 @@ class UserProfileListAPIView(generics.ListCreateAPIView):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
+# @api_view(['GET'])
+# @permission_classes((permissions.IsAuthenticated,))
+# def current_user(request, pk):
+#     try:
+#         instance = Profile.objects.all()
+#     except Profile.DoesNotExist:
+#         return Response (status=status.HTTP_404_NOT_FOUND)
+#     instance
+
+
+    #     current_user = User.objects.get(id=userID)
+    # return Response(userID, status=status.HTTP_200_OK)
 
 # @api_view(['POST'])
 # @permission_classes((permissions.AllowAny,))

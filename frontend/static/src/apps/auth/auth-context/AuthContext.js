@@ -8,6 +8,7 @@ export const AuthContext = createContext();
 //instead of sending props, we send children
 export const AuthContextProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [userID, setUserID] = useState([])
   const navigate = useNavigate();
 
   //login request
@@ -79,12 +80,25 @@ export const AuthContextProvider = ({ children }) => {
         setIsAuthenticated(false);
         return;
       }
-
+      const data = await response.json();
       setIsAuthenticated(true);
     };
 
     getUser();
   }, []);
+
+  useEffect(() => {
+    const getUserID = async () => {
+      const response = await fetch(`/dj-rest-auth/user/`);
+      if (!response.ok) {
+        throw new Error("Network response not OK");
+      }
+      const data = await response.json();
+      setUserID(data);
+    };
+    getUserID();
+  }, []);
+
 
   //if isAuthenticated value of null, display 'is loading'
   //TODO add spinner
@@ -96,7 +110,7 @@ export const AuthContextProvider = ({ children }) => {
     //Every Context object comes with a Provider React component that allows
     // consuming components to subscribe to context changes
     // context changes isAuthenticated, login, register, logout
-    <AuthContext.Provider value={{ isAuthenticated, login, register, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, register, logout, userID }}>
       {children}
     </AuthContext.Provider>
   );
