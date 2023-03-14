@@ -50,13 +50,14 @@ function UserFeed() {
 
   const bioHTML = profile.map((bio)=> (
     <div key={bio.id}>
-    <p className="profile-content">{bio.pronouns}</p>
-    <p className="profile-content">{bio.gender}</p>
-    <p className="profile-content">{bio.biography}</p>
-    <p className="profile-content">{bio.location}</p>
+    <p className="profile-content">Pronouns: {bio.pronouns}</p>
+    <p className="profile-content">Gender: {bio.gender}</p>
+    <p className="profile-content-bio">{bio.biography}</p>
+    <p className="profile-content-bio">{bio.location}</p>
     </div>
   ))
 
+  console.log({profileHTML})
 
   useEffect(() => {
     const getAuthUser = async () => {
@@ -103,25 +104,11 @@ function UserFeed() {
   const userFeedHTML = userStories.map((post) => (
     <Post
       {...post}
-      key={post.id}
-      id={post.id}
-      text={post.text}
-      img={post.img}
-      author={post.author}
+      // text={post.text}
       showFullText={showFullText}
       toggleText={toggleText}
     />
   ));
-
-  console.log({authUser})
-
-
-
-  //  const userProfileHTML = authUser.map((profile) => (
-  //   <ProfileFeed
-  //     // {...profile}
-  //   /> 
-  //  ))
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -154,7 +141,7 @@ function UserFeed() {
           {/* <div className="profile-banner"></div> */}
             {/* <h1>{authUser.username}</h1> */}
             {profileHTML}
-            Profile component goes here!
+       
             {isMobile && (
               <div className="profile-nav">
                 <Button onClick={() => setActiveCard("bio")}>Bio</Button>
@@ -179,9 +166,7 @@ function UserFeed() {
                 {activeCard === "bio" && (
                   <Card className="profile-left-side">
                     <h2 className="profile-header">Bio</h2>
-                    <p className="profile-content">gender</p>
-                    <p className="profile-content">about text</p>
-                    <p className="profile-content">location</p>
+                    {bioHTML}
                   </Card>
                 )}
                 {activeCard === "pictures" && (

@@ -24,19 +24,20 @@ class FriendRequest(models.Model):
         User, related_name='to_user', on_delete=models.CASCADE)
 
 class Profile(models.Model):
-    MALE = 'M'
-    FEMALE = 'F'
-    NONBINARY = 'NB'
-    TRANS = 'T'
-    OTHER = 'O'
+    MALE = 'Male'
+    FEMALE = 'Female'
+    NONBINARY = 'Non-binary'
+    TRANS = 'Trans'
+    OTHER = 'Other'
 
     GENDER_CHOICES = [
-        (MALE, 'M'),
-        (FEMALE, 'F'),
-        (NONBINARY, 'NB'),
-        (TRANS, 'T'),
-        (OTHER, 'O'),
+        (MALE, 'Male'),
+        (FEMALE, 'Female'),
+        (NONBINARY, 'Non-binary'),
+        (TRANS, 'Trans'),
+        (OTHER, 'Other'),
     ]
+    
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, related_name="profile", on_delete=models.CASCADE)
     pronouns = models.CharField(max_length=255, blank=True)

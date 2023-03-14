@@ -24,7 +24,18 @@ class BuddySerializer(serializers.ModelSerializer):
         fields = ('username', 'id', 'buddies')
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    # friends = serializers.ReadOnlyField(source='user.buddies')
+    first_name = serializers.CharField(source='user.first_name')
+    last_name = serializers.CharField(source='user.last_name')
+    username = serializers.ReadOnlyField(source='user.username')
+    buddies = serializers.SerializerMethodField()
+    buddies_count = serializers.SerializerMethodField()
+    def get_buddies(self, obj):
+        return obj.user.buddies.values_list('username', flat=True)
+    
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields = ['user', 'username', 'pronouns', 'gender', 'profile_pic', 'profile_banner', 'biography', 'first_name', 'last_name', 'buddies', 'buddies_count']
+        read_only_fields = ['user']
+
+    def get_buddies_count(self, obj):
+        return obj.user.buddies.count()
