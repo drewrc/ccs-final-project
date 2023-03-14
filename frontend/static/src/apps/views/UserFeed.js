@@ -65,9 +65,8 @@ function UserFeed() {
   //   />
   // ))
 
-
-
-  const bioHTML = profile.map((bio)=> (
+  const bioHTML = profile.filter((bio) => bio.user === userID.pk)
+  .map((bio)=> (
     <div key={bio.id}>
     <p className="profile-content">Pronouns: {bio.pronouns}</p>
     <p className="profile-content">Gender: {bio.gender}</p>
