@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import Cookies from "js-cookie"
+import { AuthContext } from "../auth/auth-context/AuthContext";
 
 function EditPost({ text, img, onCancel, id, timelineId }) {
+    const { userID } = useContext(AuthContext);
     const [ newText, setNewText ] = useState(text)
     const [file, setFile] = useState(img)
     const [timeline, setTimeline] = useState(timelineId)
+    console.log({userID})
   
     const handleEdit = async (e) => {
         e.preventDefault();

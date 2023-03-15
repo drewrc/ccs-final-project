@@ -110,12 +110,27 @@ function UserFeed() {
   const userFeedHTML = userStories.map((post) => (
     <Post
       {...post}
+      author={post.author}
       showFullText={showFullText}
       toggleText={toggleText}
       timelineId = {timelineId}
     />
   ));
 
+//   const userFeedHTML = (post) => {
+//     if (userStories.length === 0) {
+//       return <div>Is loading ...</div>;
+//     } else {
+//     userStories.filter((post) => post.timeline === timelineId).map((post) => (
+//       <Post
+//         {...post}
+//         showFullText={showFullText}
+//         toggleText={toggleText}
+//         timelineId = {timelineId}
+//       />
+//     ));
+//   }
+// }
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();

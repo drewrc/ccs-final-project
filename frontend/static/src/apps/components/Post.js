@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Cookies from 'js-cookie';
 import Button from 'react-bootstrap/Button';
 import Card from '@mui/material/Card';
@@ -9,10 +9,15 @@ import { CardActionArea } from '@mui/material';
 import { faHeart, faPencil, faThumbsUp, faTrash, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import EditPost from './EditPost';
+import { AuthContext } from '../auth/auth-context/AuthContext';
 
 function Post ({id, text, img, author, showFullText, toggleText, timelineId }) {
+  const { userID } = useContext(AuthContext);
+
   const [ editPost, setEditPost ] = useState(false)
   const [file, seFile] = useState("")
+  const [user, setUser]= useState(userID.username)
+  console.log({user})
   
   const fullText = showFullText ? text : text.slice(0, 50);
 
@@ -27,9 +32,9 @@ function Post ({id, text, img, author, showFullText, toggleText, timelineId }) {
         headers: {
             "X-CSRFToken": Cookies.get("csrftoken")
         }
-    }
-
-
+      }
+        const response = await fetch(`/api_v1/edit_story/${id}/`, options);
+        const data = await response.json();
     }
 
     return (
@@ -38,6 +43,7 @@ function Post ({id, text, img, author, showFullText, toggleText, timelineId }) {
               <Typography id="post-header" gutterBottom variant="h5" component="div">
                 {author}
               </Typography>
+
             {!editPost && (
               <>
                 <CardActionArea id="post-card-content">
@@ -99,7 +105,7 @@ function Post ({id, text, img, author, showFullText, toggleText, timelineId }) {
                     <FontAwesomeIcon icon={faHeart} />
             </button>
 
-            {!editPost && (
+            {!editPost && author === user && (
             <>
             <p className="trash-button" >
             <button 
@@ -110,7 +116,7 @@ function Post ({id, text, img, author, showFullText, toggleText, timelineId }) {
             </button>
 
             <button 
-                // onClick={handleDelete}
+                onClick={handleDelete}
                 className="trash-button" 
                 type="submit">
                     <FontAwesomeIcon icon={faTrashCan} />
