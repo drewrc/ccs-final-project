@@ -22,6 +22,11 @@ class UserStoryListCreateView (generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
+class UserUpdateRetrieveDeleteView (generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = StorySerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Story.objects.all()
+
 #creates a new timeline for each user on registration
 @receiver(post_save, sender=get_user_model())
 def create_user_timeline(sender, instance, created, **kwargs):
@@ -39,20 +44,35 @@ def get_user_timeline(request):
     except Timeline.DoesNotExist:
         return Response({"message": "Timeline does not exist."}, status=404)
     
-@api_view(['GET', 'PUT'])
-@permission_classes([IsAuthenticated])
-def user_edit_story(request, pk):
-    try:
-        instance = Story.objects.get(pk=pk)
-        if instance.user != request.user:
-            return Response(status=status.HTTP_403_FORBIDDEN)
-    except Story.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-     # Retrieve data from request and validate it
-    serializer = StorySerializer(instance, data=request.data, partial=True)
-    if not serializer.is_valid():
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    # Update instance with new data and save it
-    serializer.save()
-    serializer = StorySerializer(instance)
-    return Response(serializer.data)
+# @api_view(['PUT'])
+# @permission_classes([IsAuthenticated])
+# def user_edit_story(request, pk):
+#     try:
+#         instance = Story.objects.get(pk=pk)
+#     except Story.DoesNotExist:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
+#     instance.img = ''
+#     instance.save()
+#     serializer = StorySerializer(instance)
+#     return Response(serializer.data)
+
+
+
+
+# @api_view(['GET', 'PUT'])
+# @permission_classes([IsAuthenticated])
+# def user_edit_story(request, pk):
+#     try:
+#         instance = Story.objects.get(pk=pk)
+#         if instance.author != request.author:
+#             return Response(status=status.HTTP_403_FORBIDDEN)
+#     except Story.DoesNotExist:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
+#      # Retrieve data from request and validate it
+#     serializer = StorySerializer(instance, data=request.data, partial=True)
+#     if not serializer.is_valid():
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     # Update instance with new data and save it
+#     serializer.save()
+#     serializer = StorySerializer(instance)
+#     return Response(serializer.data)

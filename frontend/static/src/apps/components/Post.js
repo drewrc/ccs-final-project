@@ -10,7 +10,7 @@ import { faHeart, faPencil, faThumbsUp, faTrash, faTrashCan } from '@fortawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import EditPost from './EditPost';
 
-function Post ({id, text, img, author, showFullText, toggleText }) {
+function Post ({id, text, img, author, showFullText, toggleText, timelineId }) {
   const [ editPost, setEditPost ] = useState(false)
   const [file, seFile] = useState("")
   
@@ -20,25 +20,20 @@ function Post ({id, text, img, author, showFullText, toggleText }) {
       e.preventDefault();
       setEditPost(true)
     }
-      // const formData = new FormData();
-      // formData.append("img", file);
-      // formData.append("text", editPost);
+    const handleDelete = async (e) => {
+      e.preventDefault();
+      const options ={
+        method: "DELETE",
+        headers: {
+            "X-CSRFToken": Cookies.get("csrftoken")
+        }
+    }
 
-      // const options = {
-      //   method: "POST",
-      //   headers: {
-      //     "X-CSRFToken": Cookies.get("csrftoken"),
-      //   },
-      //   body: formData,
-      // };
-      // const response = await fetch(`/api_v1/current_user/${id}/`, options);
-      // const data = await response.json();
-    // };
-  
-    
+
+    }
 
     return (
-    <>
+    <div key={id}>
     <Card id="post-display" key={id} sx={{ maxWidth: 545 }}>
               <Typography id="post-header" gutterBottom variant="h5" component="div">
                 {author}
@@ -73,13 +68,15 @@ function Post ({id, text, img, author, showFullText, toggleText }) {
                             </Button>
                           )}
                         </p>
-              </>
-            )}
+                    </>
+                  )}
 
                 {editPost && (
                   <EditPost
+                    id = {id}
                     text={text}
                     img={img}
+                    timelineId={timelineId}
                     onSubmit={(newText, newImg) => {
                       // handleEditSubmit function here
                       setEditPost(false);
@@ -123,7 +120,7 @@ function Post ({id, text, img, author, showFullText, toggleText }) {
           )}
     </Card>
 
-      </>
+      </div>
     )
   }
   export default Post

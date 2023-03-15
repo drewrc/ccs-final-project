@@ -112,6 +112,7 @@ function UserFeed() {
       {...post}
       showFullText={showFullText}
       toggleText={toggleText}
+      timelineId = {timelineId}
     />
   ));
 
