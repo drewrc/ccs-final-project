@@ -107,9 +107,14 @@ function UserFeed() {
       setUserStories(data);
     };
     getUserStories();
-  }, []);
 
-  console.log({userStories})
+
+    const getStoriesInterval = setInterval(getUserStories, 3000);
+    return () => {
+      clearInterval(getStoriesInterval);
+    };
+  }, []);
+  
   // const userFeedHTML = 
   
   // userStories.map((post) => (
@@ -186,7 +191,10 @@ function UserFeed() {
     const response = await fetch("/api_v1/stories/", options);
     const data = await response.json();
     setNewPost("");
+    setPreview("")
   };
+
+
 
   const isMobile = useMediaQuery("(max-width:600px)");
 
