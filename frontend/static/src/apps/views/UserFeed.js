@@ -30,18 +30,18 @@ function UserFeed() {
   const [timelineId, setTimelineId] = useState(null);
   const [preview, setPreview] = useState("");
   const [profile, setProfile] = useState({})
-  // console.log({file})
-
+ 
+//------------------- > fetching TIMELINE ID  <--------------------//
   useEffect(() => {
     const fetchTimelineId = async () => {
       const response = await fetch("/api_v1/timelines/");
       const data = await response.json();
       setTimelineId(data.id);
     };
-
     fetchTimelineId();
   }, []);
 
+  //------------------- > fetching PROFILE FOR USER (SELF)  <--------------------//
   useEffect(() => {
     const fetchUserProfile = async () => {
       const response = await fetch('/api_v1/current_user/')
@@ -51,36 +51,11 @@ function UserFeed() {
     }
     fetchUserProfile();
   }, []);
-  console.log({profile})
-
- 
-  // const filterUser = Array.isArray(profile) && profile.filter((profile) => profile.user === userID.pk)
-  // .map((profile) => 
-  //   <ProfileFeed {...profile} />
-  // )
 
   const filterUser = profile.user === userID.pk ? (
     <ProfileFeed {...profile} />
   ) : null;
-  // console.log(userID.pk)
-  // console.log(profile)
-
-  // const profileHTML = profile.map((profile) => (
-  //   <ProfileFeed
-  //   {...profile}
-  //   />
-  // ))
-
-  // const bioHTML = profile.filter((bio) => bio.user === userID.pk)
-  // .map((bio)=> (
-  //   <div key={bio.id}>
-  //   <p className="profile-content">Pronouns: {bio.pronouns}</p>
-  //   <p className="profile-content">Gender: {bio.gender}</p>
-  //   <p className="profile-content-bio">{bio.biography}</p>
-  //   <p className="profile-content-bio">{bio.location}</p>
-  //   </div>
-  // ))
-
+ 
   const bioHTML = (
     <div>
       <p className="profile-content">Pronouns: {profile.pronouns}</p>
@@ -135,7 +110,6 @@ function UserFeed() {
   const userFeedHTML = userStories.map((post) => (
     <Post
       {...post}
-      // text={post.text}
       showFullText={showFullText}
       toggleText={toggleText}
     />
@@ -163,22 +137,6 @@ function UserFeed() {
   };
 
   const isMobile = useMediaQuery("(max-width:600px)");
-
-
-    // Create a reference to the hidden file input element
-    // const hiddenFileInput = React.useRef(null);
-    
-    // Programatically click the hidden file input element
-    // when the Button component is clicked
-    // const handleClick = event => {
-    //   hiddenFileInput.current.click();
-    // };
-    // Call a function (passed as a prop from the parent component)
-    // to handle the user-selected file 
-    // const handleChange = event => {
-    //   const fileUploaded = event.target.files[0];
-    //   props.handleFile(fileUploaded);
-    // };
 
   return (
     <div>
@@ -228,25 +186,52 @@ function UserFeed() {
                   <Card id="new-post" className="new-post-card">
                     <h2 className="profile-header">Create New Post</h2>
                     <form className="profile-content" onSubmit={handleSubmit}>
-                      <img className="preview-image" src={file} height="100" />
-                      <input
-                        // ref={hiddenFileInput}
-                        className="file-input"
-                        type="file"
-                        onChange={handleImage}
-                      />
-                      <TextField
-                        label="New Post"
-                        id="outlined-multiline-flexible"
-                        multiline
-                        maxRows={4}
+                      {/* ------------- image preview div ------------ */}
+                      {preview && (
+                      <div className="center-preview">
+                        <img className="preview-image" src={preview} height="100" />
+                      </div>
+                      )}
+
+                      {/* ------------------ form div ----------------- */}
+                      <Form.Group className="mb-3" controlId="new-post-textarea">
+                        <Form.Label style={{display: 'none'}}>
+                          for later?
+                        </Form.Label>
+
+                      {/* ------------------- textarea ------------------- */}
+                        <Form.Control 
                         value={newPost}
                         onChange={(e) => setNewPost(e.target.value)}
-                      />
+                        as="textarea" rows={2} 
+                        />
+                      </Form.Group>
+
+                      {/* ---------------- UPLOAD A FILE BUTTON ------------ */}
+                      <div id="post-button-container">
+                        <label 
+                        htmlFor="file-upload" 
+                        style={{backgroundColor: '#CACACA' }} 
+                        className="btn"
+                        id="send-button"
+                        >
+                          <FontAwesomeIcon icon={faMountainSun} /> Upload a file
+                        </label>
+                        <input
+                          id="file-upload"
+                          className="file-input"
+                          type="file"
+                          onChange={handleImage}
+                          style={{display: 'none'}}
+                        />
                       <Button type="submit" id="send-button" size="medium">
                         Post
                       </Button>
-                    </form>
+                      </div>
+                      </form>
+
+
+
                   </Card>
                 )}
                 {activeCard === "posts" && <>{userFeedHTML}</>}
@@ -276,48 +261,16 @@ function UserFeed() {
               <Card id="new-post" className="new-post-card">
                 <h2 className="profile-header">Create New Post</h2>
                 <form className="profile-content" onSubmit={handleSubmit}>
-                  <img className="preview-image" src={preview} height="100" />
-                  
-                  
-                  {/* <input
-                    id="file-upload"
-                    className="file-input"
-                    type="file"
-                    onChange={handleImage}
-                  /> */}
-                  <div class="upload-btn-wrapper">
-                  <input
-                    id="file-upload"
-                    className="file-input"
-                    type="file"
-                    onChange={handleImage}
-                    style={{display: 'none'}}
-                  />
-                    {/* <label htmlFor="file-upload">
-                      <button 
-                      // onClick={handleClick}
-                      style={{backgroundColor: '#CACACA' }} 
-                      class="btn">
-                      <FontAwesomeIcon icon={faMountainSun} /> Upload a file
-                      </button>
-                    </label> */}
-                 
-                    {/* <input 
-                    
-                    type="file" 
-                    name="myfile" 
-                    /> */}
-                  </div>
-               
-                  {/* <TextField
-                    label="New Post"
-                    id="outlined-multiline-flexible"
-                    multiline
-                    maxRows={4}
-                    value={newPost}
-                    onChange={(e) => setNewPost(e.target.value)}
-                  /> */}
 
+                  {/* ---------- image preview div ------------ */}
+                  {preview && (
+                  <div className="center-preview">
+                    <img className="preview-image" src={preview} height="100" />
+                  </div>
+                  )}
+
+                  <div class="upload-btn-wrapper">
+                  </div>
                   <Form.Group className="mb-3" controlId="new-post-textarea">
                     <Form.Label style={{display: 'none'}}>
                       for later?
@@ -329,14 +282,22 @@ function UserFeed() {
                     />
                   </Form.Group>
                   <div id="post-button-container">
-                  <label htmlFor="file-upload"> 
-                      <button 
-                      // onClick={handleClick}
-                      style={{backgroundColor: '#CACACA' }} 
-                      class="btn">
+                    <label 
+                    htmlFor="file-upload" 
+                    style={{backgroundColor: '#CACACA' }} 
+                    className="btn"
+                    id="send-button"
+                    >
                       <FontAwesomeIcon icon={faMountainSun} /> Upload a file
-                      </button>
                     </label>
+                    <input
+                      id="file-upload"
+                      className="file-input"
+                      type="file"
+                      onChange={handleImage}
+                      style={{display: 'none'}}
+                    />
+                    
                   <Button type="submit" id="send-button" size="medium">
                     Post
                   </Button>

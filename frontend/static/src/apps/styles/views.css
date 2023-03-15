@@ -358,6 +358,10 @@ font-family: 'Ubuntu', sans-serif; */
 
 }
 
+.center-preview {
+   margin-left: 32%;
+}
+
 .profile-banner {
     height: 40vh;
     width: 100%;

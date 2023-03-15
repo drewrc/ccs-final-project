@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 import Button from 'react-bootstrap/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -8,8 +10,30 @@ import { faHeart, faPencil, faThumbsUp, faTrash, faTrashCan } from '@fortawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Post ({id, text, img, author, showFullText, toggleText }) {
-    const fullText = showFullText ? text : text.slice(0, 50);
+  const [ editPost, setEditPost ] = useState([])
+  const [file, seFile] = useState("")
   
+  const fullText = showFullText ? text : text.slice(0, 50);
+
+    const handleEditClick = async (e) => {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append("img", file);
+      formData.append("text", editPost);
+
+      const options = {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": Cookies.get("csrftoken"),
+        },
+        body: formData,
+      };
+      const response = await fetch(`/api_v1/current_user/${id}/`, options);
+      const data = await response.json();
+    };
+  
+    
+
     return (
     <>
     <Card id="post-display" key={id} sx={{ maxWidth: 545 }}>
@@ -47,14 +71,14 @@ function Post ({id, text, img, author, showFullText, toggleText }) {
             </p>
 
             <button 
-                // onClick={handleEditClick}
+                // onClick={handleLike}
                 className="trash-button" 
                 type="submit">
                     <FontAwesomeIcon icon={faThumbsUp} />
             </button>
    
             <button 
-                // onClick={handleEditClick}
+                // onClick={handleLove}
                 className="trash-button" 
                 type="submit">
                     <FontAwesomeIcon icon={faHeart} />
@@ -62,7 +86,7 @@ function Post ({id, text, img, author, showFullText, toggleText }) {
 
             <p className="trash-button" >
             <button 
-                // onClick={handleEditClick}
+                onClick={handleEditClick}
                 className="trash-button" 
                 type="submit">
                     <FontAwesomeIcon icon={faPencil} />

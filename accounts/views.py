@@ -21,10 +21,8 @@ class UserListAPIView(generics.ListCreateAPIView):
 class CurrentUserListAPIView(generics.RetrieveAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
-
     def get_object(self):
         return self.request.user.profile
-
 
 class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
