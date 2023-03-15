@@ -194,8 +194,6 @@ function UserFeed() {
     setPreview("")
   };
 
-
-
   const isMobile = useMediaQuery("(max-width:600px)");
 
   return (
