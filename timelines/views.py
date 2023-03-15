@@ -22,6 +22,7 @@ class UserStoryListCreateView (generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
+
 class UserUpdateRetrieveDeleteView (generics.RetrieveUpdateDestroyAPIView):
     serializer_class = StorySerializer
     permission_classes = [IsAuthenticated]
@@ -43,6 +44,31 @@ def get_user_timeline(request):
         return Response(serializer.data)
     except Timeline.DoesNotExist:
         return Response({"message": "Timeline does not exist."}, status=404)
+    
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+# def get_user_stories(request):
+#     user = request.user
+#     try:
+#         stories = Story.objects.filter(author_id=user)
+#         serializer = StorySerializer(stories, many=True, fields=('img', 'author', 'text', 'date_created', 'timeline'))
+#         return Response(serializer.data)
+#     except Story.DoesNotExist:
+#         return Response({"message": "Story does not exist."}, status=404)
+
+class GetUserStories(generics.ListAPIView):
+    serializer_class = StorySerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        return Story.objects.filter(author=self.request.user)
+    # def get_object(self):
+    #     user = self.request.user
+    #     try:
+    #         stories = Story.objects.filter(author_id=user)
+    #         return stories
+    #     except Story.DoesNotExist:
+    #         Response (status=status.HTTP_404_NOT_FOUND)
+
     
 # @api_view(['PUT'])
 # @permission_classes([IsAuthenticated])

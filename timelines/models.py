@@ -18,7 +18,7 @@ class Story(models.Model):
                                on_delete=models.CASCADE, blank=True)
     text = models.TextField(max_length=500, default='', blank=False)
     timeline = models.ForeignKey(
-        Timeline, related_name="timeline", on_delete=models.CASCADE)
+        Timeline, related_name="timeline", on_delete=models.CASCADE, null=True, blank=True)
     date_created = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):

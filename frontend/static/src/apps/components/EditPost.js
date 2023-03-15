@@ -7,7 +7,6 @@ function EditPost({ text, img, onCancel, id, timelineId }) {
     const [ newText, setNewText ] = useState(text)
     const [file, setFile] = useState(img)
     const [timeline, setTimeline] = useState(timelineId)
-    console.log({userID})
   
     const handleEdit = async (e) => {
         e.preventDefault();
@@ -45,8 +44,6 @@ function EditPost({ text, img, onCancel, id, timelineId }) {
                 try {
                 const response = await fetch(`/api_v1/edit_story/${id}/`, putOptions);
                 const data = await response.json();
-
-
                 console.log({data})
                 } catch (error) {
                     console.error(error)

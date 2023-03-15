@@ -30,6 +30,8 @@ function UserFeed() {
   const [timelineId, setTimelineId] = useState(null);
   const [preview, setPreview] = useState("");
   const [profile, setProfile] = useState({})
+  const [user, setUser] = useState(userID.username)
+  console.log(user)
  
 //------------------- > fetching TIMELINE ID  <--------------------//
   useEffect(() => {
@@ -97,7 +99,7 @@ function UserFeed() {
 
   useEffect(() => {
     const getUserStories = async () => {
-      const response = await fetch(`/api_v1/stories/`);
+      const response = await fetch(`/api_v1/user_stories/`);
       if (!response.ok) {
         throw new Error("Network response not OK");
       }
@@ -107,21 +109,53 @@ function UserFeed() {
     getUserStories();
   }, []);
 
-  const userFeedHTML = userStories.map((post) => (
-    <Post
-      {...post}
-      author={post.author}
-      showFullText={showFullText}
-      toggleText={toggleText}
-      timelineId = {timelineId}
-    />
-  ));
+  console.log({userStories})
+  // const userFeedHTML = 
+  
+  // userStories.map((post) => (
+  //   <Post
+  //     {...post}
+  //     author={post.author}
+  //     showFullText={showFullText}
+  //     toggleText={toggleText}
+  //     timelineId = {timelineId}
+  //   />
+  // ));
+
+  const userFeedHTML = userStories
+        .map((post) => (
+        <Post
+          {...post}
+          author={post.author}
+          showFullText={showFullText}
+          toggleText={toggleText}
+          timelineId = {timelineId}
+        />
+      ));
+    
+  
+  // const userFeedHTML = (post) => {
+  //   if (userStories.length === 0) {
+  //         return <div>Is loading ...</div>;
+  //       } else { 
+  //       return userStories
+  //       .map((post) => (
+  //       <Post
+  //         {...post}
+  //         author={post.author}
+  //         showFullText={showFullText}
+  //         toggleText={toggleText}
+  //         timelineId = {timelineId}
+  //       />
+  //     ));
+  //   }
+  // }
 
 //   const userFeedHTML = (post) => {
 //     if (userStories.length === 0) {
 //       return <div>Is loading ...</div>;
 //     } else {
-//     userStories.filter((post) => post.timeline === timelineId).map((post) => (
+//     userStories.filter((post) => post.author === user).map((post) => (
 //       <Post
 //         {...post}
 //         showFullText={showFullText}
@@ -129,8 +163,10 @@ function UserFeed() {
 //         timelineId = {timelineId}
 //       />
 //     ));
-//   }
+//     }
 // }
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
