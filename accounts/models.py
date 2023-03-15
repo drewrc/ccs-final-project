@@ -13,7 +13,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 class User(AbstractUser):
     buddies = models.ManyToManyField("User", blank=True)
     phone = PhoneNumberField(blank=True)
-    # location = models.PointField(null=True, blank=True)
+    user_profile = models.OneToOneField(
+        'Profile', related_name="profile_user", on_delete=models.CASCADE, null=True)
     def __str__(self):
         return self.username
 

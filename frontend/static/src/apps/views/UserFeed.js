@@ -29,7 +29,7 @@ function UserFeed() {
   const [activeCard, setActiveCard] = useState("posts");
   const [timelineId, setTimelineId] = useState(null);
   const [preview, setPreview] = useState("");
-  const [profile, setProfile] = useState([])
+  const [profile, setProfile] = useState({})
   // console.log({file})
 
   useEffect(() => {
@@ -44,18 +44,24 @@ function UserFeed() {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      const response = await fetch('/api_v1/new_user/')
+      const response = await fetch('/api_v1/current_user/')
       const data = await response.json();
       setProfile(data);
+      console.log({data})
     }
     fetchUserProfile();
   }, []);
+  console.log({profile})
 
  
-  const filterUser =  profile.filter((profile) => profile.user === userID.pk)
-  .map((profile) => 
-  <ProfileFeed {...profile} />
-  )
+  // const filterUser = Array.isArray(profile) && profile.filter((profile) => profile.user === userID.pk)
+  // .map((profile) => 
+  //   <ProfileFeed {...profile} />
+  // )
+
+  const filterUser = profile.user === userID.pk ? (
+    <ProfileFeed {...profile} />
+  ) : null;
   // console.log(userID.pk)
   // console.log(profile)
 
@@ -65,15 +71,24 @@ function UserFeed() {
   //   />
   // ))
 
-  const bioHTML = profile.filter((bio) => bio.user === userID.pk)
-  .map((bio)=> (
-    <div key={bio.id}>
-    <p className="profile-content">Pronouns: {bio.pronouns}</p>
-    <p className="profile-content">Gender: {bio.gender}</p>
-    <p className="profile-content-bio">{bio.biography}</p>
-    <p className="profile-content-bio">{bio.location}</p>
+  // const bioHTML = profile.filter((bio) => bio.user === userID.pk)
+  // .map((bio)=> (
+  //   <div key={bio.id}>
+  //   <p className="profile-content">Pronouns: {bio.pronouns}</p>
+  //   <p className="profile-content">Gender: {bio.gender}</p>
+  //   <p className="profile-content-bio">{bio.biography}</p>
+  //   <p className="profile-content-bio">{bio.location}</p>
+  //   </div>
+  // ))
+
+  const bioHTML = (
+    <div>
+      <p className="profile-content">Pronouns: {profile.pronouns}</p>
+      <p className="profile-content">Gender: {profile.gender}</p>
+      <p className="profile-content-bio">{profile.biography}</p>
+      <p className="profile-content-bio">{profile.location}</p>
     </div>
-  ))
+  );
 
   useEffect(() => {
     const getAuthUser = async () => {

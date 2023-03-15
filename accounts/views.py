@@ -12,16 +12,19 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import permissions, status
 from .send_sms import client
+from rest_framework.exceptions import NotFound
 
 class UserListAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-# class CurrentUserListAPIView(generics.RetrieveAPIView):
-#     serializer_class = UserProfileSerializer
-#     permission_classes = [IsAuthenticated]
-#     def get_object(self): 
-#         return self.request.profile
+class CurrentUserListAPIView(generics.RetrieveAPIView):
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user.profile
+
 
 class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
