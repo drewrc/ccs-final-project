@@ -13,6 +13,7 @@ from rest_framework.response import Response
 from rest_framework import permissions, status
 from .send_sms import client
 from rest_framework.exceptions import NotFound
+from .permissions import IsAuthorOrReadOnly
 
 class UserListAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -27,6 +28,11 @@ class CurrentUserListAPIView(generics.RetrieveAPIView):
 class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAuthorOrReadOnly]
+
+class UserProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
 
 class UserProfileListAPIView(generics.ListCreateAPIView):
