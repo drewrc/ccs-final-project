@@ -364,11 +364,11 @@ font-family: 'Ubuntu', sans-serif; */
 
 .profile-banner {
     height: 40vh;
-    width: 100%;
-    /* background: linear-gradient(217deg, rgba(183,38,61,.5), rgba(255,0,0,0.1) 70.71%),            
-    linear-gradient(127deg, rgba(246,198,0,.6), rgba(173, 0, 81, 0.5) 70.71%),            
-    linear-gradient(336deg, rgba(79, 9, 29, 0.8), rgba(162, 6, 6, 0.8) 70.71%); */
+    max-width: 100%;
+    box-sizing: border-box;
+    /* padding: 0 9px; */
 }
+
 .profile-banner-tinder-card {
     height: 60vh;
 }
@@ -544,6 +544,7 @@ font-family: 'Ubuntu', sans-serif; */
   border: 10px solid white;
 }
 
+
 @media screen and (max-width: 600px) {
     .profile-pic-container {
     top: 50% !important;
@@ -570,7 +571,6 @@ font-family: 'Ubuntu', sans-serif; */
 }
 
 .name-holder {
-
     color: rgb(20, 24, 28);
     font-weight: bold;
     text-shadow: 1.5px 1.5px 2px rgba(3, 24, 50, 0.3);
@@ -583,6 +583,7 @@ font-family: 'Ubuntu', sans-serif; */
     transform: translate(-50%, -50%) ;
     display: inline-block;
     width: 250px;
+    cursor: pointer;
 }
 .profile-pic-container-tinder-card {
     position: absolute;
@@ -606,10 +607,67 @@ font-family: 'Ubuntu', sans-serif; */
     border: 9px solid white;
     box-sizing: border-box; 
     box-shadow: 2px 1px 10px rgba(44, 44, 44, 0.5);
+    cursor: pointer;
 }
 .profile-pic-container:hover::before {
     background-color: rgba(255, 255, 255, 0.5); 
+    cursor: pointer;
 }
+
+.edit-profile-banner .edit-profile-pic-button {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    width: 100vw;
+    height: 320px;
+    background-color: transparent;
+    border: none;
+    padding-left: 60%;
+    padding-top: 5%;
+}
+
+.edit-profile-banner:hover .edit-profile-pic-button {
+    opacity: 1;
+}
+
+.edit-profile-pic .edit-profile-pic-icon-button {
+    background-color: transparent;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    padding-left: 80px;
+    padding-right: 80px;
+    border: none;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    position: absolute;
+    top: 2%;
+    left: 2%;
+
+}
+.edit-profile-pic:hover .edit-profile-pic-icon-button {
+    opacity: 1;
+    
+}
+
+.profile-banner::before {
+    content: "";
+    position: absolute;
+    height: 40vh;
+    width: 90vw;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(255, 255, 255, 0); 
+    transition: background-color 0.2s ease-in-out; 
+    border: 9px solid white;
+    box-sizing: border-box; 
+    box-shadow: 2px 1px 10px rgba(44, 44, 44, 0.5);
+}
+
+.profile-banner:hover::before {
+    background-color: rgba(255, 255, 255, 0.5); 
+    cursor: pointer;
+}
+
 .profile-banner-display {
     position: relative;
     z-index: -1;
@@ -643,29 +701,34 @@ h1 {
     width: 100%;
     height: 100%;
     z-index: 10000;
-    background-color: aquamarine;
     font-size: 80px;
+    border-radius: 50%;
+    text-align: center;
+    padding-top: 20%;
 }
 
 @media screen and (max-width: 600px) {
     .edit-profile-pic {
-        top: 47%;
-        left: 32%;
+        top: 0;
+        left: 0;
     }
 }
 
 .edit-profile-banner {
     position: absolute;
-    top: 40%;
-    left: 50%;
-    z-index: 10000;
-    background-color: aquamarine;
+    /* top: 25%;
+    left: 80%; */
+ 
+  
 }
 
 @media screen and (max-width: 600px) {
     .edit-profile-banner {
-        top: 47%;
-        left: 32%;
+        /* top: 27%;
+        left: 75%; */
+    }
+    .profile-banner::before {
+        width: 95.5vw;
     }
 }
 .edit-profile-pic-button {

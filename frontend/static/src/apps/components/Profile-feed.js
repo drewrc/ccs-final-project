@@ -29,42 +29,36 @@ function ProfileFeed({username, profile_pic, profile_banner, id}) {
     return (
         <div>
         <div className="profile-banner">
-        <div className="banner-overlay"></div>
         {!editProfile && username === userID.username && (
                     <span className="edit-profile-banner">
-                    <p className="trash-button" >
                     <button 
                         onClick={handleEditClick}
                         className="edit-profile-pic-button" 
                         type="submit">
-                           edit banner <FontAwesomeIcon icon={faPencil} />
+                           <FontAwesomeIcon icon={faPencil} style={{ color: 'white' }}/>
                     </button>
-                  </p>
                   </span>
-                  )}
-
+            )}
 
         <img className="profile-banner-display" src={profile_banner} height="100%" width="100%"/>
-                <div className="profile-pic-container">
-
+                
+            <div className="profile-pic-container">
                   {!editProfile && username === userID.username && (
                     <span className="edit-profile-pic">
                     <button 
                         onClick={handleEditClick}
-                        className="trash-button" 
+                        className="edit-profile-pic-icon-button" 
                         type="submit">
-                           <FontAwesomeIcon icon={faPencil} />
+                           <FontAwesomeIcon icon={faPencil} style={{ color: 'white' }}/>
                     </button>
                   </span>
                   )}
-
                     <img className="profile-pic" src={profile_pic} height="250" />
-                </div>
+            </div>
         </div>
-        <h1 className="name-holder">{username}</h1>
-   
+    <h1 className="name-holder">{username}</h1>
                 
-        </div>
+</div>
     )
 }
 
