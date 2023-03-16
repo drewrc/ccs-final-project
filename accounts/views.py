@@ -127,9 +127,6 @@ def match_request_count(request):
 @permission_classes((permissions.IsAuthenticated,))
 def buddies_list(request):
     if request.method == 'GET':
-        # import pdb
-        # pdb.set_trace()
-        # buddies = User.objects.filter(buddies=request.user)
         buddies = request.user.buddies.all()
     serializer = BuddySerializer(buddies, many=True)
     return Response(serializer.data)
@@ -142,12 +139,6 @@ class UserBuddyAPIView(generics.RetrieveAPIView):
         user_id = self.kwargs.get('user_id')
         user = get_object_or_404(User, id=user_id)
         return user.buddies.all()
-    
-# class UserProfileView (generics.ListAPIView):
-#     permission_classes = [IsAuthenticated]
-#     serializer_class = UserSerializer
-#     def get_queryset(self):
-#         return super().get_queryset()
 
 @api_view(['GET'])
 @permission_classes((permissions.IsAuthenticated,))

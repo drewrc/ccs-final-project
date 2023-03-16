@@ -14,11 +14,9 @@ function UserMatch () {
     const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
 
 
-    React.useEffect(() => {
-        document.body.style.backgroundColor = "rgba(160, 160, 160, 0.2)";
-      }, []);
-
-    console.log({profiles})
+    // React.useEffect(() => {
+    //     document.body.style.backgroundColor = "rgba(160, 160, 160, 0.2)";
+    //   }, []);
     
     useEffect(() => {
       const getProfiles = async () => {
@@ -31,6 +29,8 @@ function UserMatch () {
       };
       getProfiles();
     }, []);
+
+    // console.log({profiles})
 
     const swipe = (dir, nameToDelete, userID) => {
         console.log('removing: ' + nameToDelete)
@@ -64,10 +64,6 @@ function UserMatch () {
         const response = await fetch(`/api_v1/send_match_request/${userID}/`, options
         );
         const data = await response.json();
-        console.log({data})
-        // if (!response.ok) {
-        //     throw new Error("Network response not OK!")
-        // }
     }
 
     return (

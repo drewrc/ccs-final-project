@@ -53,17 +53,20 @@ function UserFeed() {
     }
     fetchUserProfile();
   }, []);
+  console.log({profile})
 
-  const filterUser = profile.user === userID.pk ? (
-    <ProfileFeed {...profile} />
-  ) : null;
+  // const filterUser = profile.user === userID.pk ? (
+  //   <ProfileFeed {...profile} />
+  // ) : null;
  
   const bioHTML = (
-    <div>
+    <div key={profile.id}>
+      <p className="profile-content">Name: {profile.first_name} {profile.last_name}</p>
+      <p className="profile-content">Location: {profile.gym_location}</p>
       <p className="profile-content">Pronouns: {profile.pronouns}</p>
       <p className="profile-content">Gender: {profile.gender}</p>
+      <p className="profile-content-bio">Activities:</p>
       <p className="profile-content-bio">{profile.biography}</p>
-      <p className="profile-content-bio">{profile.location}</p>
     </div>
   );
 
@@ -203,7 +206,8 @@ function UserFeed() {
           <Col className="profile-top">
           {/* <div className="profile-banner"></div> */}
             {/* <h1>{authUser.username}</h1> */}
-            {filterUser}
+            {/* {filterUser} */}
+            <ProfileFeed {...profile} />
        
             {isMobile && (
               <div className="profile-nav">
