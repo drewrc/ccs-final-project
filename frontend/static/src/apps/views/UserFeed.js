@@ -9,10 +9,11 @@ import { TextField, Button } from "@mui/material";
 import Cookies from "js-cookie";
 import { useMediaQuery } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMountainSun, faVideo } from "@fortawesome/free-solid-svg-icons";
+import { faMountainSun, faVideo, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import ProfileFeed from "../components/Profile-feed";
 import Form from 'react-bootstrap/esm/Form'
 import { AuthContext } from '../auth/auth-context/AuthContext';
+import ProfileEditForm from "../components/ProfileEditForm";
 
 function UserFeed() {
   const { isAuthenticated, userID } = useContext(AuthContext);
@@ -234,6 +235,9 @@ function UserFeed() {
                   <Card  id="bio-display" className="profile-left-side">
                     <h2 className="profile-header">Bio</h2>
                     {bioHTML}
+                    <p className="trash-button">
+                    <ProfileEditForm />
+                    </p>
                   </Card>
                 )}
                 {activeCard === "pictures" && (
@@ -308,9 +312,10 @@ function UserFeed() {
               <Card id="bio-display" className="profile-left-side">
                 <h2 className="profile-header">Bio</h2>
                 {bioHTML}
-              
-                {/* <p className="profile-content">about text</p>
-                <p className="profile-content">location</p> */}
+                <p className="trash-button" >
+                <ProfileEditForm />
+                </p>
+
               </Card>
               <Card id="picture-display" className="profile-left-side">
                 <h2 className="profile-header">Pictures</h2>

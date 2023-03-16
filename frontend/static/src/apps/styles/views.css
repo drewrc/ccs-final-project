@@ -653,12 +653,12 @@ font-family: 'Ubuntu', sans-serif; */
     content: "";
     position: absolute;
     height: 40vh;
-    width: 90vw;
+    width: 90%;
     margin-left: auto;
     margin-right: auto;
     background-color: rgba(255, 255, 255, 0); 
     transition: background-color 0.2s ease-in-out; 
-    border: 9px solid white;
+    /* border: 9px solid white; */
     box-sizing: border-box; 
     box-shadow: 2px 1px 10px rgba(44, 44, 44, 0.5);
 }
