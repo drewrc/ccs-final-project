@@ -61,6 +61,8 @@ font-family: 'Ubuntu', sans-serif; */
     margin-bottom: 50px;
     padding: 20px;
     width: 80%; */
+    padding-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 @media screen and (max-width: 600px) {

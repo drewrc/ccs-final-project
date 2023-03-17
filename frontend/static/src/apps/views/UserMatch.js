@@ -7,12 +7,22 @@ import React from "react";
 import Container from "react-bootstrap/esm/Container";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
+import Box from '@mui/material/Box';
+import Popper from '@mui/material/Popper';
 
 function UserMatch (from_user, id) {
     const [profiles, setProfiles] = useState([]);
     const [lastDirection, setLastDirection] = useState()
     const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
     const [friendRequests, setFriendRequests] = useState([])
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+      setAnchorEl(anchorEl ? null : event.currentTarget);
+    };
+  
+    const open = Boolean(anchorEl);
+    const openRequests = open ? 'simple-popper' : undefined;
 
 
     // React.useEffect(() => {
@@ -31,7 +41,6 @@ function UserMatch (from_user, id) {
       getProfiles();
     }, []);
 
-    // console.log({profiles})
 
     const swipe = (dir, nameToDelete, userID) => {
         console.log('removing: ' + nameToDelete)
@@ -107,11 +116,24 @@ function UserMatch (from_user, id) {
         <div>
             <Container>
                 <Row>
-                    <Col className="new-matches-list-display" lg={3}>
+                    <Col className="new-matches-list-display" xs={3}>
                     <h2>New Matches!</h2>
-                    {matchHTML}
+{/* 
+                    <div>
+                    <button aria-describedby={openRequests} type="button" onClick={handleClick}>
+                        Matches
+                    </button>
+                    <Popper id={openRequests} open={open} anchorEl={anchorEl}>
+                        <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
+                        {matchHTML}
+                        </Box>
+                    </Popper>
+                    </div> */}
+
+
+                   
                     </Col>
-                    <Col lg={8}>
+                    <Col sx={8}>
                     <div className="header">
                         </div>
                         <div className="user-object-placeholder">
@@ -133,8 +155,6 @@ function UserMatch (from_user, id) {
                                 <p>{currentProfile.pronouns}</p>
                                 </div>
                                 </div>
-                              
-
                                 </div>
                                 </TinderCard>
                         

@@ -1,6 +1,7 @@
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
+import React from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -11,10 +12,23 @@ import { faBell, faMessage } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../auth/auth-context/AuthContext";
 import "../styles/views.css";
+import Box from '@mui/material/Box';
+import Popper from '@mui/material/Popper';
+
 
 function AuthenticatedHeader() {
   const [matchRequestCount, setMatchRequestCount] = useState(0);
+  const [friendRequests, setFriendRequests] = useState([])
   const { logout } = useContext(AuthContext);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
+
+  const open = Boolean(anchorEl);
+  const openRequests = open ? 'simple-popper' : undefined;
+
 
   useEffect(() => {
     const getMatches = async () => {
@@ -27,6 +41,36 @@ function AuthenticatedHeader() {
     };
     getMatches();
   }, []);
+
+  useEffect(() => {
+    const fetchMatchRequests = async () => {
+      const response = await fetch("/api_v1/friend_requests/");
+      if (!response.ok) {
+        throw new Error("Network response not OK");
+      }
+      const data = await response.json();
+      setFriendRequests(data);
+    };
+    fetchMatchRequests();
+  }, []);
+
+  const matchHTML = friendRequests.map((request) => (
+    <>
+    <div>
+        <p>
+            {request.from_user}
+        </p>
+            <p>
+                <button>
+                    accept
+                </button>
+                    <button>
+                        delete
+                    </button>
+            </p>
+    </div>
+    </>
+))
 
   return (
     <>
@@ -47,11 +91,24 @@ function AuthenticatedHeader() {
                   </span>
                 )}
                 <Link to="/user-match" className="left-nav" id="nav">
-                  <FontAwesomeIcon
-                    className="fa-fw "
-                    id="bell-icon-parent"
-                    icon={faBell}
-                  />
+
+                 
+
+                
+                    <button aria-describedby={openRequests} type="button" onClick={handleClick}>
+                            <FontAwesomeIcon
+                            className="fa-fw "
+                            id="bell-icon-parent"
+                            icon={faBell}
+                          />
+                    </button>
+                    <Popper id={openRequests} open={open} anchorEl={anchorEl}>
+                        <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
+                        {matchHTML}
+                        </Box>
+                    </Popper>
+            
+
                 </Link>
                 <Link to="/user-messages" className="left-nav" id="nav">
                   <FontAwesomeIcon icon={faMessage} />
