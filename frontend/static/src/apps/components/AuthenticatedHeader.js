@@ -14,6 +14,7 @@ import { AuthContext } from "../auth/auth-context/AuthContext";
 import "../styles/views.css";
 import Box from '@mui/material/Box';
 import Popper from '@mui/material/Popper';
+import Cookies from "js-cookie";
 
 
 function AuthenticatedHeader() {
@@ -21,6 +22,7 @@ function AuthenticatedHeader() {
   const [friendRequests, setFriendRequests] = useState([])
   const { logout } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  
 
   const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -53,15 +55,30 @@ function AuthenticatedHeader() {
     };
     fetchMatchRequests();
   }, []);
+  console.log({friendRequests})
+
+  const handleAcceptFriendRequest = async () => {
+  
+  const options = {
+    method: "PUT",
+    headers: {
+      "X-CSRFToken": Cookies.get("csrftoken"),
+    },
+    // body: JSON.stringify(user)
+  };
+  
+  const response = await fetch(`/api_v1/accept_match_request/`, options);
+  const data = await response.json();
+};
 
   const matchHTML = friendRequests.map((request) => (
     <>
-    <div>
+    <div key={request.id}>
         <p>
             {request.from_user}
         </p>
             <p>
-                <button>
+                <button onclick={() => handleAcceptFriendRequest (request.id)}>
                     accept
                 </button>
                     <button>
