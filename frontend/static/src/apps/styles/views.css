@@ -66,8 +66,8 @@ font-family: 'Ubuntu', sans-serif; */
 @media screen and (max-width: 600px) {
     .user-object-placeholder {
         width: 100%;
-        margin: 0;
-        padding: 20px;
+        /* margin: 0; */
+        /* padding: 20px; */
     }
     .tinder-card-placeholder {
         margin-left: 10% !important;
