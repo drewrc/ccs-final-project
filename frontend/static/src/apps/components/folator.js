@@ -12,8 +12,11 @@ function ProfileFeed({id, profile_pic, profile_banner, username}) {
     //WARNING ------>>>> id = PROFILE.id ---->>>>>>>
     const { userID } = useContext(AuthContext);
     const [ editProfilePic, setEditProfilePic ] = useState(false)
+    const [ editProfileBanner, setEditProfileBanner ] = useState(false)
     const handleOpen = () => editProfilePic(true);
     const handleClose = () => editProfilePic(false);
+    // const handleOpenBanner = () => setEditProfileBanner(true);
+    // const handleCloseBanner = () => setEditProfileBanner(false);
 
     const style = {
         position: 'absolute',
@@ -32,6 +35,11 @@ function ProfileFeed({id, profile_pic, profile_banner, username}) {
         setEditProfilePic(true)
     }
 
+    const handleEditClickBanner = async (e) => {
+        e.preventDefault();
+        setEditProfileBanner(true)
+    }
+
     const handleDelete = async (e) => {
     e.preventDefault();
     const options ={
@@ -43,7 +51,7 @@ function ProfileFeed({id, profile_pic, profile_banner, username}) {
         const response = await fetch(`/api_v1/user_edit_profile/${id}/`, options);
         const data = await response.json();
     }
-
+    console.log({editProfileBanner})
     console.log({editProfilePic})
     return (
         <div>
@@ -62,10 +70,10 @@ function ProfileFeed({id, profile_pic, profile_banner, username}) {
         <img className="profile-banner-display" src={profile_banner} height="100%" width="100%"/>
                 
             <div className="profile-pic-container">
-                  {!editProfilePic && id === userID.pk && (
+                  {!editProfileBanner && id === userID.pk && (
                     <span className="edit-profile-pic">
                     <button 
-                        // onClick={handleEditClick}
+                        onClick={handleEditClickBanner}
                         className="edit-profile-pic-icon-button" 
                         type="submit">
                            <FontAwesomeIcon icon={faPencil} style={{ color: 'white' }}/>
@@ -75,15 +83,14 @@ function ProfileFeed({id, profile_pic, profile_banner, username}) {
 
 
 
-{editProfileBanner && username === userID.username && (
-                    <div >
-                          BANNER!!
-
-                        <button onClick={handleCancelPic}>
-                            cancel me!
-                            </button>
-                        </div>
-                  )}
+                {editProfileBanner && username === userID.username && (
+                                    <div >
+                                        BANNER!!
+                                        <button onClick={handleCloseBanner}>
+                                            cancel me!
+                                            </button>
+                                        </div>
+                                )}
 
                   
                    {editProfilePic && id === userID.pk && (
@@ -94,9 +101,9 @@ function ProfileFeed({id, profile_pic, profile_banner, username}) {
                                 Edit Profile Picture
                             </Typography>
                             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                <button onClick={handleDelete} className="delete-profile-pic-button" type="submit">
+                                {/* <button onClick={handleDelete} className="delete-profile-pic-button" type="submit">
                                 <FontAwesomeIcon icon={faTrashCan} style={{ color: "red" }} />
-                                </button>
+                                </button> */}
                                 <button onClick={handleClose} className="cancel-profile-pic-button" type="submit">
                                 Cancel
                                 </button>

@@ -8,10 +8,11 @@ import Container from "react-bootstrap/esm/Container";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 
-function UserMatch () {
+function UserMatch (from_user, id) {
     const [profiles, setProfiles] = useState([]);
     const [lastDirection, setLastDirection] = useState()
     const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
+    const [friendRequests, setFriendRequests] = useState([])
 
 
     // React.useEffect(() => {
@@ -66,21 +67,57 @@ function UserMatch () {
         const data = await response.json();
     }
 
+
+
+    useEffect(() => {
+      const fetchMatchRequests = async () => {
+        const response = await fetch("/api_v1/friend_requests/");
+        if (!response.ok) {
+          throw new Error("Network response not OK");
+        }
+        const data = await response.json();
+        setFriendRequests(data);
+      };
+      fetchMatchRequests();
+    }, []);
+
+
+
+
+    const matchHTML = friendRequests.map((request) => (
+        <>
+        <div>
+            <p>
+                {request.from_user}
+            </p>
+                <p>
+                    <button>
+                        accept
+                    </button>
+                        <button>
+                            delete
+                        </button>
+                </p>
+        </div>
+        </>
+    ))
+
+
     return (
         <div>
             <Container>
                 <Row>
-                    <Col className="new-matches-list-display" md={3}>
+                    <Col className="new-matches-list-display" lg={3}>
                     <h2>New Matches!</h2>
+                    {matchHTML}
                     </Col>
-                    <Col md={8}>
+                    <Col lg={8}>
                     <div className="header">
                         </div>
                         <div className="user-object-placeholder">
                         {currentProfile && (
                             
                                 <TinderCard 
-                                
                                 className="swipe" 
                                 key={currentProfile.id}
                                 onSwipe={(dir) => swipe(dir, currentProfile.username, currentProfile.id)}
@@ -91,9 +128,13 @@ function UserMatch () {
                                 <div className="profile-pic-container-tinder-card">
                                     <img className="profile-pic-tinder-card" src={currentProfile.profile_pic} width="250"/>
                                 </div>
-                                </div>
+                                <div className="tinder-card-info">
                                 <p>{currentProfile.username}</p>
                                 <p>{currentProfile.pronouns}</p>
+                                </div>
+                                </div>
+                              
+
                                 </div>
                                 </TinderCard>
                         
