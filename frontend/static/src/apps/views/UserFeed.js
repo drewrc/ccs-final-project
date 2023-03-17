@@ -236,7 +236,9 @@ function UserFeed() {
                     <h2 className="profile-header">Bio</h2>
                     {bioHTML}
                     <p className="trash-button">
-                    <ProfileEditForm />
+                    <ProfileEditForm 
+                    // onCancel={handleCancel}
+                    />
                     </p>
                   </Card>
                 )}
