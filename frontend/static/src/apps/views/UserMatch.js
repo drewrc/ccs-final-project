@@ -116,8 +116,8 @@ function UserMatch (from_user, id) {
         <div>
             <Container>
                 <Row>
-                    <Col className="new-matches-list-display" xs={3}>
-                    <h2>New Matches!</h2>
+                    {/* <Col className="new-matches-list-display" xs={3}>
+                    <h2>New Matches!</h2> */}
 {/* 
                     <div>
                     <button aria-describedby={openRequests} type="button" onClick={handleClick}>
@@ -131,9 +131,9 @@ function UserMatch (from_user, id) {
                     </div> */}
 
 
-                   
-                    </Col>
-                    <Col sx={8}>
+{/*                    
+                    </Col> */}
+                    <Col >
                     <div className="header">
                         </div>
                         <div className="user-object-placeholder">
