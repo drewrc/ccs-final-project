@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .serializers import UserSerializer, BuddySerializer, UserProfileSerializer
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.db import IntegrityError
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from .models import User, FriendRequest, Profile
@@ -105,15 +106,28 @@ def send_match_request(request, userID):
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
 def accept_match_request(request, requestID):
-    if request.method == 'POST':
-        friend_request = FriendRequest.objects.get(id=requestID)
-        if friend_request.to_user == request.user:
-            friend_request.to_user.buddies.add(friend_request.from_user)
-            friend_request.from_user.buddies.add(friend_request.to_user)
-            friend_request.delete()
-            return Response('request accepted')
-        else:
-            return Response('request not accepted')
+    try:
+        if request.method == 'POST':
+            friend_request = FriendRequest.objects.get(id=requestID)
+            if friend_request.to_user == request.user:
+                friend_request.to_user.buddies.add(friend_request.from_user)
+                friend_request.from_user.buddies.add(friend_request.to_user)
+                friend_request.delete()
+                return Response('request accepted')
+            else:
+                return Response('request not accepted')
+    except IntegrityError:
+        return Response({'error': 'You have already sent a friend request to this user.'})
+    except User.DoesNotExist:
+        return Response({'error': 'Recipient not found.'})
+        
+@api_view(['GET'])
+@permission_classes((permissions.IsAuthenticated,))
+def friend_requests(request):
+    friend_requests = FriendRequest.objects.filter(to_user=request.user)
+    serializer = BuddySerializer(friend_requests, many=True)
+    return Response(serializer.data)
+
 
 @api_view(['GET'])
 @permission_classes((permissions.IsAuthenticated,))

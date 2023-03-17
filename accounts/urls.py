@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import UserProfileRetrieveUpdateDestroy, CurrentUserListAPIView, UserRetrieveUpdateDestroyAPIView,UserProfileListAPIView, send_match_request, accept_match_request, match_request_count, UserProfileView, buddies_list
+from .views import UserProfileRetrieveUpdateDestroy, friend_requests, CurrentUserListAPIView, UserRetrieveUpdateDestroyAPIView,UserProfileListAPIView, send_match_request, accept_match_request, match_request_count, UserProfileView, buddies_list
 
 
 app_name = 'accounts'
@@ -17,4 +17,7 @@ urlpatterns = [
     path('new_user/', UserProfileListAPIView.as_view(), name='new_profile'),
     path('current_user/', CurrentUserListAPIView.as_view(), name='auth_user'),
     path('user_edit_profile/<int:pk>/', UserProfileRetrieveUpdateDestroy.as_view(), name='edit_profile'),
+    path('friend_requests/', friend_requests, name='friend_requests'),
+
+    
 ]

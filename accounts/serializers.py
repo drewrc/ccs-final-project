@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import User, Profile
+from .models import User, Profile, FriendRequest
 from dj_rest_auth.models import TokenModel
 from django.core.exceptions import ValidationError
 
@@ -21,9 +21,15 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class BuddySerializer(serializers.ModelSerializer):
+    from_user = serializers.ReadOnlyField(source='from_user.username')
+    to_user = serializers.ReadOnlyField(source='to_user.username')
+
     class Meta:
-        model = User
-        fields = ('username', 'id', 'buddies')
+        model = FriendRequest
+        fields = ('id', 'from_user', 'to_user', 'created_at',)
+
+
+
 
 class UserProfileSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source='user.first_name')
