@@ -378,6 +378,7 @@ font-family: 'Ubuntu', sans-serif; */
 .profile-banner-tinder-card {
     height: 60vh;
     position: relative;
+  
 }
 
 .profile-nav {
@@ -534,23 +535,11 @@ font-family: 'Ubuntu', sans-serif; */
 }
 
 .profile-pic-tinder-card{
-    /* width: 100%;
-    border-radius: 50%;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
-    border: 10px solid white;
-    margin-left: 60%;
-    margin-right: auto;
-    margin-top: -20%;
-    -webkit-user-select: none; 
-  -ms-user-select: none;
-  user-select: none; */
-  border-radius: 50%;
-
-  width: 225px;
-  height: 225px;
-  object-fit: cover;
-  border: 10px solid white;
-  margin: auto;
+    border-radius: 50%;
+    border: 5px solid white;
 }
 
 
@@ -571,13 +560,21 @@ font-family: 'Ubuntu', sans-serif; */
   @media screen and (max-width: 600px) {
     .profile-pic-container-tinder-card {
     /* top: 40% !important;  */
-    object-fit: cover;
-    top: 25% !important;
-    left: 17% !important;
+   
+    /* top: 25% !important;
+    left: 17% !important; */
     /* top: 40% !important; */
     /* left: 50% !important; */
         /* margin-left: 32.5% !important;
         margin-right: auto !important; */
+    /* top: 20%;
+    left: 35%; */
+    /* margin-right: 0 !important;
+    margin-left: 25% !important;
+
+    top: 35% !important; */
+   
+        width: 100%;
     }
 }
 .tinder-card-info {
@@ -602,8 +599,11 @@ font-family: 'Ubuntu', sans-serif; */
 
 .profile-pic-container-tinder-card {
     position: absolute;
-    top: 20%;
-    left: 25%;
+    top: 30%;
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 
 .profile-pic-container::before {

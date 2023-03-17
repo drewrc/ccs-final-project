@@ -126,7 +126,7 @@ function UserMatch (from_user, id) {
                                 <div className="profile-banner-tinder-card">
                                 <img className="profile-banner-display-tinder-card" src={currentProfile.profile_banner} width="100%" height='50%'  />
                                 <div className="profile-pic-container-tinder-card">
-                                    <img className="profile-pic-tinder-card" src={currentProfile.profile_pic} width="250"/>
+                                    <img className="profile-pic-tinder-card" src={currentProfile.profile_pic} />
                                 </div>
                                 <div className="tinder-card-info">
                                 <p>{currentProfile.username}</p>
