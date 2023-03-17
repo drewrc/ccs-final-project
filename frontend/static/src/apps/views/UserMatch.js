@@ -45,7 +45,7 @@ function UserMatch (from_user, id) {
     const swipe = (dir, nameToDelete, userID) => {
         console.log('removing: ' + nameToDelete)
         setLastDirection(dir)
-        if (dir === 'down') {
+        if (dir === 'right') {
             sendMatchRequest(userID)
         }
       }
@@ -151,8 +151,10 @@ function UserMatch (from_user, id) {
                                     <img className="profile-pic-tinder-card" src={currentProfile.profile_pic} />
                                 </div>
                                 <div className="tinder-card-info">
-                                <p>{currentProfile.username}</p>
+                                <h2 className="tinder-username">{currentProfile.username}</h2>
                                 <p>{currentProfile.pronouns}</p>
+                                <p>{currentProfile.gym_location}</p>
+                                <p>{currentProfile.biography}</p>
                                 </div>
                                 </div>
                                 </div>

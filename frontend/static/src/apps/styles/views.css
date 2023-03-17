@@ -13,6 +13,20 @@ font-family: 'Ubuntu', sans-serif; */
 
 
 /***** AUTH CONTEXT  *****/
+#notification-button {
+    background: linear-gradient(217deg, rgba(255, 0, 98, 0.5), rgba(203, 101, 0, 0.5));
+    border: 1px solid rgb(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: white;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+#notification-button:hover {
+    background: linear-gradient(217deg, rgba(255, 0, 98, 0.5), rgba(203, 101, 0, 1));
+    border: 1px solid rgba(250, 217, 183, 0.5);
+    box-shadow: 1px 2px 10px rgba(255, 232, 208, 0.2);
+}
+
 #header {
     background: linear-gradient(217deg, rgba(183,38,61,.8), rgba(255,0,0,0.1) 70.71%),            
     linear-gradient(127deg, rgba(246,198,0,.8), rgba(173, 0, 81, 0.5) 70.71%),            
@@ -580,8 +594,13 @@ font-family: 'Ubuntu', sans-serif; */
     }
 }
 .tinder-card-info {
-    padding-top: 125px;
+    font-family: 'Raleway', sans-serif;
+    padding-top: 60px;
     text-align: center;
+}
+.tinder-username {
+    font-weight: bold;
+    text-transform: capitalize;
 }
 .name-holder {
     color: rgb(20, 24, 28);

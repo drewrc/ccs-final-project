@@ -90,12 +90,8 @@ function AuthenticatedHeader() {
                     {matchRequestCount}
                   </span>
                 )}
-                <Link to="/user-match" className="left-nav" id="nav">
-
-                 
-
-                
-                    <button aria-describedby={openRequests} type="button" onClick={handleClick}>
+                {/* <Link to="/user-match" className="left-nav" id="nav"> */}
+                    <button id="notification-button" aria-describedby={openRequests} type="button" onClick={handleClick}>
                             <FontAwesomeIcon
                             className="fa-fw "
                             id="bell-icon-parent"
@@ -107,9 +103,7 @@ function AuthenticatedHeader() {
                         {matchHTML}
                         </Box>
                     </Popper>
-            
-
-                </Link>
+                {/* </Link> */}
                 <Link to="/user-messages" className="left-nav" id="nav">
                   <FontAwesomeIcon icon={faMessage} />
                 </Link>
