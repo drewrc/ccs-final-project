@@ -561,7 +561,7 @@ font-family: 'Ubuntu', sans-serif; */
 
 @media screen and (max-width: 600px) {
     .profile-pic-container {
-    top: 50% !important;
+    /* top: 50% !important; */
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
     }
@@ -610,8 +610,8 @@ font-family: 'Ubuntu', sans-serif; */
 
 .profile-pic-container {
     position: absolute;
-    top: 45%;
-    left: 20%;
+    top: 90%;
+    left: 15%;
     transform: translate(-50%, -50%) ;
     display: inline-block;
     width: 250px;

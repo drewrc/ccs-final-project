@@ -10,12 +10,14 @@ import { AuthContext } from "../auth/auth-context/AuthContext";
 import Cookies from "js-cookie";
 import { Modal, Box, Typography } from "@mui/material";
 
-function ProfileFeed({ username, profile_pic, profile_banner, id }) {
+function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, last_name }) {
   const { userID } = useContext(AuthContext);
   const [editProfilePic, setEditProfilePic] = useState(false);
   const [editProfileBanner, setEditProfileBanner] = useState(false);
   const [newProfilePic, setNewProfilePic] = useState("");
   const [profilePicPreview, setProfilePicPreview] = useState("");
+  const [firstName, setFirstName] = useState(first_name);
+  const [lastName, setLastName] = useState(last_name);
 
   const style = {
     position: "absolute",
@@ -62,7 +64,26 @@ function ProfileFeed({ username, profile_pic, profile_banner, id }) {
     const data = await response.json();
   };
 
-  console.log({ profilePicPreview });
+  console.log({first_name})
+
+  const handleSaveProfile = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("profile_pic", newProfilePic);
+    formData.append("first_name", firstName);
+    formData.append("last_name", lastName);
+
+    const options = {
+      method: "PUT",
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+      body: formData,
+    };
+    const response = await fetch(`/api_v1/user_edit_profile/${id}/`, options);
+    const data = await response.json();
+    setProfilePicPreview("")
+  };
 
   return (
     <div>
@@ -88,6 +109,8 @@ function ProfileFeed({ username, profile_pic, profile_banner, id }) {
                   Edit Profile Banner
                 </Typography>
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  
+               
                   <button
                     onClick={handleCancelBanner}
                     className="cancel-profile-pic-button"
@@ -141,7 +164,7 @@ function ProfileFeed({ username, profile_pic, profile_banner, id }) {
                       />
                     </div>
                   )}
-                  
+
                   </Typography>
                   <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                     <label
@@ -157,6 +180,12 @@ function ProfileFeed({ username, profile_pic, profile_banner, id }) {
                       onChange={handleProfilePic}
                       style={{ display: "none" }}
                     />
+                       <button
+                        onClick={handleSaveProfile}
+                        type='submit'
+                        >
+                            Save
+                        </button>
                     <button
                       onClick={handleCancelPic}
                       className="cancel-profile-pic-button"
