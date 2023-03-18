@@ -36,15 +36,15 @@ class FriendRequest(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     last_sent_at = models.DateTimeField(null=True, blank=True)
     #this sets model up to recieve only unique requests and throws Integrtiy error if not 
-    class Meta:
-        unique_together = ('from_user', 'to_user')
+    # class Meta:
+    #     unique_together = ('from_user', 'to_user')
     
-    def send_new_friend_request_after_reject(self):
-        if not self.last_sent_at:
-            return True
-        return datetime.datetime.now() - self.last_sent_at > COOLDOWN_PERIOD
-    def __str__(self):
-        return f"{self.from_user.username} to {self.to_user.username}"
+    # def send_new_friend_request_after_reject(self):
+    #     if not self.last_sent_at:
+    #         return True
+    #     return datetime.datetime.now() - self.last_sent_at > COOLDOWN_PERIOD
+    # def __str__(self):
+    #     return f"{self.from_user.username} to {self.to_user.username}"
 
 class Profile(models.Model):
     MALE = 'Male'

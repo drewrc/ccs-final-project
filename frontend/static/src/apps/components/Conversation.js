@@ -1,9 +1,11 @@
 
 
-function Conversation ({username, id}) {
+function Conversation ({to_user, id}) {
+
+    
     return (
         <>
-         {username}
+         {to_user}
         </>
     );
 };

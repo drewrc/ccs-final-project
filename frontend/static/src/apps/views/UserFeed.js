@@ -14,6 +14,7 @@ import ProfileFeed from "../components/Profile-feed";
 import Form from 'react-bootstrap/esm/Form'
 import { AuthContext } from '../auth/auth-context/AuthContext';
 import ProfileEditForm from "../components/ProfileEditForm";
+import Spinner from "react-bootstrap/esm/Spinner";
 
 function UserFeed() {
   const { isAuthenticated, userID } = useContext(AuthContext);
@@ -32,8 +33,8 @@ function UserFeed() {
   const [preview, setPreview] = useState("");
   const [profile, setProfile] = useState({})
   const [user, setUser] = useState(userID.username)
-  console.log(user)
- 
+
+
 //------------------- > fetching TIMELINE ID  <--------------------//
   useEffect(() => {
     const fetchTimelineId = async () => {
@@ -112,6 +113,7 @@ function UserFeed() {
     };
     getUserStories();
 
+    //users/<int:pk>/
 
     const getStoriesInterval = setInterval(getUserStories, 3000);
     return () => {
@@ -208,8 +210,18 @@ function UserFeed() {
           {/* <div className="profile-banner"></div> */}
             {/* <h1>{authUser.username}</h1> */}
             {/* {filterUser} */}
-            <ProfileFeed {...profile} />
-       
+            {profile ? (
+              <div className="profile-feed-container">
+                <ProfileFeed {...profile} />
+              </div>
+            ) : (
+              <div className="spinner-container">
+                <Spinner animation="border" role="status" variant="primary">
+                  <span className="sr-only">Loading...</span>
+                </Spinner>
+              </div>
+            )}
+
             {isMobile && (
               <div className="profile-nav">
                 <Button onClick={() => setActiveCard("bio")}>Bio</Button>

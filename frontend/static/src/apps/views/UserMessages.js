@@ -9,6 +9,8 @@ import Cookies from "js-cookie";
 import MessageFriendProfile from "../components/MessageUserProfile";
 import { faCheckDouble } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import SlidingPanel from 'react-sliding-side-panel';
+
 
 function UserMessages() {
   const [message, setMessage] = useState("");
@@ -17,6 +19,25 @@ function UserMessages() {
   const [authUser, setAuthUser] = useState(null);
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [selectedProfile, setSelectedProfile] = useState([]);
+  const [currentFriendProfile, setCurrentFriendProfile] = useState([])
+  const [openPanel, setOpenPanel] = useState(false);
+  const [panelType, setPanelType] = useState('left');
+  const [panelSize, setPanelSize] = useState(100);
+  const [noBackdrop, setNoBackdrop] = useState(false);
+ 
+
+  useEffect(() => {
+    const getFriendProfile = async () => {
+      const response = await fetch(`/api_v1/profiles/${selectedConversation}`);
+      if (!response.ok) {
+        throw new Error("Network response not OK");
+      }
+      const data = await response.json();
+      setCurrentFriendProfile(data);
+    };
+    getFriendProfile();
+  })
+
 
   //fetch to display current selected friend profile data (right side)
   useEffect(() => {
@@ -75,6 +96,7 @@ function UserMessages() {
     };
     getFriends();
   }, []);
+  console.log({friends})
 
   //send DELETE request for delete button on each message
   const handleDelete = async (id) => {
@@ -90,6 +112,7 @@ function UserMessages() {
     // Remove the deleted message from the local state
     setMessage(message.filter((message) => message.id !== id));
   };
+
 
   // filter messages based on whether *SENDER id* and *RECEIVER id* matches *authUser.pk*
   // or *selected friend* using the state value of 'selectedConversation'
@@ -113,7 +136,7 @@ function UserMessages() {
           handleDelete={() => handleDelete(message.id)} 
           />
         </div>
-        <div class="triangle"></div>
+        <div className={message.sender === authUser.pk ? "triangle-right" : "triangle-left"}></div>
         <div id="message-date">
           Sent:{" "}
           {(() => {
@@ -139,21 +162,54 @@ function UserMessages() {
 
   const friendsHTML = friends.map((friend) => (
     <div key={friend.id}>
-      <button class="button" 
+      <button 
+      id="button" 
+      className="button-orange"
       onClick={() => setSelectedConversation(friend.id)}
+      style={{ color: "rgb(255, 165, 0)" }}
       >
         <span>
+         {/* {friend.to_user}  */}
+         message
           <Conversation {...friend} />
         </span>
+            </button>
+        <button onClick={() => {
+            setSelectedConversation(friend.id);
+            setOpenPanel(true);
+          }}>
+          Open
       </button>
     </div>
   ));
 
-  const friendProfileHTML = selectedProfile.map((profile) => (
-    <div>
-      <MessageFriendProfile {...profile} />
-    </div>
-  ));
+  const friendProfileHTML = (
+    <>
+      {/* <p>{currentFriendProfile.profile_pic}</p>
+      <p>{currentFriendProfile.username}</p>
+      <p>{currentFriendProfile.pronouns}</p>
+      <p>{currentFriendProfile.gym_location}</p> */}
+      {/* <p>{currentFriendProfile.biography}</p> */}
+      {/* <p>{currentFriendProfile.pronouns}</p>
+      <p>{currentFriendProfile.gym_location}</p>
+      c */}
+        <div className="profile-card-messages">
+        <div className="profile-banner-tinder-card">
+        <img className="profile-banner-display-tinder-card" src={currentFriendProfile.profile_banner} width="100%" height='50%'  />
+        <div className="profile-pic-container-tinder-card">
+            <img className="profile-pic-tinder-card" src={currentFriendProfile.profile_pic} />
+        </div>
+        <div className="tinder-card-info">
+        <h2 className="tinder-username">{currentFriendProfile.username}</h2>
+        <p>{currentFriendProfile.pronouns}</p>
+        <p>{currentFriendProfile.gym_location}</p>
+          
+        </div>
+        </div>
+        </div>
+    </>
+  );
+  console.log({currentFriendProfile})
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -185,47 +241,76 @@ function UserMessages() {
     <>
       <Container className="message-container">
         <Row className="span-message-page">
-          <Col md={3}>
-            <div className="conversations-side-bar">
+       
+          <Col 
+          xs={3}>
+            <div className={`conversations-side-bar ${!openPanel ? 'closed' : ''}`} 
+            style={{backgroundColor: "#CACACA"}}>
               <h3>Friends List</h3>
-              {friendsHTML}
-            </div>
-          </Col>
-          <Col md={6}>
-            <div className="message-card">
-              <h3>Messages</h3>
-              {selectedConversation && (
-                <h4>Conversation with {selectedConversation}</h4>
+              {friends ? (
+                friendsHTML
+              ) : (
+                <p>You have no friends. Start adding friends to see their profiles.</p>
               )}
-              {messageHTML}
+                  <div>
+                  </div>
             </div>
           </Col>
-          <Col md={3}>
+        
+          <Col xs={6}>
+            <div className="message-card">
+
+            <SlidingPanel
+                type={panelType}
+                isOpen={openPanel}
+                backdropClicked={() => setOpenPanel(false)}
+                size={panelSize}
+                panelClassName={`additional-class ${openPanel ? 'slide-in' : ''}`}
+                noBackdrop={noBackdrop}
+              >
+                <div style={{backgroundColor: 'blue',}}>
+                  <div>
+                  <h3>Messages</h3>
+                    {selectedConversation && (
+                    <h4>Conversation with {selectedConversation}</h4>
+                      )}
+                      {selectedConversation ? (
+                        messageHTML
+                      ) : (
+                        <p>Choose a conversation on the left to start talking to friends!</p>
+                      )}
+                      <button onClick={() => setOpenPanel(false)}>close</button>
+                           </div>
+                                  <Row>
+                                    <Col className="message-form">
+                                      <form onSubmit={handleSubmit}>
+                                        <TextField
+                                          label="Message"
+                                          id="outlined-multiline-flexible"
+                                          multiline
+                                          maxRows={4}
+                                          value={message}
+                                          onChange={(e) => setMessage(e.target.value)}
+                                        />
+                                        <Button type="submit" id="send-button" size="medium">
+                                          Send
+                                        </Button>
+                                      </form>
+                                    </Col>
+                                  </Row>
+                              </div>
+              </SlidingPanel>
+             
+            </div>
+          </Col>
+          <Col xs={3}>
             <div className="user-info-card">
               <h3>User info</h3>
               {friendProfileHTML}
             </div>
           </Col>
         </Row>
-        <Row>
-          <Col></Col>
-          <Col className="message-form">
-            <form onSubmit={handleSubmit}>
-              <TextField
-                label="Message"
-                id="outlined-multiline-flexible"
-                multiline
-                maxRows={4}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-              <Button type="submit" id="send-button" size="medium">
-                Send
-              </Button>
-            </form>
-          </Col>
-          <Col></Col>
-        </Row>
+      
       </Container>
     </>
   );

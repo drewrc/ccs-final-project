@@ -51,9 +51,9 @@ function ProfileFeed({id, profile_pic, profile_banner, username}) {
         const response = await fetch(`/api_v1/user_edit_profile/${id}/`, options);
         const data = await response.json();
     }
-    
-    console.log({editProfileBanner})
-    console.log({editProfilePic})
+
+    // console.log({editProfileBanner})
+    // console.log({editProfilePic})
     return (
         <div>
         <div className="profile-banner">

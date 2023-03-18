@@ -5,7 +5,6 @@ from dj_rest_auth.models import TokenModel
 from django.core.exceptions import ValidationError
 
 
-
 class TokenSerializer(serializers.ModelSerializer):
     user_name = serializers.ReadOnlyField(source='user.username')
 
@@ -24,11 +23,12 @@ class BuddySerializer(serializers.ModelSerializer):
     from_user = serializers.ReadOnlyField(source='from_user.username')
     to_user = serializers.ReadOnlyField(source='to_user.username')
 
+    def self_request_test(self):
+        print('hi')
+
     class Meta:
         model = FriendRequest
-        fields = ('id', 'from_user', 'to_user', 'created_at',)
-
-
+        fields = ('id', 'created_at', 'from_user', 'from_user_id', 'to_user', 'to_user_id', 'last_sent_at',)
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -40,14 +40,15 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def get_buddies(self, obj):
         return obj.user.buddies.values_list('username', flat=True)
-    
+
     class Meta:
         model = Profile
-        fields = ['id', 'username', 'pronouns', 'gender', 'profile_pic', 'profile_banner', 'biography', 'first_name', 'last_name', 'buddies', 'coordinates', 'gym_location', 'buddies_count'] 
+        fields = ['id', 'username', 'pronouns', 'gender', 'profile_pic', 'profile_banner', 'biography',
+                  'first_name', 'last_name', 'buddies', 'coordinates', 'gym_location', 'buddies_count']
 
     def get_buddies_count(self, obj):
         return obj.user.buddies.count()
-    
+
     def get_coordinates(self, obj):
         return obj.get_gym_location_coordinates()
 
@@ -56,13 +57,19 @@ class UserProfileSerializer(serializers.ModelSerializer):
             user_data = validated_data.pop('user', {})
             user = instance.user
 
-            instance.profile_pic = validated_data.get('profile_pic', instance.profile_pic)
-            instance.profile_banner = validated_data.get('profile_banner', instance.profile_banner)
-            instance.biography = validated_data.get('biography', instance.biography)
+            instance.profile_pic = validated_data.get(
+                'profile_pic', instance.profile_pic)
+            instance.profile_banner = validated_data.get(
+                'profile_banner', instance.profile_banner)
+            instance.biography = validated_data.get(
+                'biography', instance.biography)
             instance.gender = validated_data.get('gender', instance.gender)
-            instance.pronouns = validated_data.get('pronouns', instance.pronouns)
-            instance.gym_location = validated_data.get('gym_location', instance.gym_location)
-            instance.coordinates = validated_data.get('coordinates', instance.coordinates)
+            instance.pronouns = validated_data.get(
+                'pronouns', instance.pronouns)
+            instance.gym_location = validated_data.get(
+                'gym_location', instance.gym_location)
+            instance.coordinates = validated_data.get(
+                'coordinates', instance.coordinates)
             # instance.first_name = validated_data.get('first_name', instance.first_name)
             # instance.last_name = validated_data.get('last_name', instance.last_name)
 

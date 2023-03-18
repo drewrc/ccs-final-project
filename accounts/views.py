@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .serializers import UserSerializer, BuddySerializer, UserProfileSerializer
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from django.db import IntegrityError
+from django.db import IntegrityError, models
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from .models import User, FriendRequest, Profile
@@ -16,38 +16,51 @@ from .send_sms import client
 from rest_framework.exceptions import NotFound
 from .permissions import IsAuthorOrReadOnly
 
+
 class UserListAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+
+class UserRetrieveDetailAPIView(generics.RetrieveAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = UserProfileSerializer
+
+
 class CurrentUserListAPIView(generics.RetrieveAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
+
     def get_object(self):
         return self.request.user.profile
+
 
 class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthorOrReadOnly]
 
+
 class UserProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
 
+
 class UserProfileListAPIView(generics.ListCreateAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
+
     def get_queryset(self):
         queryset = Profile.objects.all()
-        queryset = queryset.select_related('user') 
+        queryset = queryset.select_related('user')
         return queryset
-    
+
     # def get_queryset(self):
     #     queryset = Profile.objects.all()
     #     queryset = Profile.objects.prefetch_related('user')  ???
     #     return queryset
+
 
 @receiver(post_save, sender=get_user_model())
 def create_user_profile(sender, instance, created, **kwargs):
@@ -62,7 +75,6 @@ def create_user_profile(sender, instance, created, **kwargs):
 #     except Profile.DoesNotExist:
 #         return Response (status=status.HTTP_404_NOT_FOUND)
 #     instance
-
 
     #     current_user = User.objects.get(id=userID)
     # return Response(userID, status=status.HTTP_200_OK)
@@ -80,7 +92,9 @@ def create_user_profile(sender, instance, created, **kwargs):
 #         else:
 #             return Response('friend request already sent')
 
-#refactored w twilio 
+# refactored w twilio
+
+
 @api_view(['POST'])
 @permission_classes((permissions.IsAuthenticated,))
 def send_match_request(request, userID):
@@ -103,6 +117,7 @@ def send_match_request(request, userID):
         else:
             return Response('friend request already sent')
 
+
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
 def accept_match_request(request, requestID):
@@ -120,7 +135,8 @@ def accept_match_request(request, requestID):
         return Response({'error': 'You have already sent a friend request to this user.'})
     except User.DoesNotExist:
         return Response({'error': 'Recipient not found.'})
-        
+
+
 @api_view(['GET'])
 @permission_classes((permissions.IsAuthenticated,))
 def friend_requests(request):
@@ -142,8 +158,9 @@ def match_request_count(request):
 def buddies_list(request):
     if request.method == 'GET':
         buddies = request.user.buddies.all()
-    serializer = BuddySerializer(buddies, many=True)
-    return Response(serializer.data)
+        serializer = BuddySerializer(buddies, many=True)
+        return Response(serializer.data)
+
 
 class UserBuddyAPIView(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticated]
@@ -154,26 +171,46 @@ class UserBuddyAPIView(generics.RetrieveAPIView):
         user = get_object_or_404(User, id=user_id)
         return user.buddies.all()
 
-@api_view(['GET'])
-@permission_classes((permissions.IsAuthenticated,))
+
+class BuddyList(generics.ListCreateAPIView):
+    queryset = FriendRequest.objects.all()
+    serializer_class = BuddySerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return FriendRequest.objects.filter(
+            models.Q(from_user_id=user.id) | models.Q(to_user_id=user.id)
+        )
+
+    def perform_create(self, serializer):
+        serializer.save(from_user=self.request.user)
+
+
+class BuddyDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = FriendRequest.objects.all()
+    serializer_class = BuddySerializer
+
+
+@ api_view(['GET'])
+@ permission_classes((permissions.IsAuthenticated,))
 def UserProfileView(request, pk):
     user_profile = get_object_or_404(User, pk=pk)
     serializer = UserProfileSerializer(user_profile)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-#for sending messages 
-@api_view(['POST'])
-@permission_classes((permissions.IsAuthenticated,))
+# for sending messages
+
+
+@ api_view(['POST'])
+@ permission_classes((permissions.IsAuthenticated,))
 def send_message(request, user_id):
     message = request.data.get('message')
     to_user = get_object_or_404(User, id=user_id)
     to_phone_number = to_user.phone.as_e164
-    from_phone_number = "+18888419554" 
+    from_phone_number = "+18888419554"
     client.messages.create(
         to=to_phone_number,
         from_=from_phone_number,
         body=message
     )
     return Response({'status': 'Message sent'})
-
-

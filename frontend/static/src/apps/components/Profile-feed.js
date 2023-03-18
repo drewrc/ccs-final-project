@@ -16,6 +16,8 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
   const [editProfileBanner, setEditProfileBanner] = useState(false);
   const [newProfilePic, setNewProfilePic] = useState("");
   const [profilePicPreview, setProfilePicPreview] = useState("");
+  const [newBanner, setNewBanner] = useState("");
+  const [newBannerPreview, setNewBannerPreview] = useState("");
   const [firstName, setFirstName] = useState(first_name);
   const [lastName, setLastName] = useState(last_name);
 
@@ -44,7 +46,24 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
     reader.readAsDataURL(profilepic);
   };
 
-  console.log({ profilePicPreview });
+
+
+  const handleBannerPic = (e) => {
+    const bannerPic = e.target.files[0]; // set file
+    setNewBanner(bannerPic);
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setNewBannerPreview(reader.result); // set preview
+    };
+
+    reader.readAsDataURL(bannerPic);
+  };
+
+  
+
+
 
   const handleEditClickPic = () => setEditProfilePic(true);
   const handleCancelPic = () => setEditProfilePic(false);
@@ -70,6 +89,7 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
     e.preventDefault();
     const formData = new FormData();
     formData.append("profile_pic", newProfilePic);
+    formData.append("profile_banner", newBanner);
     formData.append("first_name", firstName);
     formData.append("last_name", lastName);
 
@@ -83,7 +103,10 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
     const response = await fetch(`/api_v1/user_edit_profile/${id}/`, options);
     const data = await response.json();
     setProfilePicPreview("")
+    setNewBannerPreview("")
   };
+
+  console.log({newBannerPreview})
 
   return (
     <div>
@@ -110,7 +133,36 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
                 </Typography>
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                   
-               
+                  
+                {newBannerPreview && (
+                    <div className="center-preview">
+                      <img
+                        className="preview-image"
+                        src={newBannerPreview}
+                        height="100"
+                      />
+                    </div>
+                  )}
+                     <label
+                      htmlFor="new-banner-pic"
+                      style={{ backgroundColor: "#CACACA" }}
+                      className="btn"
+                    >
+                      <FontAwesomeIcon icon={faMountainSun} /> Upload a file
+                    </label>
+                    <input
+                      id="new-banner-pic"
+                      type="file"
+                      onChange={handleBannerPic}
+                      style={{ display: "none" }}
+                    />
+                     <button
+                        onClick={handleSaveProfile}
+                        type='submit'
+                        >
+                            Save
+                        </button>
+
                   <button
                     onClick={handleCancelBanner}
                     className="cancel-profile-pic-button"
@@ -125,10 +177,13 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
         )}
 
         <img
-          className="profile-banner-display"
-          src={profile_banner}
-          height="100%"
-          width="100%"
+        style={{ transform: "scale(1)", transition: "transform 0.2s ease-in-out" }}
+        onMouseOver={(e) => { e.target.style.transform = "scale(1.1)" }}
+        onMouseOut={(e) => { e.target.style.transform = "scale(1)" }}
+        className="profile-banner-display"
+        src={profile_banner}
+        height="100%"
+        width="100%"
         />
 
         <div className="profile-pic-container">

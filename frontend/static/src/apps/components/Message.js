@@ -8,6 +8,8 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
     const [editMode, setEditMode] = useState(false);
     const [editText, setEditText] = useState(text);
 
+
+
     const handleEdit = async () => {
         const formData = new FormData();
         formData.append('text', editText);

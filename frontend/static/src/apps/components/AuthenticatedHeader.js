@@ -17,12 +17,12 @@ import Popper from '@mui/material/Popper';
 import Cookies from "js-cookie";
 
 
-function AuthenticatedHeader() {
+function AuthenticatedHeader({id}) {
   const [matchRequestCount, setMatchRequestCount] = useState(0);
   const [friendRequests, setFriendRequests] = useState([])
   const { logout } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  
+
 
   const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -57,17 +57,17 @@ function AuthenticatedHeader() {
   }, []);
   console.log({friendRequests})
 
-  const handleAcceptFriendRequest = async () => {
+  const handleAcceptFriendRequest = async (id) => {
   
   const options = {
-    method: "PUT",
+    method: "POST",
     headers: {
       "X-CSRFToken": Cookies.get("csrftoken"),
     },
     // body: JSON.stringify(user)
   };
   
-  const response = await fetch(`/api_v1/accept_match_request/`, options);
+  const response = await fetch(`/api_v1/accept_match_request/${id}/`, options);
   const data = await response.json();
 };
 
@@ -78,9 +78,7 @@ function AuthenticatedHeader() {
             {request.from_user}
         </p>
             <p>
-                <button onclick={() => handleAcceptFriendRequest (request.id)}>
-                    accept
-                </button>
+            <button onClick={() => handleAcceptFriendRequest(request.id)}>accept</button>
                     <button>
                         delete
                     </button>

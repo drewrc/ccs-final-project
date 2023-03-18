@@ -146,7 +146,7 @@ import Menu from '@mui/material/Menu';
                     Last name: <input
                         type="text"
                         value={lastName}
-                        onChange={(e) => setFirstName(e.target.value)}
+                        onChange={(e) => setLastName(e.target.value)}
                         />
                 </p>
               <p className="profile-content">
