@@ -10,6 +10,8 @@ import MessageFriendProfile from "../components/MessageUserProfile";
 import { faCheckDouble } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SlidingPanel from 'react-sliding-side-panel';
+import {useSwipeable} from 'react-swipeable';
+import { useSprings } from '@react-spring/web'
 
 
 function UserMessages() {
@@ -24,6 +26,7 @@ function UserMessages() {
   const [panelType, setPanelType] = useState('left');
   const [panelSize, setPanelSize] = useState(100);
   const [noBackdrop, setNoBackdrop] = useState(false);
+  const [showUserInfo, setShowUserInfo] = useState(true);
  
 
   useEffect(() => {
@@ -38,7 +41,7 @@ function UserMessages() {
     getFriendProfile();
   })
 
-
+console.log({selectedConversation})
   //fetch to display current selected friend profile data (right side)
   useEffect(() => {
     const getFriendProfile = async () => {
@@ -87,7 +90,7 @@ function UserMessages() {
   //fetch user friends
   useEffect(() => {
     const getFriends = async () => {
-      const response = await fetch(`/api_v1/buddies_list/`);
+      const response = await fetch(`/api_v1/buddies_detail/`);
       if (!response.ok) {
         throw new Error("Network response not OK");
       }
@@ -96,7 +99,7 @@ function UserMessages() {
     };
     getFriends();
   }, []);
-  console.log({friends})
+
 
   //send DELETE request for delete button on each message
   const handleDelete = async (id) => {
@@ -160,39 +163,25 @@ function UserMessages() {
       </div>
     ));
 
+
+
   const friendsHTML = friends.map((friend) => (
     <div key={friend.id}>
-      <button 
-      id="button" 
-      className="button-orange"
-      onClick={() => setSelectedConversation(friend.id)}
-      style={{ color: "rgb(255, 165, 0)" }}
-      >
-        <span>
-         {/* {friend.to_user}  */}
-         message
-          <Conversation {...friend} />
-        </span>
-            </button>
-        <button onClick={() => {
-            setSelectedConversation(friend.id);
+        <button 
+            id="button" 
+            className="button-orange"
+            onClick={() => {
+            setSelectedConversation(friend.to_user_id);
             setOpenPanel(true);
           }}>
-          Open
+            {friend.to_user_id}
+          {friend.to_user}
       </button>
     </div>
   ));
 
   const friendProfileHTML = (
     <>
-      {/* <p>{currentFriendProfile.profile_pic}</p>
-      <p>{currentFriendProfile.username}</p>
-      <p>{currentFriendProfile.pronouns}</p>
-      <p>{currentFriendProfile.gym_location}</p> */}
-      {/* <p>{currentFriendProfile.biography}</p> */}
-      {/* <p>{currentFriendProfile.pronouns}</p>
-      <p>{currentFriendProfile.gym_location}</p>
-      c */}
         <div className="profile-card-messages">
         <div className="profile-banner-tinder-card">
         <img className="profile-banner-display-tinder-card" src={currentFriendProfile.profile_banner} width="100%" height='50%'  />
@@ -209,6 +198,8 @@ function UserMessages() {
         </div>
     </>
   );
+
+
   console.log({currentFriendProfile})
 
   const handleSubmit = async (e) => {
@@ -226,6 +217,7 @@ function UserMessages() {
       },
       body: formData,
     };
+    setMessage("");
     // Send the message to the conversation
     const response = await fetch("/api_v1/messages/", options);
     const data = await response.json();
@@ -233,20 +225,55 @@ function UserMessages() {
     // Send the message to the # phone user
     const response2 = await fetch(`/api_v1/send-message/${selectedConversation}/`, options);
     const data2 = await response2.json();
-
-    setMessage("");
   };
+
+
+
+  // const [springs, api] = useSprings(4, () => ({ x: 0 }))
+
+  // const bind = useDrag(
+  //   ({ down, movement: [x], args: [index] }) => api.start((i) => i === index && { x: down ? x : 0 }),
+  //   {
+  //     axis: 'x'
+  //   }
+  // )
+
+  // const config = {
+  //   delta: 10, // minimum distance (in px) before a swipe is detected
+  //   preventDefaultTouchmoveEvent: true, // prevent scrolling when swiping
+  //   trackTouch: true, // track touch movements
+  //   trackMouse: false, // track mouse movements
+  // };
+
+  // const handlers = useSwipeable({
+  //   onSwiped: (eventData) => console.log("User Swiped!", eventData),
+  //   ...config,
+  // });
+
 
   return (
     <>
-      <Container className="message-container">
-        <Row className="span-message-page">
-       
+      <Container 
+      fluid
+      className="message-container"
+        style={{
+          backgroundColor: '#EEEEEE',
+          padding: '30px',
+          marginTop: '-15px',
+          width: '100vw',
+          position: 'relative',
+        }}
+      >
+        <Row className="span-message-page"
+        
+        >
           <Col 
-          xs={3}>
-            <div className={`conversations-side-bar ${!openPanel ? 'closed' : ''}`} 
-            style={{backgroundColor: "#CACACA"}}>
-              <h3>Friends List</h3>
+          xs={4}
+          className="friends-column"
+          >
+            <div className='conversations-side-bar'
+              >
+              <h3 className="friends-list-header">Friends</h3>
               {friends ? (
                 friendsHTML
               ) : (
@@ -257,57 +284,67 @@ function UserMessages() {
             </div>
           </Col>
         
-          <Col xs={6}>
+          <Col xs={8}>
             <div className="message-card">
-
             <SlidingPanel
-                type={panelType}
-                isOpen={openPanel}
-                backdropClicked={() => setOpenPanel(false)}
-                size={panelSize}
-                panelClassName={`additional-class ${openPanel ? 'slide-in' : ''}`}
-                noBackdrop={noBackdrop}
-              >
-                <div style={{backgroundColor: 'blue',}}>
-                  <div>
-                  <h3>Messages</h3>
-                    {selectedConversation && (
-                    <h4>Conversation with {selectedConversation}</h4>
-                      )}
-                      {selectedConversation ? (
-                        messageHTML
-                      ) : (
-                        <p>Choose a conversation on the left to start talking to friends!</p>
-                      )}
-                      <button onClick={() => setOpenPanel(false)}>close</button>
-                           </div>
-                                  <Row>
-                                    <Col className="message-form">
-                                      <form onSubmit={handleSubmit}>
-                                        <TextField
-                                          label="Message"
-                                          id="outlined-multiline-flexible"
-                                          multiline
-                                          maxRows={4}
-                                          value={message}
-                                          onChange={(e) => setMessage(e.target.value)}
-                                        />
-                                        <Button type="submit" id="send-button" size="medium">
-                                          Send
-                                        </Button>
-                                      </form>
-                                    </Col>
-                                  </Row>
+                  type={panelType}
+                  isOpen={openPanel}
+                  backdropClicked={() => setOpenPanel(false)}
+                  size={panelSize}
+                  panelClassName={`additional-class ${openPanel ? 'slide-in' : ''} ${!openPanel ? 'slide-out' : ''}`}
+                  noBackdrop={noBackdrop}
+                >
+                  <div >
+                  <Row>
+                    <Col xs={10}>
+                    <div>
+
+                    {showUserInfo ? (
+                            <div className={`slide ${showUserInfo ? 'slide-in' : ''} ${!showUserInfo ? 'slide-out' : ''}`}>
+                              <h3>Messages</h3>
+                              {selectedConversation && (
+                                <h4>Conversation with {selectedConversation}</h4>
+                              )}
+                              {selectedConversation ? (
+                                messageHTML
+                              ) : (
+                                <p>Choose a conversation on the left to start talking to friends!</p>
+                              )}
+                              <button onClick={() => setOpenPanel(false)} className={!openPanel ? 'slide-out' : ''}>
+                                close</button>
+                              <Col className="message-form">
+                                <form onSubmit={handleSubmit}>
+                                  <TextField
+                                    label="Message"
+                                    id="outlined-multiline-flexible"
+                                    multiline
+                                    maxRows={4}
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                  />
+                                  <Button type="submit" id="send-button" size="medium">
+                                    Send
+                                  </Button>
+                                </form>
+                              </Col>
+                            </div>
+                          ) : (
+                            <Col className="unknown">
+                              <div className={`user-info-card ${!showUserInfo ? 'slide-in' : ''} ${showUserInfo ? 'slide-out' : ''}`}>
+                                <h3>User info</h3>
+                                {friendProfileHTML}
                               </div>
-              </SlidingPanel>
-             
-            </div>
-          </Col>
-          <Col xs={3}>
-            <div className="user-info-card">
-              <h3>User info</h3>
-              {friendProfileHTML}
-            </div>
+                            </Col>
+                          )}
+                           <button onClick={() => setShowUserInfo(!showUserInfo)}>
+                        View User Profile
+                      </button>
+                      </div> 
+                      </Col>
+                    </Row>
+                  </div>
+                </SlidingPanel>
+                </div>
           </Col>
         </Row>
       

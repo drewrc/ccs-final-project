@@ -35,6 +35,7 @@ font-family: 'Ubuntu', sans-serif; */
     /* margin-bottom: 0px; */
     font-family: 'Raleway', sans-serif;
     animation: slide-in-header 1s ease-out;
+    z-index: 9999;
 }
 .left-nav {
     margin: 5px;
@@ -147,9 +148,25 @@ font-family: 'Ubuntu', sans-serif; */
 }
 
 .conversations-side-bar {
-    text-align: center;
-    /* margin-right: 20px; */
+    margin-left: -70%;
+    margin-right: auto;
+    margin-top: 15%;
+    position: absolute;
+    top: 0;
+    transition: width 0.5s ease;
+    height: 100vh;
 }
+
+.friends-list-header {
+    font-family: 'Raleway', sans-serif;
+    text-align: center;
+
+}
+@media screen and (max-width: 800px) {
+    .conversations-side-bar {
+        margin-top: 45%;
+    }
+  }
 
 
 #button {
@@ -158,7 +175,7 @@ font-family: 'Ubuntu', sans-serif; */
     border: none;
     color: orange;
     text-align: center;
-    font-size: 28px;
+    font-size: 18px;
     padding: 20px;
     transition: all 0.5s;
     cursor: pointer;
@@ -194,13 +211,22 @@ font-family: 'Ubuntu', sans-serif; */
   }
 
 .message-container {
+    position: relative;
+    top: 0px;
     /* text-align: center; */
 }
 .message-form {
     padding: 20px;
 }
 .span-message-page {
-    min-height: 60vh;
+    height: 100vh;
+}
+.friends-column {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    margin-top: -100px !important;
 }
 
 #nav:link, #nav:visited {
@@ -280,20 +306,38 @@ font-family: 'Ubuntu', sans-serif; */
     }
   }
   
+  @keyframes slideOut {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
   .slide-in {
     animation: slideIn 0.3s forwards;
   }
-
+  
+  .slide-out {
+    animation: slideOut 0.3s forwards;
+  }
+  
+  .conversations-side-bar.closed {
+    animation: slideOut 0.3s forwards;
+  }
+  
   .conversations-side-bar {
-    /* set initial width */
     width: 10%;
-    /* enable smooth transition */
     transition: width 0.5s ease;
+    height: 100vh;
   }
   
   /* animate width when panel is closed */
   .conversations-side-bar.closed {
-    width: 70%;
+    /* width: 100%;
+    background-color: rgb(255, 209, 144);
+    height: 100vh; */
   }
 
   /* AUTHENTICATED HEADER */

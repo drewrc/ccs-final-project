@@ -135,10 +135,11 @@ function UserMatch (from_user, id) {
                     </Col> */}
                     <Col >
                     <div className="header">
+                    <h2>Swipe Right to add friends</h2>
                         </div>
                         <div className="user-object-placeholder">
+                       
                         {currentProfile && (
-                            
                                 <TinderCard 
                                 className="swipe" 
                                 key={currentProfile.id}

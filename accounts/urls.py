@@ -7,7 +7,7 @@ app_name = 'accounts'
 
 urlpatterns = [
     path('profiles/', views.UserListAPIView.as_view(), name="profile_add"),
-    path('profiles/<int:pk>/', UserRetrieveDetailAPIView.as_view(), name="profile_add"),
+    path('profiles/<int:user_id>/', UserRetrieveDetailAPIView.as_view(), name="profile_add"),
     path('send_match_request/<int:userID>/', send_match_request, name='send_friend_request'),
     path('accept_match_request/<int:requestID>/', accept_match_request, name='accept_friend_request'),
     path('match_request_count/', match_request_count, name='match_request_count'),
@@ -19,6 +19,6 @@ urlpatterns = [
     path('current_user/', CurrentUserListAPIView.as_view(), name='auth_user'),
     path('user_edit_profile/<int:pk>/', UserProfileRetrieveUpdateDestroy.as_view(), name='edit_profile'),
     path('friend_requests/', friend_requests, name='friend_requests'),
-    path('buddies_detail/<int:pk>', BuddyDetail.as_view(), name='buddies_detail'),
+    path('buddies_detail/<int:pk>/', BuddyDetail.as_view(), name='buddies_detail'),
     path('buddies_detail/', BuddyList.as_view(), name='buddies_list_new'),
 ]

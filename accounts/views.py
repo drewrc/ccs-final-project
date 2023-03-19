@@ -25,6 +25,11 @@ class UserListAPIView(generics.ListCreateAPIView):
 class UserRetrieveDetailAPIView(generics.RetrieveAPIView):
     queryset = Profile.objects.all()
     serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticated]
+    def get_object(self):
+        user_id = self.kwargs['user_id']
+        return get_object_or_404(self.queryset, user=user_id)
+
 
 
 class CurrentUserListAPIView(generics.RetrieveAPIView):
@@ -187,8 +192,12 @@ class BuddyList(generics.ListCreateAPIView):
 
 
 class BuddyDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = FriendRequest.objects.all()
     serializer_class = BuddySerializer
+    def get_queryset(self):
+        user = self.request.user
+        return FriendRequest.objects.filter(
+            models.Q(from_user_id=user.id) | models.Q(to_user_id=user.id)
+        )
 
 
 @ api_view(['GET'])
