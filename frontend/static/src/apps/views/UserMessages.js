@@ -194,7 +194,9 @@ function UserMessages() {
           className="button-orange"
           onClick={() => {
             setSelectedConversation(
-              friend.to_user_id
+              friend.to_user_id === username 
+                ? friend.to_user_id
+                : friend.from_user_id
             );
             setOpenPanel(true);
           }}
