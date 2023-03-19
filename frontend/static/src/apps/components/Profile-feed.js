@@ -131,9 +131,7 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                   Edit Profile Banner
                 </Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                  
-                  
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>                            
                 {newBannerPreview && (
                     <div className="center-preview">
                       <img

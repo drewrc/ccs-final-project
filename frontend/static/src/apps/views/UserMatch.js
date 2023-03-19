@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import UserMatchObject from "../components/UserMatchObject";
 import TinderCard from 'react-tinder-card'
 import '../styles/views.css'
@@ -15,7 +15,8 @@ function UserMatch (from_user, id) {
     const [lastDirection, setLastDirection] = useState()
     const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
     const [friendRequests, setFriendRequests] = useState([])
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const cardRef = useRef(null);
 
     const handleClick = (event) => {
       setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -42,13 +43,26 @@ function UserMatch (from_user, id) {
     }, []);
 
 
-    const swipe = (dir, nameToDelete, userID) => {
+    const swipe = (dir, nameToDelete, userID, delta) => {
         console.log('removing: ' + nameToDelete)
         setLastDirection(dir)
+      
+        const lastPos = cardRef.current?.offsetLeft
+        const initialPos = cardRef.current?.offsetLeft
+      
         if (dir === 'right') {
-            sendMatchRequest(userID)
+          sendMatchRequest(userID)
+        } else if (dir === 'left') {
+            offScreen(nameToDelete)
+        }
+      
+        if (Math.abs(lastPos - initialPos) > delta) {
+          offScreen(nameToDelete)
         }
       }
+      
+    
+    
     
       const offScreen = (name) => {
         console.log(name + ' left the screen!')
@@ -143,7 +157,8 @@ function UserMatch (from_user, id) {
                                 <TinderCard 
                                 className="swipe" 
                                 key={currentProfile.id}
-                                onSwipe={(dir) => swipe(dir, currentProfile.username, currentProfile.id)}
+                                preventSwipe={["up", "down"]} 
+                                onSwipe={(dir) => swipe(dir, currentProfile.username, currentProfile.id, 50)}
                                 onCardLeftScreen={() => offScreen(currentProfile.username)}>
                                 <div className="tinder-card-placeholder">
                                 <div className="profile-banner-tinder-card">
@@ -160,8 +175,8 @@ function UserMatch (from_user, id) {
                                 </div>
                                 </div>
                                 </TinderCard>
-                        
                             )}
+                            
                         </div>
                         <div className="swipe-direction">
                         {lastDirection ? <h2 className='infoText'>You swiped {lastDirection}</h2> : <h2 className='infoText' />}

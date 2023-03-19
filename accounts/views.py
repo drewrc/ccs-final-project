@@ -193,6 +193,7 @@ class BuddyList(generics.ListCreateAPIView):
 
 class BuddyDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BuddySerializer
+    permission_classes = [IsAuthenticated]
     def get_queryset(self):
         user = self.request.user
         return FriendRequest.objects.filter(

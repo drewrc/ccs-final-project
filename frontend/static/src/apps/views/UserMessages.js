@@ -1,5 +1,5 @@
 import Message from "../components/Message";
-import { useState, useEffect, componentWillUnmount } from "react";
+import { useState, useEffect, componentWillUnmount, useContext } from "react";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
@@ -14,6 +14,9 @@ import {useSwipeable} from 'react-swipeable';
 import { useSprings } from '@react-spring/web'
 import shadows from "@mui/material/styles/shadows";
 import { borderRadius } from "@mui/system";
+import { AuthContext } from "../auth/auth-context/AuthContext";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function UserMessages() {
@@ -29,7 +32,8 @@ function UserMessages() {
   const [panelSize, setPanelSize] = useState(100);
   const [noBackdrop, setNoBackdrop] = useState(false);
   const [showUserInfo, setShowUserInfo] = useState(true);
-
+  const { userID } = useContext(AuthContext)
+  const username = userID.username
 
 
   useEffect(() => {
@@ -44,7 +48,7 @@ function UserMessages() {
     getFriendProfile();
   })
 
-console.log({selectedConversation})
+
   //fetch to display current selected friend profile data (right side)
   useEffect(() => {
     const getFriendProfile = async () => {
@@ -119,6 +123,19 @@ console.log({selectedConversation})
     setMessage(message.filter((message) => message.id !== id));
   };
 
+  const handleDeleteFriend = async (id) => {
+    const response = await fetch(`/api_v1/buddies_detail/${id}/`, {
+      method: "DELETE",
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not OK");
+    }
+    toast.success("Friend deleted");
+  };
+
 
   // filter messages based on whether *SENDER id* and *RECEIVER id* matches *authUser.pk*
   // or *selected friend* using the state value of 'selectedConversation'
@@ -170,21 +187,32 @@ console.log({selectedConversation})
 
 
 
-  const friendsHTML = friends.map((friend) => (
-    <div key={friend.id}>
+    const friendsHTML = friends.map((friend) => (
+      <div key={friend.id}>
         <button 
-            id="button" 
-            className="button-orange"
-            onClick={() => {
-            setSelectedConversation(friend.to_user_id);
+          id="button" 
+          className="button-orange"
+          onClick={() => {
+            setSelectedConversation(
+              friend.to_user_id
+            );
             setOpenPanel(true);
-          }}>
-          {friend.to_user}
-      </button>
-    </div>
-  ));
+          }}
+        >
+          {friend.to_user === username 
+            ? friend.from_user 
+            : friend.to_user
+          }
+        </button>
+        <button onClick={() => handleDeleteFriend(friend.id)}>remove {friend.to_user === username 
+            ? friend.from_user 
+            : friend.to_user
+          } as friend?
+          </button>
+      </div>
+    ));
 
-  console.log({friends})
+  
   const friendProfileHTML = (
     <>
         <div 
@@ -199,7 +227,7 @@ console.log({selectedConversation})
         <h2 className="tinder-username">{currentFriendProfile.username}</h2>
         <p>{currentFriendProfile.pronouns}</p>
         <p>{currentFriendProfile.gym_location}</p>
-          
+          {/* {showDeletedMessage && <p>Friend deleted</p>} */}
         </div>
         </div>
         </div>
@@ -260,6 +288,7 @@ console.log({selectedConversation})
 
   return (
     <>
+     <ToastContainer />
       <Container 
       fluid
       className="message-container"
@@ -398,6 +427,7 @@ console.log({selectedConversation})
         </Row>
       
       </Container>
+   
     </>
   );
 }

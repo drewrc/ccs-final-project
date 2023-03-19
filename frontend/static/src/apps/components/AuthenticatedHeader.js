@@ -44,6 +44,8 @@ function AuthenticatedHeader({id}) {
     getMatches();
   }, []);
 
+
+
   useEffect(() => {
     const fetchMatchRequests = async () => {
       const response = await fetch("/api_v1/friend_requests/");
