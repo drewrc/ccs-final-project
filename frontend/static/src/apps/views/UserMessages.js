@@ -7,11 +7,13 @@ import { TextField, Button } from "@mui/material";
 import Conversation from "../components/Conversation";
 import Cookies from "js-cookie";
 import MessageFriendProfile from "../components/MessageUserProfile";
-import { faCheckDouble } from "@fortawesome/free-solid-svg-icons";
+import { faCheckDouble, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SlidingPanel from 'react-sliding-side-panel';
 import {useSwipeable} from 'react-swipeable';
 import { useSprings } from '@react-spring/web'
+import shadows from "@mui/material/styles/shadows";
+import { borderRadius } from "@mui/system";
 
 
 function UserMessages() {
@@ -27,7 +29,8 @@ function UserMessages() {
   const [panelSize, setPanelSize] = useState(100);
   const [noBackdrop, setNoBackdrop] = useState(false);
   const [showUserInfo, setShowUserInfo] = useState(true);
- 
+
+
 
   useEffect(() => {
     const getFriendProfile = async () => {
@@ -134,7 +137,9 @@ console.log({selectedConversation})
     })
     .map((message) => (
       <div key={message.id}>
-        <div className="message-object">
+        <div className={
+            message.sender === authUser.pk ? " user-message" : " incoming-message"
+            }>
           <Message {...message} 
           handleDelete={() => handleDelete(message.id)} 
           />
@@ -174,16 +179,18 @@ console.log({selectedConversation})
             setSelectedConversation(friend.to_user_id);
             setOpenPanel(true);
           }}>
-            {friend.to_user_id}
           {friend.to_user}
       </button>
     </div>
   ));
 
+  console.log({friends})
   const friendProfileHTML = (
     <>
-        <div className="profile-card-messages">
-        <div className="profile-banner-tinder-card">
+        <div 
+        className="card-bg">
+        <div className="profile-banner-tinder-card"
+        >
         <img className="profile-banner-display-tinder-card" src={currentFriendProfile.profile_banner} width="100%" height='50%'  />
         <div className="profile-pic-container-tinder-card">
             <img className="profile-pic-tinder-card" src={currentFriendProfile.profile_pic} />
@@ -268,24 +275,37 @@ console.log({selectedConversation})
         
         >
           <Col 
-          xs={4}
+          xs={3}
           className="friends-column"
           >
             <div className='conversations-side-bar'
               >
               <h3 className="friends-list-header">Friends</h3>
               {friends ? (
+                
                 friendsHTML
+        
               ) : (
-                <p>You have no friends. Start adding friends to see their profiles.</p>
+                <p >
+                  You have no friends. Start adding friends to see their profiles.
+                  </p>
               )}
                   <div>
                   </div>
             </div>
           </Col>
+          {/* <Col>
+          {!selectedConversation ?? (
+                                <div className="conversation-box">
+                                  <p>Choose a conversation on the left to start talking to friends!</p>
+                                </div>
+                              )}
+          </Col> */}
         
-          <Col xs={8}>
-            <div className="message-card">
+          <Col xs={9}>
+            
+            <div
+            className="message-card">
             <SlidingPanel
                   type={panelType}
                   isOpen={openPanel}
@@ -296,24 +316,43 @@ console.log({selectedConversation})
                 >
                   <div >
                   <Row>
-                    <Col xs={10}>
-                    <div>
-
+                    <Col xs={12}>
+                    <div className="message-panel-parent">
+                   
+                            <button 
+                                  id="toggle-profile"
+                                  onClick={() => setShowUserInfo(!showUserInfo)}>
+                                View User Profile
+                              </button>
                     {showUserInfo ? (
-                            <div className={`slide ${showUserInfo ? 'slide-in' : ''} ${!showUserInfo ? 'slide-out' : ''}`}>
-                              <h3>Messages</h3>
+                            <div 
+                            id="message-parent"
+                            className={`slide ${showUserInfo ? 'slide-in' : ''} ${!showUserInfo ? 'slide-out' : ''}`}>
+                                <button 
+                                id="message-close"
+                                onClick={() => setOpenPanel(false)} 
+                                className={!openPanel ? 'slide-out' : ''}
+                                >
+                                <FontAwesomeIcon icon={faX} />
+                                </button>
+                              
+                              <h3 className="messages-header">Messages</h3>
+                             
+                              {/* {selectedConversation && (
+                                <h4 className="conversation-header">Conversation with {currentFriendProfile}</h4>
+                              )} */}
                               {selectedConversation && (
-                                <h4>Conversation with {selectedConversation}</h4>
-                              )}
-                              {selectedConversation ? (
-                                messageHTML
-                              ) : (
-                                <p>Choose a conversation on the left to start talking to friends!</p>
-                              )}
-                              <button onClick={() => setOpenPanel(false)} className={!openPanel ? 'slide-out' : ''}>
-                                close</button>
+                                <div className="conversation-box">
+                                  {messageHTML}
+                                </div>
+                              )} 
+
+                              
+                            
                               <Col className="message-form">
-                                <form onSubmit={handleSubmit}>
+                                <form 
+        
+                                onSubmit={handleSubmit}>
                                   <TextField
                                     label="Message"
                                     id="outlined-multiline-flexible"
@@ -321,10 +360,22 @@ console.log({selectedConversation})
                                     maxRows={4}
                                     value={message}
                                     onChange={(e) => setMessage(e.target.value)}
+                                    style={{ width: "70%", marginBottom: '30px',  }}
+                                    className="textField"
                                   />
-                                  <Button type="submit" id="send-button" size="medium">
-                                    Send
-                                  </Button>
+                                  <button
+                                   style={{ 
+                                    width: "20%",
+                                    paddingTop: '10px', 
+                                    paddingBottom: '10px',
+                                    marginLeft: '10px',
+                                    marginRight: '10px',
+                                    marginTop: '5px',
+                                    }} 
+                                   type="submit" id="send-button" 
+                                  class="button_fill "
+                                  >send
+                                  </button>
                                 </form>
                               </Col>
                             </div>
@@ -336,9 +387,7 @@ console.log({selectedConversation})
                               </div>
                             </Col>
                           )}
-                           <button onClick={() => setShowUserInfo(!showUserInfo)}>
-                        View User Profile
-                      </button>
+                         
                       </div> 
                       </Col>
                     </Row>

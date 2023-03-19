@@ -10,6 +10,8 @@ font-family: 'Quicksand', sans-serif;
 font-family: 'Raleway', sans-serif;
 font-family: 'Roboto', sans-serif;
 font-family: 'Ubuntu', sans-serif; */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400|Raleway:300);
+
 
 
 /***** AUTH CONTEXT  *****/
@@ -148,19 +150,93 @@ font-family: 'Ubuntu', sans-serif; */
 }
 
 .conversations-side-bar {
-    margin-left: -70%;
+    /* margin-left: -70%;
     margin-right: auto;
     margin-top: 15%;
     position: absolute;
     top: 0;
     transition: width 0.5s ease;
-    height: 100vh;
+    height: 100vh; */
+    width: 100% !important;
+}
+.conversation-header {
+    padding: 20px;
+    color: rgb(1, 11, 28);
+    text-transform: capitalize;
 }
 
-.friends-list-header {
-    font-family: 'Raleway', sans-serif;
-    text-align: center;
+.messages-header {
+    font-family: 'oswald', sans-serif;
+    background-color: rgba(255, 255, 255, 1);
+    padding: 20px;
+    width: 100%;
+    border-bottom: 1px solid rgba(11, 9, 30, 0.2);
+    /* box-shadow: 1px 1px 10px rgba(106, 106, 106, 0.5); */
+    text-shadow: 1px 1px 3px rgb(23, 0, 198);
+    margin-bottom: 20px;
+    color:rgba(255, 115, 0, 1);
+    font-size: 35px;
+    text-transform: uppercase;
+}
 
+#message-parent {
+    position: relative;
+   background-color: rgb(255, 255, 255);
+   padding: 20px;
+   box-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+   /* background: linear-gradient(140deg, rgb(9, 247, 231, 1), rgba(255, 255, 255, 1)); */
+     border-radius: 10px;
+}
+#message-close {
+   position: absolute;
+   right: 5%;
+   top: 5%;
+   background-color: transparent;
+   border-color: rgb(75, 75, 75, 0.5);
+   color: rgb(75, 75, 75, 0.5);
+   box-shadow: 1px 1px 5px rgba(147, 147, 147, 0.5);
+}
+#message-close:hover {
+
+    background-color: rgba(88, 87, 87, 0.1);
+    border-color: rgb(75, 75, 75, 0.7);
+    color: rgb(53, 52, 52, 0.5);
+    box-shadow: 1px 1px 5px rgba(72, 72, 72, 0.5);
+ }
+
+
+/* font-family: 'Audiowide', cursive;
+font-family: 'Bangers', cursive;
+font-family: 'Comfortaa', cursive;
+font-family: 'Fugaz One', cursive;
+font-family: 'Gochi Hand', cursive;
+font-family: 'Monoton', cursive;
+font-family: 'Oswald', sans-serif;
+font-family: 'Quicksand', sans-serif;
+font-family: 'Raleway', sans-serif;
+font-family: 'Roboto', sans-serif;
+font-family: 'Ubuntu', sans-serif; */
+
+.conversation-box {
+    height: 50vh; 
+    overflow-y: auto;
+    padding-right: 15px; 
+  }
+
+  
+.friends-list-header {
+    text-align: center;
+    padding-top: 30px;
+    font-family: 'Oswald', sans-serif;
+    background-color: rgba(255, 255, 255, 1);
+    width: 100%;
+    text-shadow: 1px 1px 3px rgb(168, 0, 198);
+    margin-bottom: 20px;
+    color:rgb(255, 159, 91);
+    text-transform: uppercase;
+    font-size: 30px;
+    font-weight: bold;
+    
 }
 @media screen and (max-width: 800px) {
     .conversations-side-bar {
@@ -169,50 +245,58 @@ font-family: 'Ubuntu', sans-serif; */
   }
 
 
-#button {
+  @keyframes glow {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255,200,0, 0.7);
+    }
+    100% {
+      box-shadow: 0 0 0 20px rgba(255,200,0, 0);
+    }
+  }
+  
+  #button {
     border-radius: 4px;
-    background-color: transparent;
+    background-color: rgb(255, 200, 0);
     border: none;
-    color: orange;
+    text-shadow: 1px 1px 1px rgb(23, 0, 198);
+    margin-bottom: 20px;
+    color:rgb(255, 0, 251);
+    font-family: 'oswald';
     text-align: center;
     font-size: 18px;
-    padding: 20px;
     transition: all 0.5s;
     cursor: pointer;
-    margin: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    text-transform: uppercase;
+    font-size: 24px;
+    width: 100%;
   }
+  
   .button-orange {
-    color: rgb(255, 165, 0) ;
-  }
-
-  .button span {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    transition: 0.5s;
+    color: rgb(255, 165, 0);
   }
   
-  .button span:after {
-    content: '\00bb';
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    right: -20px;
-    transition: 0.5s;
+  #button:hover {
+    animation: pulse 1s infinite;
   }
   
-  .button:hover span {
-    padding-right: 25px;
-  }
-  
-  .button:hover span:after {
-    opacity: 1;
-    right: 0;
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
 
 .message-container {
     position: relative;
     top: 0px;
+ 
     /* text-align: center; */
 }
 .message-form {
@@ -227,6 +311,10 @@ font-family: 'Ubuntu', sans-serif; */
     justify-content: center;
     background-color: rgb(255, 255, 255);
     margin-top: -100px !important;
+
+    overflow-y: auto;
+    padding-right: 15px; /* add some padding to avoid scrollbar covering content */
+  
 }
 
 #nav:link, #nav:visited {
@@ -252,22 +340,153 @@ font-family: 'Ubuntu', sans-serif; */
 .message-card {
     text-align: center;
 }
-.message-object {
-    background-color: orange;
+.user-message {
+ background: linear-gradient(120deg, rgb(255, 158, 61), rgb(255, 128, 0));
+    background-color: rgb(255, 158, 61);
     border-radius: 8px;
-    border: 3px solid orange;
+    border: 3px solid rgb(255, 140, 0);
+    box-shadow: 1px 2px 10px rgb(46, 46, 46, 0.5);
 }
+.incoming-message {
+    /* background: linear-gradient(90deg, rgba(255, 0, 98, 1), rgb(255, 158, 61)); */
+       background-color: rgb(255, 54, 131);
+       border-radius: 8px;
+       border: 3px solid rgba(255, 0, 98, 1);
+   }
+
 #send-button {
     padding: 10px;
     margin: 5px;
+    font-family: 'oswald', sans-serif;
 }
 #send-text {
 }
 
+.button_fill {
+    position: relative;
+    background: linear-gradient(217deg, rgba(255, 0, 98, 1), rgb(255, 158, 61));
+    border: none;
+    color: #fff;
+ 
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid rgb(255, 0, 149);
+    overflow: hidden;
+    text-transform: uppercase;
+    box-shadow: 1px 2px 10px rgba(84, 83, 83, 0.5);
+  }
+  
+  .button_fill:hover {
+    border-left-color: transparent;
+    border-right-color: transparent;
+    transition: all 0.3s ease;
+    background: linear-gradient(90deg, rgba(255, 0, 98, 1), rgb(255, 158, 61));
+    background-size: 200% 100%;
+    animation: moveBackground 1s ease-in-out forwards;
+  }
+  #outlined-multiline-flexible {
+   
+  }
+  
+  @keyframes moveBackground {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: -100% 0;
+    }
+  }
+  
+  
+  
+  
+  
+  
+  
+  /* .button_fill:hover:before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0%;
+    background: #ffffff;
+    transition: width 0.5s ease;
+  } */
+  
+  /* .button_fill:hover:after {
+    content: "";
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 0%;
+    background: #ffffff;
+    transition: width 0.5s ease 0.25s;
+  }
+  
+  .button_fill:hover:before,
+  .button_fill:hover:after {
+    z-index: -1;
+  }
+  
+  .button_fill:hover:before {
+    width: 50%;
+  }
+  
+  .button_fill:hover:after {
+    width: 50%;
+  } */
+  
+.message-panel-parent{
+    position: relative;
+}
+
+#toggle-profile {
+    font-family: 'oswald', sans-serif;
+    z-index: 2000;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-radius: 10px 10px 0 0;
+    letter-spacing: 0.7px;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    /* background: linear-gradient(217deg, rgba(255, 0, 98, 1), rgb(255, 158, 61)); */
+    background-color: rgba(255, 0, 98, 1);
+    border: 2px solid rgb(255, 0, 212, 0.4);
+    padding: 10px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    font-size: 14px;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    opacity: 1;
+    transform: translateY(20%);
+  }
+  .card-bg {
+    background-color: white;
+    border-radius: 10px;
+  }
+  
+  #toggle-profile:hover {
+    border: 2px solid rgb(255, 0, 212, 0.4);
+    transform: translateY(50%);
+     background-color: rgb(255, 87, 61);
+     border-radius: 0 0 10px 10px;
+     opacity: 1;
+  }
+  
+
 .triangle {
     cursor:pointer;
     width: 0;
-    border-top: 28px solid orange;
+    border-top: 28px solid transparent;
+
     /* border-left: 45px solid transparent; */
     border-right: 45px solid transparent;
     margin-top: -16px;
@@ -278,23 +497,24 @@ font-family: 'Ubuntu', sans-serif; */
   .triangle-left {
     cursor:pointer;
     width: 0;
-    border-top: 28px solid orange;
+    border-top: 28px solid rgb(255, 140, 0);
     /* border-left: 45px solid transparent; */
     border-right: 45px solid transparent;
     margin-top: -16px;
     margin-bottom: 20px;
-    margin-left: 50px;
+    margin-left: 40px;
   }
   
   .triangle-right {
     cursor:pointer;
     width: 0;
-    border-top: 28px solid orange;
+    border-top: 15px solid rgb(255, 140, 0);
     /* border-right: 45px solid transparent; */
-    border-left: 45px solid transparent;
-    margin-top: -16px;
+    border-left: 25px solid transparent;
+    margin-top: -1px;
     margin-bottom: 20px;
-    margin-left: auto;
+    margin-left: 87%;
+    z-index: -1000;
   }
   
   @keyframes slideIn {
@@ -664,6 +884,9 @@ font-family: 'Ubuntu', sans-serif; */
         margin-top: 110px !important;
         padding-bottom: 10px;
         margin-right: 10px !important;
+    }
+    .message-card {
+        padding: 0px;
     }
   }
 

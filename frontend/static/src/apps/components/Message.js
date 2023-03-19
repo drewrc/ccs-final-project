@@ -64,13 +64,22 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
                 <button 
                 className="trash-button"
                 onClick={handleSaveClick}>
-                <FontAwesomeIcon icon={faFloppyDisk} />
+                <FontAwesomeIcon icon={faFloppyDisk} 
+                style={{
+                    color: 'white', 
+                  }}
+                  />
                 </button>
                 <button 
                 className="trash-button"
                 onClick={handleCancelClick}
+                
                 >
-                <FontAwesomeIcon icon={faTrash} />
+                <FontAwesomeIcon 
+                style={{
+                    color: 'white', 
+                  }}
+                icon={faTrash} />
                 </button>
                 </div>
             </span>
@@ -82,13 +91,21 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
                 onClick={handleEditClick}
                 className="trash-button" 
                 type="submit">
-                    <FontAwesomeIcon icon={faPencil} />
+                    <FontAwesomeIcon 
+                    style={{
+                        color: 'white', 
+                      }}
+                    icon={faPencil} />
             </button>
             <button 
                 onClick={handleDelete}
                 className="trash-button" 
                 type="submit">
-                    <FontAwesomeIcon icon={faTrash} />
+                    <FontAwesomeIcon 
+                    style={{
+                        color: 'white', 
+                      }}
+                    icon={faTrash} />
             </button>
             </p>
             </div>
