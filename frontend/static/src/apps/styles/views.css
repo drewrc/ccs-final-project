@@ -352,6 +352,7 @@ font-family: 'Ubuntu', sans-serif; */
        background-color: rgb(255, 54, 131);
        border-radius: 8px;
        border: 3px solid rgba(255, 0, 98, 1);
+       box-shadow: 1px 2px 10px rgb(46, 46, 46, 0.5);
    }
 
 #send-button {

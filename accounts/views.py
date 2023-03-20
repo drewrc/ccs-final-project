@@ -15,6 +15,7 @@ from rest_framework import permissions, status
 from .send_sms import client
 from rest_framework.exceptions import NotFound
 from .permissions import IsAuthorOrReadOnly
+from conversations.models import Conversation, Message
 
 
 class UserListAPIView(generics.ListCreateAPIView):
@@ -31,7 +32,6 @@ class UserRetrieveDetailAPIView(generics.RetrieveAPIView):
         return get_object_or_404(self.queryset, user=user_id)
 
 
-
 class CurrentUserListAPIView(generics.RetrieveAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
@@ -46,10 +46,20 @@ class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthorOrReadOnly]
 
 
+
+
 class UserProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
+    def perform_update(self, serializer):
+        profile = serializer.save()
+        if profile.gym_location:
+            # Retrieve coordinates for gym_location and set the coordinates field
+            coordinates = profile.get_gym_location_coordinates()
+            if coordinates:
+                profile.coordinates = coordinates
+                profile.save()
 
 
 class UserProfileListAPIView(generics.ListCreateAPIView):
@@ -109,19 +119,19 @@ def send_match_request(request, userID):
         friend_request, created = FriendRequest.objects.get_or_create(
             from_user=from_user, to_user=to_user)
         if created:
-            # send notification to the to_user
-            message = f"You have a new friend request from {from_user.username}."
-            to_phone_number = to_user.phone.as_e164
-            from_phone_number = "+18888419554"
-            client.messages.create(
-                to=to_phone_number,
-                from_=from_phone_number,
-                body=message
-            )
+            # send notification to the to_user if they have a phone number stored
+            if to_user.phone is not None:
+                message = f"You have a new friend request from {from_user.username}."
+                to_phone_number = to_user.phone.as_e164
+                from_phone_number = "+18888419554"
+                client.messages.create(
+                    to=to_phone_number,
+                    from_=from_phone_number,
+                    body=message
+                )
             return Response('friend request sent')
         else:
             return Response('friend request already sent')
-
 
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
@@ -133,13 +143,28 @@ def accept_match_request(request, requestID):
                 friend_request.to_user.buddies.add(friend_request.from_user)
                 friend_request.from_user.buddies.add(friend_request.to_user)
                 friend_request.delete()
-                return Response('request accepted')
+
+                # create new conversation between the two buddies
+                conversation = Conversation.objects.create(creator=request.user)
+                conversation.members.add(request.user)
+                conversation.members.add(friend_request.from_user)
+
+                # create new message in the conversation
+                message = Message.objects.create(
+                    conversation=conversation,
+                    sender=request.user,
+                    text='Welcome to the conversation!'
+                )
+
+                return Response('request accepted and conversation created')
             else:
                 return Response('request not accepted')
     except IntegrityError:
         return Response({'error': 'You have already sent a friend request to this user.'})
     except User.DoesNotExist:
         return Response({'error': 'Recipient not found.'})
+
+
 
 
 @api_view(['GET'])
@@ -189,6 +214,7 @@ class BuddyList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(from_user=self.request.user)
+
 
 
 class BuddyDetail(generics.RetrieveUpdateDestroyAPIView):

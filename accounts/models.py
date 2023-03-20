@@ -1,5 +1,6 @@
 from django.db import models
 # from django.contrib.gis.db import models
+from geopy import Point
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
@@ -77,20 +78,24 @@ class Profile(models.Model):
     def get_gym_location_coordinates(self):
         if not self.gym_location:
             return None
+
         # Initialize the Geopy GoogleV3 geocoder
         geolocator = GoogleV3(DJANGO_MAPS)
-        # Geopy geolocator to get the coordinates for the gym location
+
+        # Use Geopy to get the coordinates for the gym location
         try:
             location = geolocator.geocode(self.gym_location)
             if location is not None:
-                coordinates = f"{location.latitude}, {location.longitude}"
-                self.coordinates = coordinates
-                self.save()
-                return coordinates
+                # Create a Point object from the location latitude and longitude
+                point = Point(location.latitude, location.longitude)
+                self.coordinates = str(point)
+                self.save()  # Save the updated Profile instance
+                return str(point)
         except GeocoderTimedOut:
             return None
 
         return None
+
     def save(self, *args, **kwargs):
         if self.gym_location and not self.coordinates:
             # Retrieve coordinates for gym_location and set the coordinates field
