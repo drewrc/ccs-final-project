@@ -3,6 +3,7 @@ import Row from "react-bootstrap/esm/Row"
 import Container from "react-bootstrap/esm/Container"
 import { useState, useEffect } from "react"
 import Post from "../components/Post"
+import Cookies from "js-cookie"
 
 function UserTimeline () {
     const [ stories, setStories ] = useState([])
@@ -18,9 +19,25 @@ function UserTimeline () {
         getStories();
       }, []);
 
+      const handleLike = async (id) => {
+        const response = await fetch(`/api_v1/stories/${id}/like/`, {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": Cookies.get("csrftoken"),
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Network response was not OK");
+        }
+      };
+      //stories/<int:pk>/like/
+
        const storiesHTML = stories.map((post) =>
        <>
-       <Post {...post}/>
+       <Post 
+       {...post}
+       handleLike={handleLike}
+       />
        </>
        )
 

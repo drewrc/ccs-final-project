@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .serializers import UserSerializer, BuddySerializer, UserProfileSerializer
+from .serializers import UserSerializer, FriendRequestSerializer, UserBuddySerializer, UserProfileSerializer
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError, models
@@ -11,6 +11,7 @@ from django.dispatch import receiver
 from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework import permissions, status
 from .send_sms import client
 from rest_framework.exceptions import NotFound
@@ -27,6 +28,7 @@ class UserRetrieveDetailAPIView(generics.RetrieveAPIView):
     queryset = Profile.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
+
     def get_object(self):
         user_id = self.kwargs['user_id']
         return get_object_or_404(self.queryset, user=user_id)
@@ -46,12 +48,11 @@ class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthorOrReadOnly]
 
 
-
-
 class UserProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
+
     def perform_update(self, serializer):
         profile = serializer.save()
         if profile.gym_location:
@@ -133,6 +134,7 @@ def send_match_request(request, userID):
         else:
             return Response('friend request already sent')
 
+
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
 def accept_match_request(request, requestID):
@@ -145,7 +147,8 @@ def accept_match_request(request, requestID):
                 friend_request.delete()
 
                 # create new conversation between the two buddies
-                conversation = Conversation.objects.create(creator=request.user)
+                conversation = Conversation.objects.create(
+                    creator=request.user)
                 conversation.members.add(request.user)
                 conversation.members.add(friend_request.from_user)
 
@@ -165,13 +168,11 @@ def accept_match_request(request, requestID):
         return Response({'error': 'Recipient not found.'})
 
 
-
-
 @api_view(['GET'])
 @permission_classes((permissions.IsAuthenticated,))
 def friend_requests(request):
     friend_requests = FriendRequest.objects.filter(to_user=request.user)
-    serializer = BuddySerializer(friend_requests, many=True)
+    serializer = FriendRequestSerializer(friend_requests, many=True)
     return Response(serializer.data)
 
 
@@ -188,47 +189,46 @@ def match_request_count(request):
 def buddies_list(request):
     if request.method == 'GET':
         buddies = request.user.buddies.all()
-        serializer = BuddySerializer(buddies, many=True)
+        serializer = FriendRequestSerializer(buddies, many=True)
         return Response(serializer.data)
 
 
-class UserBuddyAPIView(generics.RetrieveAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = UserSerializer
+# class UserBuddyAPIView(generics.RetrieveAPIView):
+#     permission_classes = [IsAuthenticated]
+#     serializer_class = UserSerializer
 
-    def get_object(self):
-        user_id = self.kwargs.get('user_id')
-        user = get_object_or_404(User, id=user_id)
-        return user.buddies.all()
+#     def get_object(self):
+#         user_id = self.kwargs.get('user_id')
+#         user = get_object_or_404(User, id=user_id)
+#         return user.buddies.all()
 
 
-class BuddyList(generics.ListCreateAPIView):
-    queryset = FriendRequest.objects.all()
-    serializer_class = BuddySerializer
+class BuddyList(APIView):
+    serializer_class = UserBuddySerializer
+    queryset = User.objects.all()
 
-    def get_queryset(self):
-        user = self.request.user
-        return FriendRequest.objects.filter(
-            models.Q(from_user_id=user.id) | models.Q(to_user_id=user.id)
-        )
+    def get(self, request):
+        serializer = UserBuddySerializer(request.user)
+        return Response(serializer.data)
 
-    def perform_create(self, serializer):
-        serializer.save(from_user=self.request.user)
-
+    # def perform_create(self, serializer):
+    #     serializer.save(from_user=self.request.user)
 
 
 class BuddyDetail(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = BuddySerializer
-    permission_classes = [IsAuthenticated]
-    def get_queryset(self):
-        user = self.request.user
-        return FriendRequest.objects.filter(
-            models.Q(from_user_id=user.id) | models.Q(to_user_id=user.id)
-        )
+    pass
+    # serializer_class = BuddySerializer
+    # permission_classes = [IsAuthenticated]
+
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     return FriendRequest.objects.filter(
+    #         models.Q(from_user_id=user.id) | models.Q(to_user_id=user.id)
+    #     )
 
 
-@ api_view(['GET'])
-@ permission_classes((permissions.IsAuthenticated,))
+@api_view(['GET'])
+@permission_classes((permissions.IsAuthenticated,))
 def UserProfileView(request, pk):
     user_profile = get_object_or_404(User, pk=pk)
     serializer = UserProfileSerializer(user_profile)

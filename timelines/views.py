@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Story, Timeline
 from .serializers import StorySerializer, TimelineSerializer
 from rest_framework import generics, status
@@ -46,81 +46,51 @@ def get_user_timeline(request):
     except Timeline.DoesNotExist:
         return Response({"message": "Timeline does not exist."}, status=404)
     
-# @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
-# def get_user_stories(request):
-#     user = request.user
-#     try:
-#         stories = Story.objects.filter(author_id=user)
-#         serializer = StorySerializer(stories, many=True, fields=('img', 'author', 'text', 'date_created', 'timeline'))
-#         return Response(serializer.data)
-#     except Story.DoesNotExist:
-#         return Response({"message": "Story does not exist."}, status=404)
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def like_story(request, pk):
+    # Get the story instance
+    story = get_object_or_404(Story, pk=pk)
+    
+    # Check if the user has already liked the story
+    # if request.user in story.likes.all():
+    #     return Response({'message': 'You have already liked this story.'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Increment the likes count
+    story.likes += 1
+    
+    # Add the user to the likes list
+    # story.likes.add(request.user)
+    
+    # Save the changes to the database
+    story.save()
+    
+    # Return a success response
+    return Response({'message': 'Story liked successfully.'}, status=status.HTTP_200_OK)
+
 
 class GetUserStories(generics.ListAPIView):
     serializer_class = StorySerializer
     permission_classes = [IsAuthenticated]
     def get_queryset(self):
         return Story.objects.filter(author=self.request.user)
-    # def get_object(self):
-    #     user = self.request.user
-    #     try:
-    #         stories = Story.objects.filter(author_id=user)
-    #         return stories
-    #     except Story.DoesNotExist:
-    #         Response (status=status.HTTP_404_NOT_FOUND)
-
-    
-# @api_view(['PUT'])
-# @permission_classes([IsAuthenticated])
-# def user_edit_story(request, pk):
-#     try:
-#         instance = Story.objects.get(pk=pk)
-#     except Story.DoesNotExist:
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-#     instance.img = ''
-#     instance.save()
-#     serializer = StorySerializer(instance)
-#     return Response(serializer.data)
-
-
-
-
-# @api_view(['GET', 'PUT'])
-# @permission_classes([IsAuthenticated])
-# def user_edit_story(request, pk):
-#     try:
-#         instance = Story.objects.get(pk=pk)
-#         if instance.author != request.author:
-#             return Response(status=status.HTTP_403_FORBIDDEN)
-#     except Story.DoesNotExist:
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-#      # Retrieve data from request and validate it
-#     serializer = StorySerializer(instance, data=request.data, partial=True)
-#     if not serializer.is_valid():
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#     # Update instance with new data and save it
-#     serializer.save()
-#     serializer = StorySerializer(instance)
-#     return Response(serializer.data)
-
-
 
 class RecentStoriesFromFriendsView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = StorySerializer
 
     def get_queryset(self):
-        # Determine which users are friends of the current user.
+        # Determine which users are friends of the current user
         friends = self.request.user.buddies.all()
 
-        # Query the Story model to retrieve all stories from the friends of the current user, ordered by the date_created field in descending order (most recent first).
+        # Query the Story model to retrieve all stories from the friends of the current user, 
+        # ordered by the date_created field in descending order (most recent first)
         queryset = Story.objects.filter(
             Q(author__in=friends) | Q(timeline__user__in=friends)).order_by('-date_created')
         return queryset
 
     def get(self, request):
-        # Get the queryset for the current user.
+        # Get the queryset for the current user
         queryset = self.get_queryset()
 
         # Serialize the queryset

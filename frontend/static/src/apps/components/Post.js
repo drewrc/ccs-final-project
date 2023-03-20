@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import EditPost from './EditPost';
 import { AuthContext } from '../auth/auth-context/AuthContext';
 
-function Post ({id, text, img, author, showFullText, toggleText, timelineId }) {
+function Post ({id, text, img, author, showFullText, toggleText, timelineId, handleLike }) {
   const { userID } = useContext(AuthContext);
 
   const [ editPost, setEditPost ] = useState(false)
@@ -92,7 +92,7 @@ function Post ({id, text, img, author, showFullText, toggleText, timelineId }) {
                 )}  
 
             <button 
-                // onClick={handleLike}
+                onClick={() => handleLike(id)}
                 className="trash-button" 
                 type="submit">
                     <FontAwesomeIcon icon={faThumbsUp} />

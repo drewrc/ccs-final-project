@@ -19,7 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class BuddySerializer(serializers.ModelSerializer):
+class FriendRequestSerializer(serializers.ModelSerializer):
     from_user = serializers.ReadOnlyField(source='from_user.username')
     to_user = serializers.ReadOnlyField(source='to_user.username')
 
@@ -28,7 +28,8 @@ class BuddySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FriendRequest
-        fields = ('id', 'created_at', 'from_user', 'from_user_id', 'to_user', 'to_user_id', 'last_sent_at',)
+        fields = ('id', 'created_at', 'from_user', 'from_user_id',
+                  'to_user', 'to_user_id', 'last_sent_at',)
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -44,9 +45,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['id', 'username', 'pronouns', 'gender', 'profile_pic', 'profile_banner', 'biography',
+        fields = ['id', 'user', 'username', 'pronouns', 'gender', 'profile_pic', 'profile_banner', 'biography',
                   'first_name', 'last_name', 'buddies', 'coordinates', 'gym_location', 'buddies_count', 'buddies_ids']
-    
+
     def get_buddies_ids(self, obj):
         return obj.user.buddies.values_list('id', flat=True)
 
@@ -90,3 +91,19 @@ class UserProfileSerializer(serializers.ModelSerializer):
             print(e.detail)
 
         return instance
+
+
+class BuddySerializer(serializers.ModelSerializer):
+    profile = UserProfileSerializer(read_only=True)
+
+    class Meta:
+        model = User
+        fields = ('profile',)
+
+
+class UserBuddySerializer(serializers.ModelSerializer):
+    buddies = BuddySerializer(many=True, read_only=True)
+
+    class Meta:
+        model = User
+        fields = ('buddies',)

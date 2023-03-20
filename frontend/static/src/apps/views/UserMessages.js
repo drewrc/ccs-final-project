@@ -9,15 +9,14 @@ import Cookies from "js-cookie";
 import MessageFriendProfile from "../components/MessageUserProfile";
 import { faCheckDouble, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import SlidingPanel from 'react-sliding-side-panel';
-import {useSwipeable} from 'react-swipeable';
-import { useSprings } from '@react-spring/web'
+import SlidingPanel from "react-sliding-side-panel";
+import { useSwipeable } from "react-swipeable";
+import { useSprings } from "@react-spring/web";
 import shadows from "@mui/material/styles/shadows";
 import { borderRadius } from "@mui/system";
 import { AuthContext } from "../auth/auth-context/AuthContext";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function UserMessages() {
   const [message, setMessage] = useState("");
@@ -26,41 +25,41 @@ function UserMessages() {
   const [authUser, setAuthUser] = useState(null);
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [selectedProfile, setSelectedProfile] = useState([]);
-  const [currentFriendProfile, setCurrentFriendProfile] = useState([])
+  const [currentFriendProfile, setCurrentFriendProfile] = useState(null);
   const [openPanel, setOpenPanel] = useState(false);
-  const [panelType, setPanelType] = useState('left');
+  const [panelType, setPanelType] = useState("left");
   const [panelSize, setPanelSize] = useState(100);
   const [noBackdrop, setNoBackdrop] = useState(false);
   const [showUserInfo, setShowUserInfo] = useState(true);
-  const { userID } = useContext(AuthContext)
-  const username = userID.username
-
+  const { userID } = useContext(AuthContext);
+  const username = userID.username;
 
   useEffect(() => {
     const getFriendProfile = async () => {
-      const response = await fetch(`/api_v1/profiles/${selectedConversation}`);
+      const response = await fetch(`/api_v1/profiles/${selectedConversation}/`);
       if (!response.ok) {
         throw new Error("Network response not OK");
       }
       const data = await response.json();
       setCurrentFriendProfile(data);
     };
-    getFriendProfile();
-  })
-
+    if (selectedConversation) {
+      getFriendProfile();
+    }
+  }, [selectedConversation]);
 
   //fetch to display current selected friend profile data (right side)
-  useEffect(() => {
-    const getFriendProfile = async () => {
-      const response = await fetch(`/api_v1/users/${selectedConversation}/`);
-      if (!response.ok) {
-        throw new Error("Network response not OK");
-      }
-      const data = await response.json();
-      setSelectedProfile([data]);
-    };
-    getFriendProfile();
-  }, [selectedConversation]);
+  // useEffect(() => {
+  //   const getFriendProfile = async () => {
+  //     const response = await fetch(`/api_v1/users/${selectedConversation}/`);
+  //     if (!response.ok) {
+  //       throw new Error("Network response not OK");
+  //     }
+  //     const data = await response.json();
+  //     setSelectedProfile([data]);
+  //   };
+  //   getFriendProfile();
+  // }, [selectedConversation]);
 
   //fetch current authenticated user
   useEffect(() => {
@@ -87,13 +86,13 @@ function UserMessages() {
     };
     getMessages();
 
-    const getMessagesInterval = setInterval(getMessages, 3000);
+    const getMessagesInterval = setInterval(getMessages, 30000);
 
     return () => {
-      clearInterval(getMessagesInterval);
+      clearInterval(currentFriendProfile);
     };
   }, []);
-  
+
   //fetch user friends
   useEffect(() => {
     const getFriends = async () => {
@@ -102,11 +101,10 @@ function UserMessages() {
         throw new Error("Network response not OK");
       }
       const data = await response.json();
-      setFriends(data);
+      setFriends(data.buddies);
     };
     getFriends();
   }, []);
-
 
   //send DELETE request for delete button on each message
   const handleDelete = async (id) => {
@@ -136,7 +134,6 @@ function UserMessages() {
     toast.success("Friend deleted");
   };
 
-
   // filter messages based on whether *SENDER id* and *RECEIVER id* matches *authUser.pk*
   // or *selected friend* using the state value of 'selectedConversation'
   const messageHTML = messages
@@ -154,14 +151,20 @@ function UserMessages() {
     })
     .map((message) => (
       <div key={message.id}>
-        <div className={
-            message.sender === authUser.pk ? " user-message" : " incoming-message"
-            }>
-          <Message {...message} 
-          handleDelete={() => handleDelete(message.id)} 
-          />
+        <div
+          className={
+            message.sender === authUser.pk
+              ? " user-message"
+              : " incoming-message"
+          }
+        >
+          <Message {...message} handleDelete={() => handleDelete(message.id)} />
         </div>
-        <div className={message.sender === authUser.pk ? "triangle-right" : "triangle-left"}></div>
+        <div
+          className={
+            message.sender === authUser.pk ? "triangle-right" : "triangle-left"
+          }
+        ></div>
         <div id="message-date">
           Sent:{" "}
           {(() => {
@@ -185,59 +188,56 @@ function UserMessages() {
       </div>
     ));
 
+  console.log({ friends });
+  const friendsHTML = friends?.map((friend) => (
+    <div key={friend.id}>
+      <button
+        id="button"
+        className="button-orange"
+        onClick={() => {
+          setSelectedConversation(friend.profile.id);
+          setOpenPanel(true);
+        }}
+      >
+        {friend.profile.username}
+      </button>
+      <button onClick={() => handleDeleteFriend(friend.id)}>
+        remove {friend.to_user === username ? friend.from_user : friend.to_user}{" "}
+        as friend?
+      </button>
+    </div>
+  ));
 
-
-    const friendsHTML = friends.map((friend) => (
-      <div key={friend.id}>
-        <button 
-          id="button" 
-          className="button-orange"
-          onClick={() => {
-            setSelectedConversation(
-              friend.to_user_id === username 
-                ? friend.to_user_id
-                : friend.from_user_id
-            );
-            setOpenPanel(true);
-          }}
-        >
-          {friend.to_user === username 
-            ? friend.from_user 
-            : friend.to_user
-          }
-        </button>
-        <button onClick={() => handleDeleteFriend(friend.id)}>remove {friend.to_user === username 
-            ? friend.from_user 
-            : friend.to_user
-          } as friend?
-          </button>
-      </div>
-    ));
-
-  
   const friendProfileHTML = (
     <>
-        <div 
-        className="card-bg">
-        <div className="profile-banner-tinder-card"
-        >
-        <img className="profile-banner-display-tinder-card" src={currentFriendProfile.profile_banner} width="100%" height='50%'  />
-        <div className="profile-pic-container-tinder-card">
-            <img className="profile-pic-tinder-card" src={currentFriendProfile.profile_pic} />
+      <div className="card-bg">
+        <div className="profile-banner-tinder-card">
+          <img
+            className="profile-banner-display-tinder-card"
+            src={currentFriendProfile?.profile_banner}
+            width="100%"
+            height="50%"
+          />
+          <div className="profile-pic-container-tinder-card">
+            <img
+              className="profile-pic-tinder-card"
+              src={currentFriendProfile?.profile_pic}
+            />
+          </div>
+          <div className="tinder-card-info">
+            <h2 className="tinder-username">
+              {currentFriendProfile?.username}
+            </h2>
+            <p>{currentFriendProfile?.pronouns}</p>
+            <p>{currentFriendProfile?.gym_location}</p>
+            {/* {showDeletedMessage && <p>Friend deleted</p>} */}
+          </div>
         </div>
-        <div className="tinder-card-info">
-        <h2 className="tinder-username">{currentFriendProfile.username}</h2>
-        <p>{currentFriendProfile.pronouns}</p>
-        <p>{currentFriendProfile.gym_location}</p>
-          {/* {showDeletedMessage && <p>Friend deleted</p>} */}
-        </div>
-        </div>
-        </div>
+      </div>
     </>
   );
 
-
-  console.log({currentFriendProfile})
+  console.log({ currentFriendProfile });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -260,11 +260,12 @@ function UserMessages() {
     const data = await response.json();
 
     // Send the message to the # phone user
-    const response2 = await fetch(`/api_v1/send-message/${selectedConversation}/`, options);
+    const response2 = await fetch(
+      `/api_v1/send-message/${selectedConversation}/`,
+      options
+    );
     const data2 = await response2.json();
   };
-
-
 
   // const [springs, api] = useSprings(4, () => ({ x: 0 }))
 
@@ -287,42 +288,34 @@ function UserMessages() {
   //   ...config,
   // });
 
-
+  console.log({ userID });
   return (
     <>
-     <ToastContainer />
-      <Container 
-      fluid
-      className="message-container"
+      <ToastContainer />
+      <Container
+        fluid
+        className="message-container"
         style={{
-          backgroundColor: '#EEEEEE',
-          padding: '30px',
-          marginTop: '-15px',
-          width: '100vw',
-          position: 'relative',
+          backgroundColor: "#EEEEEE",
+          padding: "30px",
+          marginTop: "-15px",
+          width: "100vw",
+          position: "relative",
         }}
       >
-        <Row className="span-message-page"
-        
-        >
-          <Col 
-          xs={3}
-          className="friends-column"
-          >
-            <div className='conversations-side-bar'
-              >
+        <Row className="span-message-page">
+          <Col xs={3} className="friends-column">
+            <div className="conversations-side-bar">
               <h3 className="friends-list-header">Friends</h3>
               {friends ? (
-                
                 friendsHTML
-        
               ) : (
-                <p >
-                  You have no friends. Start adding friends to see their profiles.
-                  </p>
+                <p>
+                  You have no friends. Start adding friends to see their
+                  profiles.
+                </p>
               )}
-                  <div>
-                  </div>
+              <div></div>
             </div>
           </Col>
           {/* <Col>
@@ -332,104 +325,106 @@ function UserMessages() {
                                 </div>
                               )}
           </Col> */}
-        
+
           <Col xs={9}>
-            
-            <div
-            className="message-card">
-            <SlidingPanel
-                  type={panelType}
-                  isOpen={openPanel}
-                  backdropClicked={() => setOpenPanel(false)}
-                  size={panelSize}
-                  panelClassName={`additional-class ${openPanel ? 'slide-in' : ''} ${!openPanel ? 'slide-out' : ''}`}
-                  noBackdrop={noBackdrop}
-                >
-                  <div >
+            <div className="message-card">
+              <SlidingPanel
+                type={panelType}
+                isOpen={openPanel}
+                backdropClicked={() => setOpenPanel(false)}
+                size={panelSize}
+                panelClassName={`additional-class ${
+                  openPanel ? "slide-in" : ""
+                } ${!openPanel ? "slide-out" : ""}`}
+                noBackdrop={noBackdrop}
+              >
+                <div>
                   <Row>
                     <Col xs={12}>
-                    <div className="message-panel-parent">
-                   
-                            <button 
-                                  id="toggle-profile"
-                                  onClick={() => setShowUserInfo(!showUserInfo)}>
-                                View User Profile
-                              </button>
-                    {showUserInfo ? (
-                            <div 
+                      <div className="message-panel-parent">
+                        <button
+                          id="toggle-profile"
+                          onClick={() => setShowUserInfo(!showUserInfo)}
+                        >
+                          View User Profile
+                        </button>
+                        {showUserInfo ? (
+                          <div
                             id="message-parent"
-                            className={`slide ${showUserInfo ? 'slide-in' : ''} ${!showUserInfo ? 'slide-out' : ''}`}>
-                                <button 
-                                id="message-close"
-                                onClick={() => setOpenPanel(false)} 
-                                className={!openPanel ? 'slide-out' : ''}
-                                >
-                                <FontAwesomeIcon icon={faX} />
-                                </button>
-                              
-                              <h3 className="messages-header">Messages</h3>
-                             
-                              {/* {selectedConversation && (
+                            className={`slide ${
+                              showUserInfo ? "slide-in" : ""
+                            } ${!showUserInfo ? "slide-out" : ""}`}
+                          >
+                            <button
+                              id="message-close"
+                              onClick={() => setOpenPanel(false)}
+                              className={!openPanel ? "slide-out" : ""}
+                            >
+                              <FontAwesomeIcon icon={faX} />
+                            </button>
+
+                            <h3 className="messages-header">Messages</h3>
+
+                            {/* {selectedConversation && (
                                 <h4 className="conversation-header">Conversation with {currentFriendProfile}</h4>
                               )} */}
-                              {selectedConversation && (
-                                <div className="conversation-box">
-                                  {messageHTML}
-                                </div>
-                              )} 
-
-                              
-                            
-                              <Col className="message-form">
-                                <form 
-        
-                                onSubmit={handleSubmit}>
-                                  <TextField
-                                    label="Message"
-                                    id="outlined-multiline-flexible"
-                                    multiline
-                                    maxRows={4}
-                                    value={message}
-                                    onChange={(e) => setMessage(e.target.value)}
-                                    style={{ width: "70%", marginBottom: '30px',  }}
-                                    className="textField"
-                                  />
-                                  <button
-                                   style={{ 
-                                    width: "20%",
-                                    paddingTop: '10px', 
-                                    paddingBottom: '10px',
-                                    marginLeft: '10px',
-                                    marginRight: '10px',
-                                    marginTop: '5px',
-                                    }} 
-                                   type="submit" id="send-button" 
-                                  class="button_fill "
-                                  >send
-                                  </button>
-                                </form>
-                              </Col>
-                            </div>
-                          ) : (
-                            <Col className="unknown">
-                              <div className={`user-info-card ${!showUserInfo ? 'slide-in' : ''} ${showUserInfo ? 'slide-out' : ''}`}>
-                                <h3>User info</h3>
-                                {friendProfileHTML}
+                            {selectedConversation && (
+                              <div className="conversation-box">
+                                {messageHTML}
                               </div>
+                            )}
+
+                            <Col className="message-form">
+                              <form onSubmit={handleSubmit}>
+                                <TextField
+                                  label="Message"
+                                  id="outlined-multiline-flexible"
+                                  multiline
+                                  maxRows={4}
+                                  value={message}
+                                  onChange={(e) => setMessage(e.target.value)}
+                                  style={{ width: "70%", marginBottom: "30px" }}
+                                  className="textField"
+                                />
+                                <button
+                                  style={{
+                                    width: "20%",
+                                    paddingTop: "10px",
+                                    paddingBottom: "10px",
+                                    marginLeft: "10px",
+                                    marginRight: "10px",
+                                    marginTop: "5px",
+                                  }}
+                                  type="submit"
+                                  id="send-button"
+                                  class="button_fill "
+                                >
+                                  send
+                                </button>
+                              </form>
                             </Col>
-                          )}
-                         
-                      </div> 
-                      </Col>
-                    </Row>
-                  </div>
-                </SlidingPanel>
+                          </div>
+                        ) : (
+                          <Col className="unknown">
+                            <div
+                              className={`user-info-card ${
+                                !showUserInfo ? "slide-in" : ""
+                              } ${showUserInfo ? "slide-out" : ""}`}
+                            >
+                              <h3>User info</h3>
+                              {friendProfileHTML}
+                            </div>
+                          </Col>
+                        )}
+                      </div>
+                    </Col>
+                  </Row>
                 </div>
+              </SlidingPanel>
+            </div>
           </Col>
         </Row>
-      
       </Container>
-   
     </>
   );
 }

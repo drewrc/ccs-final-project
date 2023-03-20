@@ -8,7 +8,7 @@ import { faArrowPointer, faMeteor, faReply } from "@fortawesome/free-solid-svg-i
 
 function UnauthHome() {
   React.useEffect(() => {
-    document.body.style.backgroundColor = "#CACACA";
+    document.body.style.backgroundColor = "#EEEEEE";
   }, []);
   return (
     <>
