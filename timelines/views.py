@@ -8,6 +8,7 @@ from django.dispatch import receiver
 from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
+from django.db.models import Q
 
 class UserTimelineListCreateView (generics.ListCreateAPIView):
     serializer_class = TimelineSerializer
@@ -102,3 +103,28 @@ class GetUserStories(generics.ListAPIView):
 #     serializer.save()
 #     serializer = StorySerializer(instance)
 #     return Response(serializer.data)
+
+
+
+class RecentStoriesFromFriendsView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = StorySerializer
+
+    def get_queryset(self):
+        # Determine which users are friends of the current user.
+        friends = self.request.user.buddies.all()
+
+        # Query the Story model to retrieve all stories from the friends of the current user, ordered by the date_created field in descending order (most recent first).
+        queryset = Story.objects.filter(
+            Q(author__in=friends) | Q(timeline__user__in=friends)).order_by('-date_created')
+        return queryset
+
+    def get(self, request):
+        # Get the queryset for the current user.
+        queryset = self.get_queryset()
+
+        # Serialize the queryset
+        serializer = self.serializer_class(queryset, many=True)
+
+        # Return the serialized data
+        return Response(serializer.data)

@@ -20,6 +20,7 @@ class Story(models.Model):
     timeline = models.ForeignKey(
         Timeline, related_name="timeline", on_delete=models.CASCADE, null=True, blank=True)
     date_created = models.DateTimeField(auto_now=True, null=True)
+    likes = models.IntegerField(default=0)
 
     def __str__(self):
         return self.text[:50]

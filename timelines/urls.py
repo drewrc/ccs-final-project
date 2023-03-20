@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import GetUserStories, UserUpdateRetrieveDeleteView, get_user_timeline, UserStoryListCreateView, UserTimelineListCreateView, create_user_timeline
+from .views import GetUserStories, RecentStoriesFromFriendsView, UserUpdateRetrieveDeleteView, get_user_timeline, UserStoryListCreateView, UserTimelineListCreateView, create_user_timeline
 
 app_name = "timelines"
 
@@ -9,4 +9,5 @@ urlpatterns = [
     path("view_timelines/", UserTimelineListCreateView.as_view(), name="view_timelines"),
     path("edit_story/<int:pk>/", UserUpdateRetrieveDeleteView.as_view(), name="edit_story"),
     path("user_stories/", GetUserStories.as_view(), name="user_stories"),
+    path("friend_stories/", RecentStoriesFromFriendsView.as_view(), name="friend_stories")
 ]
