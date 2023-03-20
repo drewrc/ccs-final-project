@@ -17,6 +17,7 @@ import { borderRadius } from "@mui/system";
 import { AuthContext } from "../auth/auth-context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import React from "react";
 
 function UserMessages() {
   const [message, setMessage] = useState("");
@@ -33,6 +34,13 @@ function UserMessages() {
   const [showUserInfo, setShowUserInfo] = useState(true);
   const { userID } = useContext(AuthContext);
   const username = userID.username;
+
+
+  React.useEffect(() => {
+    document.body.style.backgroundColor = "rgba(198, 133, 239, 0.1)";
+  }, []);
+
+  //background-color: rgba(198, 133, 239, 0.1);
 
   useEffect(() => {
     const getFriendProfile = async () => {
@@ -188,7 +196,7 @@ function UserMessages() {
       </div>
     ));
 
-  console.log({ friends });
+  // console.log({ friends });
   const friendsHTML = friends?.map((friend) => (
     <div key={friend.id}>
       <button
@@ -199,12 +207,19 @@ function UserMessages() {
           setOpenPanel(true);
         }}
       >
-        {friend.profile.username}
+
+      <img
+            className="friend-list-img"
+            src={friend.profile.profile_pic}
+
+          />
+        
+        {/* {friend.profile.username} */}
       </button>
-      <button onClick={() => handleDeleteFriend(friend.id)}>
-        remove {friend.to_user === username ? friend.from_user : friend.to_user}{" "}
+      {/* <button onClick={() => handleDeleteFriend(friend.id)}>
+        remove {friend.to_user === username ? friend.from_user : friend.to_user}
         as friend?
-      </button>
+      </button> */}
     </div>
   ));
 
@@ -267,28 +282,6 @@ function UserMessages() {
     const data2 = await response2.json();
   };
 
-  // const [springs, api] = useSprings(4, () => ({ x: 0 }))
-
-  // const bind = useDrag(
-  //   ({ down, movement: [x], args: [index] }) => api.start((i) => i === index && { x: down ? x : 0 }),
-  //   {
-  //     axis: 'x'
-  //   }
-  // )
-
-  // const config = {
-  //   delta: 10, // minimum distance (in px) before a swipe is detected
-  //   preventDefaultTouchmoveEvent: true, // prevent scrolling when swiping
-  //   trackTouch: true, // track touch movements
-  //   trackMouse: false, // track mouse movements
-  // };
-
-  // const handlers = useSwipeable({
-  //   onSwiped: (eventData) => console.log("User Swiped!", eventData),
-  //   ...config,
-  // });
-
-  console.log({ userID });
   return (
     <>
       <ToastContainer />
@@ -296,17 +289,34 @@ function UserMessages() {
         fluid
         className="message-container"
         style={{
-          backgroundColor: "#EEEEEE",
+          // border: '10px solid black',
+          backgroundColor: "rgba(298, 133, 239, 0.1)",
+          background: 'linear-gradient(217deg, rgba(255, 0, 98, 0.1), rgb(255, 158, 61, 0.2) )',
           padding: "30px",
           marginTop: "-15px",
           width: "100vw",
           position: "relative",
+          padding: '0',
         }}
       >
-        <Row className="span-message-page">
-          <Col xs={3} className="friends-column">
+        <Row className="span-message-page"
+        style={{
+          width: '100vw',
+        
+          // backgroundColor: 'rgba(298, 133, 239, 0.1)',
+        }}
+        >
+          <Col 
+          style={{ 
+            background: 'linear-gradient(140deg, rgba(245, 253, 251, 0.8), rgba(255, 205, 252, 0.1))',
+            // backgroundColor: 'rgba(0, 130, 255, 0.9)',
+            boxShadow: "1px 5px 10px rgba(0, 0, 255, 0.5)"
+          }}
+          xs={3} 
+          
+          className="friends-column">
             <div className="conversations-side-bar">
-              <h3 className="friends-list-header">Friends</h3>
+              <h3 className="friends-list-header">Buddies</h3>
               {friends ? (
                 friendsHTML
               ) : (
@@ -315,7 +325,9 @@ function UserMessages() {
                   profiles.
                 </p>
               )}
-              <div></div>
+              <div>
+
+              </div>
             </div>
           </Col>
           {/* <Col>
@@ -326,9 +338,14 @@ function UserMessages() {
                               )}
           </Col> */}
 
-          <Col xs={9}>
-            <div className="message-card">
+          <Col 
+          
+          xs={9}>
+            <div 
+           
+            className="message-card">
               <SlidingPanel
+              
                 type={panelType}
                 isOpen={openPanel}
                 backdropClicked={() => setOpenPanel(false)}
@@ -340,8 +357,17 @@ function UserMessages() {
               >
                 <div>
                   <Row>
-                    <Col xs={12}>
-                      <div className="message-panel-parent">
+                    <Col 
+                    
+                    xs={12}>
+                      <div 
+                      style={{
+                        paddingTop: '20px',
+                        // border: '1px solid black',
+                        boxShadow: "1px 1px 10px rgba(0, 0, 255, 0.5)"
+                      }}
+
+                      className="message-panel-parent">
                         <button
                           id="toggle-profile"
                           onClick={() => setShowUserInfo(!showUserInfo)}
@@ -350,6 +376,9 @@ function UserMessages() {
                         </button>
                         {showUserInfo ? (
                           <div
+                            style={{
+                              background: 'linear-gradient(140deg, rgba(245, 253, 251, 0.8), rgba(255, 205, 252, 0.1))',
+                            }}
                             id="message-parent"
                             className={`slide ${
                               showUserInfo ? "slide-in" : ""
@@ -374,7 +403,8 @@ function UserMessages() {
                               </div>
                             )}
 
-                            <Col className="message-form">
+                            <Col 
+                            className="message-form">
                               <form onSubmit={handleSubmit}>
                                 <TextField
                                   label="Message"

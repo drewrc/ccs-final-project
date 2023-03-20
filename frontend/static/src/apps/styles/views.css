@@ -35,9 +35,19 @@ font-family: 'Ubuntu', sans-serif; */
     linear-gradient(336deg, rgba(79, 9, 29, 0.8), rgba(162, 6, 6, 0.9) 70.71%),
     repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5) 5px, black 5px, black 10px);
     /* margin-bottom: 0px; */
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Oswald', sans-serif;
+    background-color: transparent;
+    width: 100%;
+    text-shadow: 1px 1px 3px rgb(90, 0, 106);
+    margin-bottom: 20px;
+    color:rgb(244, 240, 247);
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: bold;
     animation: slide-in-header 1s ease-out;
     z-index: 9999;
+    border-bottom: 3px solid rgba(198, 133, 239, 0.2);
+    box-shadow: 1px 2px 10px rgba(198, 133, 239, 0.3);
 }
 .left-nav {
     margin: 5px;
@@ -68,6 +78,15 @@ font-family: 'Ubuntu', sans-serif; */
     font-family: 'Raleway', sans-serif;
     text-transform: uppercase;
     animation: slide-in-footer 1s ease-out;
+    font-family: 'Oswald', sans-serif;
+    background-color: transparent;
+    width: 100%;
+    text-shadow: 1px 1px 3px rgb(90, 0, 106);
+ 
+    color:rgb(244, 240, 247);
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 
@@ -167,25 +186,29 @@ font-family: 'Ubuntu', sans-serif; */
 
 .messages-header {
     font-family: 'oswald', sans-serif;
-    background-color: rgba(255, 255, 255, 1);
+    background-color: transparent;
     padding: 20px;
     width: 100%;
     border-bottom: 1px solid rgba(11, 9, 30, 0.2);
     /* box-shadow: 1px 1px 10px rgba(106, 106, 106, 0.5); */
-    text-shadow: 1px 1px 3px rgb(23, 0, 198);
+    text-shadow: 1px 1px 3px rgb(139, 0, 198);
     margin-bottom: 20px;
-    color:rgba(255, 115, 0, 1);
-    font-size: 35px;
+    color:rgb(245, 4, 56, 0.8);
+    font-size: 45px;
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 #message-parent {
     position: relative;
-   background-color: rgb(255, 255, 255);
-   padding: 20px;
-   box-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+    background-color: rgba(255, 255, 255, 1);
+    padding: 20px;
+    /* background: linear-gradient(140deg, rgba(245, 253, 251, 0.8), rgba(255, 205, 252, 0.8)); */
+    /* box-shadow: 1px 1px 10px rgba(0, 0, 0, 1); */
    /* background: linear-gradient(140deg, rgb(9, 247, 231, 1), rgba(255, 255, 255, 1)); */
      border-radius: 10px;
+     border: 2px solid rgba(123, 0, 255, 0.1);
+     
 }
 #message-close {
    position: absolute;
@@ -228,13 +251,13 @@ font-family: 'Ubuntu', sans-serif; */
     text-align: center;
     padding-top: 30px;
     font-family: 'Oswald', sans-serif;
-    background-color: rgba(255, 255, 255, 1);
+    background-color: transparent;
     width: 100%;
-    text-shadow: 1px 1px 3px rgb(168, 0, 198);
+    text-shadow: 1px 1px 3px rgb(90, 0, 106);
     margin-bottom: 20px;
-    color:rgb(255, 159, 91);
+    color:rgb(244, 240, 247);
     text-transform: uppercase;
-    font-size: 30px;
+    font-size: 20px;
     font-weight: bold;
     
 }
@@ -256,40 +279,49 @@ font-family: 'Ubuntu', sans-serif; */
   
   #button {
     border-radius: 4px;
-    background-color: rgb(255, 200, 0);
+    /* background-color: rgb(255, 200, 0); */
+    background-color: transparent;
     border: none;
     text-shadow: 1px 1px 1px rgb(23, 0, 198);
     margin-bottom: 20px;
     color:rgb(255, 0, 251);
     font-family: 'oswald';
     text-align: center;
-    font-size: 18px;
     transition: all 0.5s;
     cursor: pointer;
     margin-left: auto;
     margin-right: auto;
     text-transform: uppercase;
-    font-size: 24px;
+    font-size: 14px;
     width: 100%;
+    /* padding: 20px; */
+    z-index: 4000;
+    transform: scale(1); /* you need a scale here to allow it to transition in both directions */
+    transition: 0.15s all ease;
   }
   
-  .button-orange {
-    color: rgb(255, 165, 0);
+  .friend-list-img {
+    border-radius: 50%;
+    height: 80px;
+    width: 80px;
+    object-fit: cover;
+    /* border: 2px solid rgba(10, 1, 28, 0.); */
+    box-shadow: 1px 2px 5px rgb(48, 48, 48, 0.5);
   }
-  
   #button:hover {
-    animation: pulse 1s infinite;
+    /* animation: pulse 2s; */
+    transform: scale(1.2);
   }
   
   @keyframes pulse {
     0% {
-      transform: scale(1);
+      transform: translateX(10%);
     }
     50% {
-      transform: scale(1.2);
+      transform: translateX(50%);;
     }
     100% {
-      transform: scale(1);
+      transform: translateX(70%);;
     }
   }
 
@@ -309,12 +341,20 @@ font-family: 'Ubuntu', sans-serif; */
     position: relative;
     display: flex;
     justify-content: center;
-    background-color: rgb(255, 255, 255);
-    margin-top: -100px !important;
-
+    background-color: rgba(198, 133, 239, 0.1);
+    /* background: linear-gradient(217deg, rgb(255, 158, 61, 0.5), rgba(255, 0, 98, 0.5) 70),
+    linear-gradient(217deg, rgb(255, 158, 61, 0.5), rgba(255, 0, 98, 0.5) 30%),
+    ; */
+    /* padding-right: 40px;
+    border-right: 20px solid rgba(255, 0, 98, 0.1); */
+    /* background: linear-gradient(217deg, rgba(255, 159, 5, 0.3), rgba(255, 0, 98, 0.1) 70.71%),            
+    linear-gradient(127deg, rgba(246,198,0,0.1), rgba(173, 0, 81, 0.1) 70.71%),            
+    linear-gradient(336deg, rgba(255, 0, 72, 0.4), rgba(8, 0, 0, 0.1) 70.71%)
+    ; */
+    /* background-color: rgb(252, 160, 62); */
+    margin-top: -50px !important;
     overflow-y: auto;
-    padding-right: 15px; /* add some padding to avoid scrollbar covering content */
-  
+    padding-right: 15px; 
 }
 
 #nav:link, #nav:visited {
@@ -339,6 +379,7 @@ font-family: 'Ubuntu', sans-serif; */
 }
 .message-card {
     text-align: center;
+    /* opacity: 0.9; */
 }
 .user-message {
  background: linear-gradient(120deg, rgb(255, 222, 103), rgb(255, 128, 0));
@@ -445,6 +486,7 @@ font-family: 'Ubuntu', sans-serif; */
   
 .message-panel-parent{
     position: relative;
+    /* border: 2px solid black; */
 }
 
 #toggle-profile {
