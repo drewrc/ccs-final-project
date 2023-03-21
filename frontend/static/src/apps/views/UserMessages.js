@@ -34,6 +34,8 @@ function UserMessages() {
   const [showUserInfo, setShowUserInfo] = useState(true);
   const { userID } = useContext(AuthContext);
   const username = userID.username;
+  // const isMobile = useMediaQuery("(max-width:600px)");
+
 
 // console.log({selectedConversation})
   React.useEffect(() => {
@@ -236,7 +238,7 @@ function UserMessages() {
     <>
       <div id="profile-hover" className="card-bg">
         <div 
-        style={{borderRadius: '10px 0',}}
+        // style={{borderRadius: '10px 0',}}
         className="profile-banner-tinder-card">
           <img
           style={{borderRadius: '10px 10px 0 0',}}
@@ -312,17 +314,17 @@ function UserMessages() {
           // border: '10px solid black',
           backgroundColor: "rgba(298, 133, 239, 0.1)",
           background: 'linear-gradient(217deg, rgba(255, 0, 98, 0.1), rgb(255, 158, 61, 0.2) )',
-          padding: "30px",
+          // padding: "30px",
           marginTop: "-15px",
           width: "100vw",
           position: "relative",
-          padding: '0',
+          // top: '0',
+          // paddingLeft: '1%',
         }}
       >
         <Row className="span-message-page"
         style={{
-          width: '100vw',
-        
+          // width: '100vw',
           // backgroundColor: 'rgba(298, 133, 239, 0.1)',
         }}
         >
@@ -330,12 +332,17 @@ function UserMessages() {
           style={{ 
             background: 'linear-gradient(140deg, rgba(245, 253, 251, 0.8), rgba(255, 205, 252, 0.1))',
             // backgroundColor: 'rgba(0, 130, 255, 0.9)',
-            boxShadow: "1px 5px 10px rgba(0, 0, 255, 0.5)"
+            boxShadow: "1px 5px 10px rgba(0, 0, 255, 0.5)",
+            background: 'linear-gradient(217deg, rgba(255,255,255,.9), rgba(255,255,255,0.5) 70.71%), linear-gradient(180deg, rgba(230,250,255,1), rgba(190, 255, 255, 0.2) 70.71%), linear-gradient(336deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 6, 0.1) 70.71%)',   
+     
           }}
           xs={3} 
-          
           className="friends-column">
-            <div className="conversations-side-bar">
+            <div 
+            style={{
+              
+            }}
+            className="conversations-side-bar">
               <h3 className="friends-list-header">Buddies</h3>
               {friends ? (
                 friendsHTML
@@ -350,8 +357,11 @@ function UserMessages() {
               </div>
             </div>
           </Col>
-          <Col xs={9}>
+          <Col 
+
+          xs={9}>
             <div 
+            
             className="message-card">
                {!selectedConversation && messageHTML.length < 1 && (
                   <div className="no-message">
@@ -375,11 +385,12 @@ function UserMessages() {
                     xs={12}>
                       <div 
                       style={{
-                        paddingTop: '20px',
+                        // height: '60vh',
+                        marginBottom: '50px',
+                        // paddingTop: '20px',
                         // border: '1px solid black',
                         boxShadow: "1px 1px 10px rgba(0, 0, 255, 0.5)"
                       }}
-
                       className="message-panel-parent">
                         <button
                           id="toggle-profile"
@@ -390,8 +401,8 @@ function UserMessages() {
                         {showUserInfo ? (
                           <div
                             style={{
-                              
-                              background: 'linear-gradient(140deg, rgba(245, 253, 251, 0.8), rgba(255, 205, 252, 0.1))',
+                              background: 'linear-gradient(217deg, rgba(255,255,255,.9), rgba(255,255,255,0.5) 70.71%), linear-gradient(180deg, rgba(230,250,255,1), rgba(190, 255, 255, 0.2) 70.71%), linear-gradient(336deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 6, 0.1) 70.71%)',             
+                              // background: 'linear-gradient(140deg, rgba(245, 253, 251, 0.8), rgba(255, 205, 252, 0.1))',
                             }}
                             id="message-parent"
                             className={`slide ${
@@ -416,7 +427,9 @@ function UserMessages() {
                                     no messages yet, why don't you send a message first?
                                   </div>
                                 ) : (
-                                  <div>{messageHTML}</div>
+                                  <div
+                              
+                                  >{messageHTML}</div>
                                 )}
                               </div>
                             )}

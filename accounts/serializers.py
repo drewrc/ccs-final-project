@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import User, Profile, FriendRequest
+from .models import User, Profile, FriendRequest, Activity
 from dj_rest_auth.models import TokenModel
 from django.core.exceptions import ValidationError
 
@@ -107,3 +107,30 @@ class UserBuddySerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('buddies',)
+
+class NonBuddyProfileSerializer(UserProfileSerializer):
+    def to_representation(self, instance):
+        #prevent return of user profile 
+        if instance == self.context['request'].user.profile:
+            return None
+        return super().to_representation(instance)
+
+class ActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Activity
+        fields = ('name',)
+
+    def validate_name(self, value):
+        """
+        validate that the activity name is not blank
+        """
+        if not value.strip():
+            raise serializers.ValidationError("Activity name cannot be blank.")
+        return value
+
+    def create(self, validated_data):
+        """
+        create a new activity instance with the validated data
+        """
+        activity = Activity.objects.create(name=validated_data['name'])
+        return activity

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .serializers import UserSerializer, FriendRequestSerializer, UserBuddySerializer, UserProfileSerializer
+from .serializers import UserSerializer, FriendRequestSerializer, UserBuddySerializer, UserProfileSerializer, NonBuddyProfileSerializer, ActivitySerializer
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError, models
@@ -17,7 +17,7 @@ from .send_sms import client
 from rest_framework.exceptions import NotFound
 from .permissions import IsAuthorOrReadOnly
 from conversations.models import Conversation, Message
-
+from math import dist
 
 class UserListAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -266,3 +266,44 @@ def send_message(request, user_id):
         body=message
     )
     return Response({'status': 'Message sent'})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_non_buddies(request):
+    # Get the authenticated user's profile
+    user_profile = request.user
+
+    # Get the list of IDs of the profiles the authenticated user is already friends with
+    buddies_ids = user_profile.buddies.values_list('id', flat=True)
+
+    # Get the list of IDs of the profiles the authenticated user has sent friend requests to
+    requested_ids = FriendRequest.objects.filter(from_user=user_profile).values_list('to_user__id', flat=True)
+
+    # Get the list of profiles the authenticated user is not friends with and hasn't sent a friend request to
+    non_buddies = Profile.objects.exclude(id__in=buddies_ids).exclude(id=user_profile.id).exclude(id__in=requested_ids)
+
+    # Check if user_profile has coordinates
+    coordinates = user_profile.coordinates
+    if coordinates:
+        lat, long = map(float, coordinates.split(','))
+        non_buddies = sorted(non_buddies, key=lambda p: dist(lat, long, p.latitude, p.longitude))
+
+    # Serialize the profiles using the NonBuddyProfileSerializer
+    serializer = NonBuddyProfileSerializer(non_buddies, many=True, context={'request': request})
+
+    # Return the serialized profiles
+    return Response(serializer.data)
+
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_activity(request):
+    serializer = ActivitySerializer(data=request.data)
+    if serializer.is_valid():
+        activity = serializer.save()
+        return Response({'id': activity.id, 'name': activity.name}, status=status.HTTP_201_CREATED)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

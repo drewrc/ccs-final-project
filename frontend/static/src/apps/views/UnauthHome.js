@@ -16,7 +16,7 @@ function UnauthHome() {
         <div 
         className="animation-border">
         </div>
-        <div className="header-text"> GYM BUDDIES </div>
+        <div className="header-text"> FitBuddies </div>
         <div className="arrow-down"></div>
         <div className="entrance-text">
           <div className="entrance-text-p">

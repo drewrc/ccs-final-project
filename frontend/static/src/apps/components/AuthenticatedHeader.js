@@ -97,7 +97,7 @@ function AuthenticatedHeader({id}) {
             <Container fluid>
               <div className="right-side-nav">
                 <Link to="/user-feed" className="left-nav" id="nav">
-                  Home
+                  HOME
                 </Link>
                 {matchRequestCount > 0 && (
                   <span

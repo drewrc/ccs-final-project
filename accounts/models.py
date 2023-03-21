@@ -37,15 +37,21 @@ class FriendRequest(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     last_sent_at = models.DateTimeField(null=True, blank=True)
     #this sets model up to recieve only unique requests and throws Integrtiy error if not 
-    # class Meta:
-    #     unique_together = ('from_user', 'to_user')
+    class Meta:
+        unique_together = ('from_user', 'to_user')
     
-    # def send_new_friend_request_after_reject(self):
-    #     if not self.last_sent_at:
-    #         return True
-    #     return datetime.datetime.now() - self.last_sent_at > COOLDOWN_PERIOD
-    # def __str__(self):
-    #     return f"{self.from_user.username} to {self.to_user.username}"
+    def send_new_friend_request_after_reject(self):
+        if not self.last_sent_at:
+            return True
+        return datetime.datetime.now() - self.last_sent_at > COOLDOWN_PERIOD
+    def __str__(self):
+        return f"{self.from_user.username} to {self.to_user.username}"
+
+class Activity(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 class Profile(models.Model):
     MALE = 'Male'
@@ -71,9 +77,15 @@ class Profile(models.Model):
     gym_location = models.CharField(max_length=255, blank=True)
     coordinates = models.CharField(max_length=255, blank=True)
     biography = models.CharField(max_length=255, blank=True)
+    activities = models.ManyToManyField(Activity, blank=True)
 
     def __str__(self):
         return self.user.username
+    
+    def add_activities(self, activity_names):
+        for activity_name in activity_names:
+            activity, created = Activity.objects.get_or_create(name=activity_name)
+            self.activities.add(activity)
     
     def get_gym_location_coordinates(self):
         if not self.gym_location:

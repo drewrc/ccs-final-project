@@ -206,7 +206,7 @@ font-family: 'Ubuntu', sans-serif; */
     /* background: linear-gradient(140deg, rgba(245, 253, 251, 0.8), rgba(255, 205, 252, 0.8)); */
     /* box-shadow: 1px 1px 10px rgba(0, 0, 0, 1); */
    /* background: linear-gradient(140deg, rgb(9, 247, 231, 1), rgba(255, 255, 255, 1)); */
-     border-radius: 10px;
+     /* border-radius: 10px; */
      border: 2px solid rgba(123, 0, 255, 0.1);
      margin-bottom: 70px;
 }
@@ -254,7 +254,7 @@ font-family: 'Roboto', sans-serif;
 font-family: 'Ubuntu', sans-serif; */
 
 .conversation-box {
-    height: 50vh; 
+    height: 30vh; 
     overflow-y: auto;
     padding-right: 15px; 
   }
@@ -272,11 +272,15 @@ font-family: 'Ubuntu', sans-serif; */
     text-transform: uppercase;
     font-size: 20px;
     font-weight: bold;
-    
 }
 @media screen and (max-width: 800px) {
     .conversations-side-bar {
         margin-top: 45%;
+    }
+    .friends-list-header {
+        padding-top: 40px;
+        padding-left: 20px;
+        padding-right: 20px;
     }
   }
 
@@ -315,8 +319,8 @@ font-family: 'Ubuntu', sans-serif; */
   
   .friend-list-img {
     border-radius: 50%;
-    height: 80px;
-    width: 80px;
+    height: 60px;
+    width: 60px;
     object-fit: cover;
     /* border: 2px solid rgba(10, 1, 28, 0.); */
     box-shadow: 1px 2px 5px rgb(48, 48, 48, 0.5);
@@ -341,8 +345,8 @@ font-family: 'Ubuntu', sans-serif; */
 
 .message-container {
     position: relative;
-    top: 0px;
- 
+    /* top: 0px;
+  */
     /* text-align: center; */
 }
 .message-form {
@@ -523,7 +527,7 @@ font-family: 'Ubuntu', sans-serif; */
     position: absolute;
     bottom: 0;
     left: 0;
-    border-radius: 10px 10px 0 0;
+    /* border-radius: 10px 10px 0 0; */
     letter-spacing: 0.7px;
     width: 100%;
     padding-top: 20px;
@@ -548,7 +552,7 @@ font-family: 'Ubuntu', sans-serif; */
     border: 2px solid rgb(255, 0, 212, 0.4);
     transform: translateY(50%);
      background-color: rgb(255, 87, 61);
-     border-radius: 0 0 10px 10px;
+     /* border-radius: 0 0 10px 10px; */
      opacity: 1;
   }
   

@@ -32,7 +32,7 @@ function UserMatch (from_user, id) {
     
     useEffect(() => {
       const getProfiles = async () => {
-        const response = await fetch(`/api_v1/new_user/`);
+        const response = await fetch(`/api_v1/new_friends/`);
         if (!response.ok) {
           throw new Error("Network response not OK");
         }
@@ -60,9 +60,6 @@ function UserMatch (from_user, id) {
           offScreen(nameToDelete)
         }
       }
-      
-    
-    
     
       const offScreen = (name) => {
         console.log(name + ' left the screen!')
@@ -90,8 +87,6 @@ function UserMatch (from_user, id) {
         const data = await response.json();
     }
 
-
-
     useEffect(() => {
       const fetchMatchRequests = async () => {
         const response = await fetch("/api_v1/friend_requests/");
@@ -103,9 +98,6 @@ function UserMatch (from_user, id) {
       };
       fetchMatchRequests();
     }, []);
-
-
-
 
     const matchHTML = friendRequests.map((request) => (
         <>
