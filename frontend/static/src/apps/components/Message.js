@@ -1,14 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPencil, faFloppyDisk, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Cookies from 'js-cookie';
 import { TextField } from '@mui/material';
 import { AuthContext } from '../auth/auth-context/AuthContext';
 
-function Message ({conversation, text, id, user_from, user_to, sender, receiver, date_created, handleDelete}) {
+function Message ({conversation, text, id, user_from, user_to, sender, receiver, date_created, handleDelete, username }) {
     const [editMode, setEditMode] = useState(false);
     const [editText, setEditText] = useState(text);
-    const { userID } = useState(AuthContext)
+
+    console.log({username})
+
 
     const handleEdit = async () => {
         const formData = new FormData();
@@ -44,7 +46,37 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
     const handleChange = (event) => {
         setEditText(event.target.value);
      };
-    
+
+
+      // const editHTML = { username === sender && (
+      //   <>
+      //     <p className="trash-button" >
+      //     <button 
+      //         onClick={handleEditClick}
+      //         className="trash-button" 
+      //         type="submit">
+      //             <FontAwesomeIcon 
+      //             style={{
+      //                 color: 'white', 
+      //               }}
+      //             icon={faPencil} />
+      //     </button>
+      //     <button 
+      //         onClick={handleDelete}
+      //         className="trash-button" 
+      //         type="submit">
+      //             <FontAwesomeIcon 
+      //             style={{
+      //                 color: 'white', 
+      //               }}
+      //             icon={faTrash} />
+      //     </button>
+      //     </p>
+      //     </>
+      //   )}
+  
+  
+         
     return (
         <div>
         <p className="sender-message-object">Sender: {user_from}</p>
@@ -86,6 +118,7 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
             ):(
             <div>
             <p>{text}</p>
+
             <p className="trash-button" >
             <button 
                 onClick={handleEditClick}
@@ -108,7 +141,10 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
                     icon={faTrash} />
             </button>
             </p>
+            {/* {editHTML} */}
             </div>
+
+
             )}
         </div>
     );

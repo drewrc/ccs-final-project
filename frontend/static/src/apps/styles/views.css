@@ -10,18 +10,19 @@ font-family: 'Quicksand', sans-serif;
 font-family: 'Raleway', sans-serif;
 font-family: 'Roboto', sans-serif;
 font-family: 'Ubuntu', sans-serif; */
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400|Raleway:300);
-
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Bangers&family=Comfortaa&family=Fugaz+One&family=Gochi+Hand&family=Lato:wght@300&family=Monoton&family=Oswald&family=Quicksand&family=Raleway&family=Roboto:ital@1&family=Ubuntu&display=swap');
 
 
 /***** AUTH CONTEXT  *****/
 #notification-button {
     background: linear-gradient(217deg, rgba(255, 0, 98, 0.5), rgba(203, 101, 0, 0.5));
     border: 1px solid rgb(255, 255, 255, 0.2);
-    border-radius: 50%;
+    border-radius: 100%;
     color: white;
     padding-top: 3px;
     padding-bottom: 3px;
+    width: 40px;
+    height: 40px;
 }
 #notification-button:hover {
     background: linear-gradient(217deg, rgba(255, 0, 98, 0.5), rgba(203, 101, 0, 1));
@@ -82,13 +83,22 @@ font-family: 'Ubuntu', sans-serif; */
     background-color: transparent;
     width: 100%;
     text-shadow: 1px 1px 3px rgb(90, 0, 106);
- 
     color:rgb(244, 240, 247);
     text-transform: uppercase;
     font-size: 20px;
     font-weight: bold;
 }
 
+.header {
+    color:rgb(255, 0, 68);
+    text-shadow: 1px 1px 3px rgba(174, 0, 249, 0.3);
+}
+.infoText {
+    color:rgb(255, 0, 68, 0.8);
+    text-shadow: 1px 1px 3px rgba(174, 0, 249, 0.3);
+    text-transform: uppercase;
+    font-size: 20px;
+}
 
 .user-object-placeholder {
     /* border: 10px solid rgb(255, 255, 255, 0.5); */
@@ -114,6 +124,7 @@ font-family: 'Ubuntu', sans-serif; */
 }
 .tinder-card-placeholder {
     background: linear-gradient(140deg, rgb(255, 255, 255), rgba(231, 231, 231, 0.1));
+    background-color: white;
     box-shadow: 1px 2px 10px rgb(44, 44, 44, 0.5);
     border-radius: 5px;
     border: 10px solid rgb(255, 255, 255, 0.5);
@@ -127,12 +138,29 @@ font-family: 'Ubuntu', sans-serif; */
     display: flex;
     align-items: center;    
     justify-content: center;
+    font-family: 'Oswald', sans-serif;
+    text-transform: capitalize;
+    padding: 20px;
+    margin: 10px;
+    letter-spacing: 0.4px;
+    font-weight: 900;
     /* background-color: white; */
 }
 .new-matches-list-display {
     background-color: white;
 }
-
+#profile-location {
+    text-transform: uppercase;
+    /* font-style: italic; */
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    color: rgb(255, 133, 11);
+    /* text-shadow: 1px 2px 1px rgba(10, 184, 243, 0.941); */
+}
+#profile-pronouns {
+    font-size: 13px;
+    color: rgb(176, 12, 0);
+}
 .swipe-direction {
     display: flex;
     align-items: center;    
@@ -233,7 +261,6 @@ font-family: 'Ubuntu', sans-serif; */
    box-shadow: 1px 1px 5px rgba(147, 147, 147, 0.5);
 }
 #message-close:hover {
-
     background-color: rgba(88, 87, 87, 0.1);
     border-color: rgb(75, 75, 75, 0.7);
     color: rgb(53, 52, 52, 0.5);
@@ -258,11 +285,44 @@ font-family: 'Ubuntu', sans-serif; */
     overflow-y: auto;
     padding-right: 15px; 
   }
+.desktop-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+}
+.desktop-buttons, button {
+    /* margin: 20px; */
+}
+.match-button {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 5px;
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+    background-color: rgb(255, 145, 61);
+    
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    opacity: 0.8;
+    transform: translateX(0%);
+    box-shadow: 1px 2px 10px rgb(22, 4, 30, 0.5);
+    border: 2px solid rgb(255, 0, 212, 0.4);
+    border-radius: 10px;
+    color: rgb(255, 254, 228);
+}  
 
-  
+.match-button:hover {
+    border: 2px solid rgb(255, 0, 212, 0.4);
+    transform: translateX(5%);
+     background-color: rgb(255, 87, 61);
+     /* border-radius: 0 0 10px 10px; */
+     opacity: 1;
+  }
+
 .friends-list-header {
     text-align: center;
-    padding-top: 30px;
+    padding-top: 60px;
     font-family: 'Oswald', sans-serif;
     background-color: transparent;
     width: 100%;
@@ -273,14 +333,14 @@ font-family: 'Ubuntu', sans-serif; */
     font-size: 20px;
     font-weight: bold;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 600px) {
     .conversations-side-bar {
         margin-top: 45%;
     }
     .friends-list-header {
-        padding-top: 40px;
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-top: 20px;
+        /* padding-left: 20px;
+        padding-right: 20px; */
     }
   }
 
@@ -310,15 +370,16 @@ font-family: 'Ubuntu', sans-serif; */
     margin-right: auto;
     text-transform: uppercase;
     font-size: 14px;
-    width: 100%;
+    /* width: 100%; */
     /* padding: 20px; */
     z-index: 4000;
     transform: scale(1); /* you need a scale here to allow it to transition in both directions */
     transition: 0.15s all ease;
+    display: flex;
   }
   
   .friend-list-img {
-    border-radius: 50%;
+    border-radius: 100%;
     height: 60px;
     width: 60px;
     object-fit: cover;
@@ -342,6 +403,38 @@ font-family: 'Ubuntu', sans-serif; */
       transform: scale(1);
     }
   }
+
+  @keyframes slideUp {
+    0% {
+      transform: translateY(0%);
+    }
+    100% {
+      transform: translateY(-100%);
+    }
+  }
+  
+  .no-message-fx {
+    animation: slideUp 3s backwards;
+  }
+
+.no-message {
+    background-color: rgb(255, 255, 255, 0.8);
+    font-size: 30px;
+    text-transform: uppercase;
+    /* padding: 50px; */
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 20vh;
+    /* margin: 60px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'oswald', sans-serif;
+    box-shadow: 1px 2px 10px rgb(142, 95, 203, 0.5);
+    border-radius: 0 0 10px 10px;
+    color: rgb(195, 137, 250);
+    letter-spacing: 1px;
+}
 
 .message-container {
     position: relative;
@@ -372,7 +465,8 @@ font-family: 'Ubuntu', sans-serif; */
     /* background-color: rgb(252, 160, 62); */
     margin-top: -50px !important;
     overflow-y: auto;
-    padding-right: 15px; 
+    /* padding-right: 15px;  */
+    padding: 0 !important;
 }
 
 #nav:link, #nav:visited {
@@ -991,7 +1085,11 @@ font-family: 'Ubuntu', sans-serif; */
 }
 .tinder-username {
     font-weight: bold;
-    text-transform: capitalize;
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 1px;
+    color:rgb(255, 60, 0);
+    text-shadow: 1.5px 1.5px 2px rgba(3, 24, 50, 0.3);
 }
 .name-holder {
     color: rgb(20, 24, 28);

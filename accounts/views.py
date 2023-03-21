@@ -192,7 +192,6 @@ def buddies_list(request):
         serializer = FriendRequestSerializer(buddies, many=True)
         return Response(serializer.data)
 
-
 # class UserBuddyAPIView(generics.RetrieveAPIView):
 #     permission_classes = [IsAuthenticated]
 #     serializer_class = UserSerializer
@@ -283,10 +282,10 @@ def get_non_buddies(request):
     non_buddies = Profile.objects.exclude(id__in=buddies_ids).exclude(id=user_profile.id).exclude(id__in=requested_ids)
 
     # Check if user_profile has coordinates
-    coordinates = user_profile.profile.coordinates
-    if coordinates:
-        lat, long = map(float, coordinates.split(','))
-        non_buddies = sorted(non_buddies, key=lambda p: dist(lat, long, p.latitude, p.longitude))
+    # coordinates = user_profile.profile.coordinates
+    # if coordinates:
+    #     lat, long = map(float, coordinates.split(','))
+    #     non_buddies = sorted(non_buddies, key=lambda p: dist(lat, long, float(p.coordinates.split(',')[0]), float(p.coordinates.split(',')[1])))
 
     # Serialize the profiles using the NonBuddyProfileSerializer
     serializer = NonBuddyProfileSerializer(non_buddies, many=True, context={'request': request})

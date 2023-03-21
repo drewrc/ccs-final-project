@@ -9,6 +9,9 @@ import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import Box from '@mui/material/Box';
 import Popper from '@mui/material/Popper';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+
 
 function UserMatch (from_user, id) {
     const [profiles, setProfiles] = useState([]);
@@ -25,7 +28,11 @@ function UserMatch (from_user, id) {
     const open = Boolean(anchorEl);
     const openRequests = open ? 'simple-popper' : undefined;
 
+    React.useEffect(() => {
+        document.body.style.background = 'linear-gradient(217deg, rgba(255, 0, 98, 0.2), rgb(255, 158, 61, 0.3))'
+      }, []);
 
+              // backgroundColor = "rgba(198, 133, 239, 0.1)";
     // React.useEffect(() => {
     //     document.body.style.backgroundColor = "rgba(160, 160, 160, 0.2)";
     //   }, []);
@@ -120,8 +127,18 @@ function UserMatch (from_user, id) {
 
     return (
         <div>
-            <Container>
-                <Row>
+            <Container
+            style={{
+                height: '100vh',
+            }}
+            >
+                <Row
+                //   style={{width: '50vw',
+                //     marginLeft: 'auto',
+                //     marginRight: 'auto',
+                // }}
+                
+                >
                     {/* <Col className="new-matches-list-display" xs={3}>
                     <h2>New Matches!</h2> */}
 {/* 
@@ -140,8 +157,8 @@ function UserMatch (from_user, id) {
 {/*                    
                     </Col> */}
                     <Col >
-                    <div className="header">
-                    <h2>Swipe Right to add friends</h2>
+                    <div>
+                    <h2 className="header">Swipe Right to add friends</h2>
                         </div>
                         <div className="user-object-placeholder">
                        
@@ -151,8 +168,12 @@ function UserMatch (from_user, id) {
                                 key={currentProfile.id}
                                 preventSwipe={["up", "down"]} 
                                 onSwipe={(dir) => swipe(dir, currentProfile.username, currentProfile.id, 50)}
-                                onCardLeftScreen={() => offScreen(currentProfile.username)}>
-                                <div className="tinder-card-placeholder">
+                                onCardLeftScreen={() => offScreen(currentProfile.username)}
+                              
+                                >
+                                <div 
+                                //   style={{background: 'rgb(120,120,255)'}}
+                                className="tinder-card-placeholder">
                                 <div className="profile-banner-tinder-card">
                                 <img className="profile-banner-display-tinder-card" src={currentProfile.profile_banner} width="100%" height='50%'  />
                                 <div className="profile-pic-container-tinder-card">
@@ -160,22 +181,27 @@ function UserMatch (from_user, id) {
                                 </div>
                                 <div className="tinder-card-info">
                                 <h2 className="tinder-username">{currentProfile.username}</h2>
-                                <p>{currentProfile.pronouns}</p>
-                                <p>{currentProfile.gym_location}</p>
+                                <p id="profile-pronouns"> ({currentProfile.pronouns})</p>
+                                <p id="profile-location">{currentProfile.gym_location}</p>
                                 <p>{currentProfile.biography}</p>
                                 </div>
                                 </div>
                                 </div>
                                 </TinderCard>
                             )}
-                            
+                            <div className="desktop-buttons"> 
+                            <button className="match-button"><FontAwesomeIcon icon={faAnglesLeft} /> next</button>
+                            <button className="match-button">match <FontAwesomeIcon icon={faAnglesRight} />
+                            </button> 
+                            </div>
                         </div>
                         <div className="swipe-direction">
-                        {lastDirection ? <h2 className='infoText'>You swiped {lastDirection}</h2> : <h2 className='infoText' />}
+                        {lastDirection ? <h2 className='infoText'>
+                            You swiped {lastDirection}</h2> : <h2 className='infoText' />}
                         </div>
                     </Col>
-                    <Col md={2}>
-                    </Col>
+                    {/* <Col md={2}>
+                    </Col> */}
                 </Row>
             </Container>
         </div>
