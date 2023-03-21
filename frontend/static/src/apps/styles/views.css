@@ -208,8 +208,21 @@ font-family: 'Ubuntu', sans-serif; */
    /* background: linear-gradient(140deg, rgb(9, 247, 231, 1), rgba(255, 255, 255, 1)); */
      border-radius: 10px;
      border: 2px solid rgba(123, 0, 255, 0.1);
-     
+     margin-bottom: 70px;
 }
+
+#profile-hover {
+    transition: transform 0.3s ease-out;
+    border-radius: 10px;
+    padding-bottom: 20px;
+  }
+  
+  #profile-hover:hover {
+    transform: translateY(-5px) scale(1.01);
+    border-radius: 10px;
+
+  }
+
 #message-close {
    position: absolute;
    right: 5%;
@@ -309,19 +322,20 @@ font-family: 'Ubuntu', sans-serif; */
     box-shadow: 1px 2px 5px rgb(48, 48, 48, 0.5);
   }
   #button:hover {
-    /* animation: pulse 2s; */
+    animation: pulse 2s infinite;
     transform: scale(1.2);
+    opacity: 0.8;
   }
   
   @keyframes pulse {
     0% {
-      transform: translateX(10%);
+      transform: scale(1);
     }
     50% {
-      transform: translateX(50%);;
+      transform: scale(1.2);
     }
     100% {
-      transform: translateX(70%);;
+      transform: scale(1);
     }
   }
 
@@ -401,15 +415,12 @@ font-family: 'Ubuntu', sans-serif; */
     margin: 5px;
     font-family: 'oswald', sans-serif;
 }
-#send-text {
-}
 
 .button_fill {
     position: relative;
     background: linear-gradient(217deg, rgba(255, 0, 98, 1), rgb(255, 158, 61));
     border: none;
     color: #fff;
- 
     border-radius: 5px;
     font-size: 12px;
     cursor: pointer;
@@ -428,9 +439,6 @@ font-family: 'Ubuntu', sans-serif; */
     background-size: 200% 100%;
     animation: moveBackground 1s ease-in-out forwards;
   }
-  #outlined-multiline-flexible {
-   
-  }
   
   @keyframes moveBackground {
     0% {
@@ -440,8 +448,28 @@ font-family: 'Ubuntu', sans-serif; */
       background-position: -100% 0;
     }
   }
+
+  .button_fill:not(:hover) {
+    content: "";
+
+    /* position: absolute; */
+    /* top: 0;
+    left: 0; */
+    /* width: 100%;
+    height: 100%; */
+    /* animation: moveBackground 1s ease-in-out backwards; */
+    /* animation-fill-mode: backwards; */
+  }
   
-  
+  /* @keyframes undoMoveBackground {
+    0% {
+      background-position: -100% 0;
+    }
+    100% {
+      background-position: 0 0;
+    }
+  }
+   */
   
   
   

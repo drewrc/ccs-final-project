@@ -35,7 +35,7 @@ function UserMessages() {
   const { userID } = useContext(AuthContext);
   const username = userID.username;
 
-
+// console.log({selectedConversation})
   React.useEffect(() => {
     document.body.style.backgroundColor = "rgba(198, 133, 239, 0.1)";
   }, []);
@@ -133,14 +133,18 @@ function UserMessages() {
     const response = await fetch(`/api_v1/buddies_detail/${id}/`, {
       method: "DELETE",
       headers: {
+        "Content-Type": "application/json",
         "X-CSRFToken": Cookies.get("csrftoken"),
       },
+      body: JSON.stringify({ buddy_id: id }),
     });
     if (!response.ok) {
       throw new Error("Network response was not OK");
     }
     toast.success("Friend deleted");
   };
+
+  
 
   // filter messages based on whether *SENDER id* and *RECEIVER id* matches *authUser.pk*
   // or *selected friend* using the state value of 'selectedConversation'
@@ -203,11 +207,12 @@ function UserMessages() {
         id="button"
         className="button-orange"
         onClick={() => {
-          setSelectedConversation(friend.profile.id);
+          setSelectedConversation(friend.profile.user);
+          // setCurrentFriendProfile(friend.profile.user);
           setOpenPanel(true);
         }}
       >
-
+        
       <img
             className="friend-list-img"
             src={friend.profile.profile_pic}
@@ -223,36 +228,51 @@ function UserMessages() {
     </div>
   ));
 
-  const friendProfileHTML = (
+  // console.log({currentFriendProfile})
+  // console.log({friends})
+  const selectedFriend = friends?.filter((friend) => friend.profile.user === selectedConversation);
+
+  const friendProfileHTML =  selectedFriend?.map((friend) => (
     <>
-      <div className="card-bg">
-        <div className="profile-banner-tinder-card">
+      <div id="profile-hover" className="card-bg">
+        <div 
+        style={{borderRadius: '10px 0',}}
+        className="profile-banner-tinder-card">
           <img
+          style={{borderRadius: '10px 10px 0 0',}}
             className="profile-banner-display-tinder-card"
-            src={currentFriendProfile?.profile_banner}
+            src={friend.profile.profile_banner}
             width="100%"
             height="50%"
           />
           <div className="profile-pic-container-tinder-card">
             <img
               className="profile-pic-tinder-card"
-              src={currentFriendProfile?.profile_pic}
+              src={friend.profile.profile_pic}
             />
           </div>
           <div className="tinder-card-info">
             <h2 className="tinder-username">
-              {currentFriendProfile?.username}
+              {friend.profile.username}
             </h2>
-            <p>{currentFriendProfile?.pronouns}</p>
-            <p>{currentFriendProfile?.gym_location}</p>
+            <p>{friend.profile.pronouns}</p>
+            <p>{friend.profile.gym_location}</p>
+            <p>
+              <button
+              onClick={() => handleDeleteFriend(friend.profile.user)}
+            style={{
+              marginBottom: '20px',
+            }}
+            >remove {friend.profile.username} as friend?</button>
+            </p>
             {/* {showDeletedMessage && <p>Friend deleted</p>} */}
           </div>
         </div>
       </div>
     </>
-  );
+  ));
 
-  console.log({ currentFriendProfile });
+  // console.log({ currentFriendProfile });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -281,7 +301,7 @@ function UserMessages() {
     );
     const data2 = await response2.json();
   };
-
+// console.log({messageHTML})
   return (
     <>
       <ToastContainer />
@@ -330,22 +350,15 @@ function UserMessages() {
               </div>
             </div>
           </Col>
-          {/* <Col>
-          {!selectedConversation ?? (
-                                <div className="conversation-box">
-                                  <p>Choose a conversation on the left to start talking to friends!</p>
-                                </div>
-                              )}
-          </Col> */}
-
-          <Col 
-          
-          xs={9}>
+          <Col xs={9}>
             <div 
-           
             className="message-card">
+               {!selectedConversation && messageHTML.length < 1 && (
+                  <div className="no-message">
+                    Select a friend from the side to send a new message!
+                  </div>
+                )}
               <SlidingPanel
-              
                 type={panelType}
                 isOpen={openPanel}
                 backdropClicked={() => setOpenPanel(false)}
@@ -377,6 +390,7 @@ function UserMessages() {
                         {showUserInfo ? (
                           <div
                             style={{
+                              
                               background: 'linear-gradient(140deg, rgba(245, 253, 251, 0.8), rgba(255, 205, 252, 0.1))',
                             }}
                             id="message-parent"
@@ -386,23 +400,27 @@ function UserMessages() {
                           >
                             <button
                               id="message-close"
-                              onClick={() => setOpenPanel(false)}
+                              onClick={() => {setOpenPanel(false);
+                              setSelectedConversation(null)
+                              }}
                               className={!openPanel ? "slide-out" : ""}
                             >
                               <FontAwesomeIcon icon={faX} />
                             </button>
 
-                            <h3 className="messages-header">Messages</h3>
-
-                            {/* {selectedConversation && (
-                                <h4 className="conversation-header">Conversation with {currentFriendProfile}</h4>
-                              )} */}
+                            <h3 className="messages-header">Messages with {currentFriendProfile?.username} </h3>
                             {selectedConversation && (
                               <div className="conversation-box">
-                                {messageHTML}
+                                {messageHTML.length < 1 ? (
+                                  <div className="no-message">
+                                    no messages yet, why don't you send a message first?
+                                  </div>
+                                ) : (
+                                  <div>{messageHTML}</div>
+                                )}
                               </div>
                             )}
-
+                             
                             <Col 
                             className="message-form">
                               <form onSubmit={handleSubmit}>

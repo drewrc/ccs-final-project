@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import UserRetrieveDetailAPIView, BuddyDetail, BuddyList, UserProfileRetrieveUpdateDestroy, friend_requests, CurrentUserListAPIView, UserRetrieveUpdateDestroyAPIView, UserProfileListAPIView, send_match_request, accept_match_request, match_request_count, UserProfileView, buddies_list
+from .views import UserRetrieveDetailAPIView, delete_buddy, BuddyList, UserProfileRetrieveUpdateDestroy, friend_requests, CurrentUserListAPIView, UserRetrieveUpdateDestroyAPIView, UserProfileListAPIView, send_match_request, accept_match_request, match_request_count, UserProfileView, buddies_list
 
 
 app_name = 'accounts'
@@ -24,7 +24,7 @@ urlpatterns = [
     path('user_edit_profile/<int:pk>/',
          UserProfileRetrieveUpdateDestroy.as_view(), name='edit_profile'),
     path('friend_requests/', friend_requests, name='friend_requests'),
-    path('buddies_detail/<int:pk>/', BuddyDetail.as_view(), name='buddies_detail'),
+    path('buddies_detail/<int:user_id>/', delete_buddy, name='buddies_detail'),
     path('buddies_detail/', BuddyList.as_view(), name='buddies_list_view'),
 
     # UserBuddyAPIView

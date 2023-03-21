@@ -3,12 +3,12 @@ import { faTrash, faPencil, faFloppyDisk, faXmark } from '@fortawesome/free-soli
 import { useState } from 'react';
 import Cookies from 'js-cookie';
 import { TextField } from '@mui/material';
+import { AuthContext } from '../auth/auth-context/AuthContext';
 
 function Message ({conversation, text, id, user_from, user_to, sender, receiver, date_created, handleDelete}) {
     const [editMode, setEditMode] = useState(false);
     const [editText, setEditText] = useState(text);
-
-
+    const { userID } = useState(AuthContext)
 
     const handleEdit = async () => {
         const formData = new FormData();

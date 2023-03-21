@@ -215,8 +215,8 @@ class BuddyList(APIView):
     #     serializer.save(from_user=self.request.user)
 
 
-class BuddyDetail(generics.RetrieveUpdateDestroyAPIView):
-    pass
+# class BuddyDetail(generics.RetrieveUpdateDestroyAPIView):
+#     pass
     # serializer_class = BuddySerializer
     # permission_classes = [IsAuthenticated]
 
@@ -225,7 +225,23 @@ class BuddyDetail(generics.RetrieveUpdateDestroyAPIView):
     #     return FriendRequest.objects.filter(
     #         models.Q(from_user_id=user.id) | models.Q(to_user_id=user.id)
     #     )
+@api_view(['DELETE'])
+@permission_classes((permissions.IsAuthenticated,))
+def delete_buddy(request, user_id):
+    # Get the User object corresponding to the given user_id
+    user = get_object_or_404(User, id=user_id)
 
+    # Get the buddy_id from the POST request data
+    buddy_id = request.data.get('buddy_id')
+    if not buddy_id:
+        # Return a 400 bad request if the buddy_id is not provided
+        return Response({'error': 'Buddy ID not provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Remove the buddy with the given buddy_id from the user's buddies
+    user.buddies.remove(buddy_id)
+
+    # Redirect to the user's detail page
+    return Response({'success': f'Buddy with ID {buddy_id} deleted successfully.'}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 @permission_classes((permissions.IsAuthenticated,))
