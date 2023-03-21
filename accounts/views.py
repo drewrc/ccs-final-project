@@ -269,8 +269,6 @@ def send_message(request, user_id):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def get_non_buddies(request):
     # Get the authenticated user's profile
     user_profile = request.user
@@ -285,7 +283,7 @@ def get_non_buddies(request):
     non_buddies = Profile.objects.exclude(id__in=buddies_ids).exclude(id=user_profile.id).exclude(id__in=requested_ids)
 
     # Check if user_profile has coordinates
-    coordinates = user_profile.coordinates
+    coordinates = user_profile.profile.coordinates
     if coordinates:
         lat, long = map(float, coordinates.split(','))
         non_buddies = sorted(non_buddies, key=lambda p: dist(lat, long, p.latitude, p.longitude))
