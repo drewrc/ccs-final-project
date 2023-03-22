@@ -18,9 +18,8 @@ return (
             <Navbar id="header" key={expand} expand={expand} className="mb-3">
             <Container fluid>
                 <Link id="nav" to="/UnauthHome">
-                Gym Buddies
+                FitBuddies
                 </Link>
-                
                 <Link to="/">
                 <FontAwesomeIcon icon="fa-duotone fa-bell" />
                 </Link>
@@ -41,14 +40,10 @@ return (
                          aria-label="Search"
                         />
                         <Button variant="outline-success">Search</Button>
-                            
-
                         <Link to="/user-feed" id="nav">
                         Home
                          </Link>
-
                         </Form>
-         
                 </Navbar.Offcanvas>
             </Container>
             </Navbar>

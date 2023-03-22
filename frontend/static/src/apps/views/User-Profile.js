@@ -4,8 +4,14 @@ import Container from "react-bootstrap/esm/Container"
 import { useState, useEffect } from "react"
 import Post from "../components/Post"
 import Cookies from "js-cookie"
+import React from "react"
 
 function UserTimeline () {
+
+  React.useEffect(() => {
+    document.body.style.background = 'linear-gradient(217deg, rgba(255, 0, 98, 0.2), rgb(255, 158, 61, 0.3))'
+  }, []);
+
     const [ stories, setStories ] = useState([])
     useEffect(() => {
         const getStories = async () => {

@@ -12,10 +12,10 @@ import UnauthenticatedHeader from "./apps/components/UnauthenticatedHeader";
 import AuthenticatedHeader from "./apps/components/AuthenticatedHeader";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./apps/routes/ProtectedRoute";
-import UserFeed from "./apps/views/UserFeed";
+import UserProfile from "./apps/views/UserProfile";
 import UserMessages from "./apps/views/UserMessages";
 import UserMatch from "./apps/views/UserMatch";
-import UserTimeline from "./apps/views/UserTimeline";
+import UserTimeline from "./apps/views/User-Profile";
 import { Redirect } from "react-router-dom";
 
 // import Logout from './apps/auth/auth-context/AuthContext';
@@ -38,10 +38,10 @@ function App() {
         />
         <Route path="register" element={<Registration isAuthenticated={isAuthenticated} register={register} />} />
         <Route path="/" element={<ProtectedRoute />}>
-          <Route path="user-feed" element={<UserFeed />} />
+          <Route path="profile" element={<UserProfile />} />
           <Route path="user-messages" element={<UserMessages />} />
           <Route path="user-match" element={<UserMatch />} />
-          <Route path="user-timeline" element={<UserTimeline />} />
+          <Route path="friend-stories" element={<UserTimeline />} />
           <Route path="logout" element={<LogOut />} />
         </Route>
       </Routes>

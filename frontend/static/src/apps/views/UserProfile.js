@@ -16,11 +16,11 @@ import { AuthContext } from '../auth/auth-context/AuthContext';
 import ProfileEditForm from "../components/ProfileEditForm";
 import Spinner from "react-bootstrap/esm/Spinner";
 
-function UserFeed() {
+function UserProfile() {
   const { isAuthenticated, userID } = useContext(AuthContext);
 
   React.useEffect(() => {
-    document.body.style.backgroundColor = "rgba(160, 160, 160, 0.2)";
+    document.body.style.background = 'linear-gradient(217deg, rgba(255, 100, 98, 0.3), rgb(255, 158, 61, 0.8))'
   }, []);
 
   const [userStories, setUserStories] = useState([]);
@@ -415,4 +415,4 @@ function UserFeed() {
   );
 }
 
-export default UserFeed;
+export default UserProfile;

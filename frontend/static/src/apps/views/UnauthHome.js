@@ -8,8 +8,9 @@ import { faArrowPointer, faMeteor, faReply } from "@fortawesome/free-solid-svg-i
 
 function UnauthHome() {
   React.useEffect(() => {
-    document.body.style.backgroundColor = "#EEEEEE";
+    document.body.style.background = 'linear-gradient(217deg, rgba(255, 0, 98, 0.2), rgb(255, 158, 61, 0.3))'
   }, []);
+
   return (
     <>
       <div id="home-container">

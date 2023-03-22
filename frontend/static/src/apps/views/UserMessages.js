@@ -234,7 +234,6 @@ const handleReadMessage = async () => {
         ) : (
           <p>{friend.profile.username}</p>
         )}
-
       </button>
     </>
   ));

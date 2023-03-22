@@ -194,17 +194,17 @@ function AuthenticatedHeader({id}) {
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                   <Nav className="justify-content-end flex-grow-1 pe-3">
-                    <Link to="/logout" id="side-nav">
+                    {/* <Link to="/logout" id="side-nav">
                       Logout
-                    </Link>
+                    </Link> */}
                     <Button
                       className="btn btn-link"
                       type="button"
                       onClick={logout}
                     >
-                      Good Logout
+                      Logout
                     </Button>
-                    <Link to="/user-feed" id="side-nav">
+                    <Link to="/friend-stories" id="side-nav">
                       Home
                     </Link>
                     <Link to="/user-messages" id="side-nav">
@@ -213,7 +213,7 @@ function AuthenticatedHeader({id}) {
                     <Link to="/user-match" id="side-nav">
                       Match
                     </Link>
-                    <Link to="/user-timeline" id="side-nav">
+                    <Link to="/profile" id="side-nav">
                       Profile
                     </Link>
 

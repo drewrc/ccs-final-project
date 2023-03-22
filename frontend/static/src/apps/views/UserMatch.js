@@ -22,6 +22,8 @@ function UserMatch (from_user, id) {
     const cardRef = useRef(null);
     const isMobile = useMediaQuery("(max-width:600px)");
 
+    console.log({currentProfileIndex})
+    console.log(profiles.length)
     const handleClick = (event) => {
       setAnchorEl(anchorEl ? null : event.currentTarget);
     };
@@ -155,6 +157,7 @@ console.log({currentProfileIndex})
                     <Col >
                     <div>
                     <h2 className="header">Swipe Right to add friends</h2>
+                    {/* <p>swipe left to view next profile </p> */}
                         </div>
                         <div className="user-object-placeholder">
                        
