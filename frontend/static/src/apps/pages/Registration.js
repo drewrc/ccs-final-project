@@ -14,13 +14,21 @@ function Registration() {
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [email, setEmail] = useState("");
-
+  // const [phone, setPhone] = useState("+1")
+ 
   const history = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    register({ username, password1, password2, email });
+    register({ username, password1, password2, email});
   };
+
+  // const handlePhoneChange = (event) => {
+  //   const value = event.target.value;
+  //   if (value.startsWith("+1") || value === "") {
+  //     setPhone(value);
+  //   }
+  // };
 
   if (isAuthenticated) {
     return <Navigate to="/user-feed" replace={true} />;
@@ -50,6 +58,15 @@ function Registration() {
                   onChange={(event) => setEmail(event.target.value)}
                 />
               </Form.Group>
+
+              {/* <Form.Group className="mb-3" controlId="email">
+                <Form.Label>Phone:</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={phone}
+                  onChange={(event) => setPhone(event.target.value)}
+                />
+              </Form.Group> */}
 
               <Form.Group className="mb-3" controlId="password1">
                 <Form.Label>Password:</Form.Label>

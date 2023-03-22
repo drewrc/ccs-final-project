@@ -3,7 +3,8 @@ from rest_framework import serializers
 from .models import User, Profile, FriendRequest, Activity
 from dj_rest_auth.models import TokenModel
 from django.core.exceptions import ValidationError
-
+from phonenumber_field.modelfields import PhoneNumberField
+import phonenumbers
 
 class TokenSerializer(serializers.ModelSerializer):
     user_name = serializers.ReadOnlyField(source='user.username')
@@ -39,6 +40,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
     buddies = serializers.SerializerMethodField()
     buddies_count = serializers.SerializerMethodField()
     buddies_ids = serializers.SerializerMethodField()
+    phone = serializers.CharField(source='user.phone', allow_blank=True)
+    # activities = serializers.PrimaryKeyRelatedField(
+    #     many=True,
+    #     queryset=Activity.objects.all(),
+    #     required=False
+    # )
 
     def get_buddies(self, obj):
         return obj.user.buddies.values_list('username', flat=True)
@@ -46,7 +53,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['id', 'user', 'username', 'pronouns', 'gender', 'profile_pic', 'profile_banner', 'biography',
-                  'first_name', 'last_name', 'buddies', 'coordinates', 'gym_location', 'buddies_count', 'buddies_ids']
+                  'first_name', 'last_name', 'buddies', 'coordinates', 'gym_location', 'buddies_count', 'buddies_ids', 'phone',]
 
     def get_buddies_ids(self, obj):
         return obj.user.buddies.values_list('id', flat=True)
@@ -61,6 +68,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
         try:
             user_data = validated_data.pop('user', {})
             user = instance.user
+
+            for attr, value in user_data.items():
+                if attr == 'phone':
+                    setattr(user, attr, value)
 
             instance.profile_pic = validated_data.get(
                 'profile_pic', instance.profile_pic)
@@ -77,6 +88,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
                 'coordinates', instance.coordinates)
             # instance.first_name = validated_data.get('first_name', instance.first_name)
             # instance.last_name = validated_data.get('last_name', instance.last_name)
+
+            # activities = validated_data.get('activities')
+            # if activities is not None:
+            #     instance.activities.set(activities)
 
             for attr, value in validated_data.items():
                 setattr(instance, attr, value)
@@ -120,17 +135,17 @@ class ActivitySerializer(serializers.ModelSerializer):
         model = Activity
         fields = ('name',)
 
-    def validate_name(self, value):
-        """
-        validate that the activity name is not blank
-        """
-        if not value.strip():
-            raise serializers.ValidationError("Activity name cannot be blank.")
-        return value
+    # def validate_name(self, value):
+    #     """
+    #     validate that the activity name is not blank
+    #     """
+    #     if not value.strip():
+    #         raise serializers.ValidationError("Activity name cannot be blank.")
+    #     return value
 
-    def create(self, validated_data):
-        """
-        create a new activity instance with the validated data
-        """
-        activity = Activity.objects.create(name=validated_data['name'])
-        return activity
+    # def create(self, validated_data):
+    #     """
+    #     create a new activity instance with the validated data
+    #     """
+    #     activity = Activity.objects.create(name=validated_data['name'])
+    #     return activity

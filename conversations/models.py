@@ -7,7 +7,6 @@ class Conversation(models.Model):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="creator", unique=False, null=True)
     participant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="participant", unique=False, null=True)   
 
-
 class Message(models.Model):
     text = models.TextField(max_length=500, default='', blank=False)
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="sender", unique=False)

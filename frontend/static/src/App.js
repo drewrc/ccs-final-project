@@ -15,7 +15,7 @@ import ProtectedRoute from "./apps/routes/ProtectedRoute";
 import UserProfile from "./apps/views/UserProfile";
 import UserMessages from "./apps/views/UserMessages";
 import UserMatch from "./apps/views/UserMatch";
-import UserTimeline from "./apps/views/User-Profile";
+import UserTimeline from "./apps/views/User-Timeline";
 import { Redirect } from "react-router-dom";
 
 // import Logout from './apps/auth/auth-context/AuthContext';

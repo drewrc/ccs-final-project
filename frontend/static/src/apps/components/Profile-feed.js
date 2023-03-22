@@ -10,7 +10,14 @@ import { AuthContext } from "../auth/auth-context/AuthContext";
 import Cookies from "js-cookie";
 import { Modal, Box, Typography } from "@mui/material";
 
-function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, last_name }) {
+function ProfileFeed({
+  username,
+  profile_pic,
+  profile_banner,
+  id,
+  first_name,
+  last_name,
+}) {
   const { userID } = useContext(AuthContext);
   const [editProfilePic, setEditProfilePic] = useState(false);
   const [editProfileBanner, setEditProfileBanner] = useState(false);
@@ -46,8 +53,6 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
     reader.readAsDataURL(profilepic);
   };
 
-
-
   const handleBannerPic = (e) => {
     const bannerPic = e.target.files[0]; // set file
     setNewBanner(bannerPic);
@@ -61,13 +66,8 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
     reader.readAsDataURL(bannerPic);
   };
 
-  
-
-
-
   const handleEditClickPic = () => setEditProfilePic(true);
   const handleCancelPic = () => setEditProfilePic(false);
-
   const handleEditClickBanner = () => setEditProfileBanner(true);
   const handleCancelBanner = () => setEditProfileBanner(false);
 
@@ -83,7 +83,7 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
     const data = await response.json();
   };
 
-  console.log({first_name})
+  console.log({ first_name });
 
   const handleSaveProfile = async (e) => {
     e.preventDefault();
@@ -94,7 +94,7 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
     formData.append("last_name", lastName);
 
     const options = {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "X-CSRFToken": Cookies.get("csrftoken"),
       },
@@ -102,18 +102,15 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
     };
     const response = await fetch(`/api_v1/user_edit_profile/${id}/`, options);
     const data = await response.json();
-    setProfilePicPreview("")
-    setNewBannerPreview("")
+    setProfilePicPreview("");
+    setNewBannerPreview("");
   };
-
-  console.log({newBannerPreview})
 
   return (
     <div>
       <div className="profile-banner" style={{ width: "100" }}>
         {!editProfileBanner && username === userID.username && (
           <span className="edit-profile-banner">
-            
             <button
               onClick={handleEditClickBanner}
               className="edit-profile-pic-button"
@@ -131,8 +128,8 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                   Edit Profile Banner
                 </Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>                            
-                {newBannerPreview && (
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  {newBannerPreview && (
                     <div className="center-preview">
                       <img
                         className="preview-image"
@@ -141,25 +138,22 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
                       />
                     </div>
                   )}
-                     <label
-                      htmlFor="new-banner-pic"
-                      style={{ backgroundColor: "#CACACA" }}
-                      className="btn"
-                    >
-                      <FontAwesomeIcon icon={faMountainSun} /> Upload a file
-                    </label>
-                    <input
-                      id="new-banner-pic"
-                      type="file"
-                      onChange={handleBannerPic}
-                      style={{ display: "none" }}
-                    />
-                     <button
-                        onClick={handleSaveProfile}
-                        type='submit'
-                        >
-                            Save
-                        </button>
+                  <label
+                    htmlFor="new-banner-pic"
+                    style={{ backgroundColor: "#CACACA" }}
+                    className="btn"
+                  >
+                    <FontAwesomeIcon icon={faMountainSun} /> Upload a file
+                  </label>
+                  <input
+                    id="new-banner-pic"
+                    type="file"
+                    onChange={handleBannerPic}
+                    style={{ display: "none" }}
+                  />
+                  <button onClick={handleSaveProfile} type="submit">
+                    Save
+                  </button>
 
                   <button
                     onClick={handleCancelBanner}
@@ -175,13 +169,20 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
         )}
 
         <img
-        style={{ transform: "scale(1)", transition: "transform 0.2s ease-in-out" }}
-        onMouseOver={(e) => { e.target.style.transform = "scale(1.1)" }}
-        onMouseOut={(e) => { e.target.style.transform = "scale(1)" }}
-        className="profile-banner-display"
-        src={profile_banner}
-        height="100%"
-        width="100%"
+          style={{
+            transform: "scale(1)",
+            transition: "transform 0.2s ease-in-out",
+          }}
+          onMouseOver={(e) => {
+            e.target.style.transform = "scale(1.1)";
+          }}
+          onMouseOut={(e) => {
+            e.target.style.transform = "scale(1)";
+          }}
+          className="profile-banner-display"
+          src={profile_banner}
+          height="100%"
+          width="100%"
         />
 
         <div className="profile-pic-container">
@@ -207,17 +208,15 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
                     component="h2"
                   >
                     Edit Profile Picture
-
                     {profilePicPreview && (
-                    <div className="center-preview">
-                      <img
-                        className="preview-image"
-                        src={profilePicPreview}
-                        height="100"
-                      />
-                    </div>
-                  )}
-
+                      <div className="center-preview">
+                        <img
+                          className="preview-image"
+                          src={profilePicPreview}
+                          height="100"
+                        />
+                      </div>
+                    )}
                   </Typography>
                   <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                     <label
@@ -233,12 +232,9 @@ function ProfileFeed({ username, profile_pic, profile_banner, id, first_name, la
                       onChange={handleProfilePic}
                       style={{ display: "none" }}
                     />
-                       <button
-                        onClick={handleSaveProfile}
-                        type='submit'
-                        >
-                            Save
-                        </button>
+                    <button onClick={handleSaveProfile} type="submit">
+                      Save
+                    </button>
                     <button
                       onClick={handleCancelPic}
                       className="cancel-profile-pic-button"

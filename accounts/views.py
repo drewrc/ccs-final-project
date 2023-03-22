@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.db import IntegrityError, models
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
-from .models import User, FriendRequest, Profile
+from .models import User, FriendRequest, Profile, Activity
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly, IsAuthenticated
@@ -18,6 +18,7 @@ from rest_framework.exceptions import NotFound
 from .permissions import IsAuthorOrReadOnly
 from conversations.models import Conversation, Message
 from math import dist
+
 
 class UserListAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -53,7 +54,6 @@ class UserProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
 
-
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
@@ -87,6 +87,22 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
+
+# @api_view(['POST'])
+# def update_activity(request):
+#     id = request.data.get('id')
+#     name = request.data.get('name')
+
+#     if not id:
+#         return Response({'message': 'Please provide an ID.'}, status=status.HTTP_400_BAD_REQUEST)
+
+#     activity = get_object_or_404(Activity, id=id)
+#     activity.name = name
+#     activity.save()
+
+#     serializer = ActivitySerializer(activity)
+
+#     return Response(serializer.data)
 # @api_view(['GET'])
 # @permission_classes((permissions.IsAuthenticated,))
 # def current_user(request, pk):
@@ -228,6 +244,7 @@ class BuddyList(APIView):
     #     return FriendRequest.objects.filter(
     #         models.Q(from_user_id=user.id) | models.Q(to_user_id=user.id)
     #     )
+
 @api_view(['DELETE'])
 @permission_classes((permissions.IsAuthenticated,))
 def delete_buddy(request, user_id):
@@ -245,6 +262,7 @@ def delete_buddy(request, user_id):
 
     # Redirect to the user's detail page
     return Response({'success': f'Buddy with ID {buddy_id} deleted successfully.'}, status=status.HTTP_200_OK)
+
 
 @api_view(['GET'])
 @permission_classes((permissions.IsAuthenticated,))
@@ -270,6 +288,7 @@ def send_message(request, user_id):
     )
     return Response({'status': 'Message sent'})
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_non_buddies(request):
@@ -280,10 +299,12 @@ def get_non_buddies(request):
     buddies_ids = user_profile.buddies.values_list('id', flat=True)
 
     # Get the list of IDs of the profiles the authenticated user has sent friend requests to
-    requested_ids = FriendRequest.objects.filter(from_user=user_profile).values_list('to_user__id', flat=True)
+    requested_ids = FriendRequest.objects.filter(
+        from_user=user_profile).values_list('to_user__id', flat=True)
 
     # Get the list of profiles the authenticated user is not friends with and hasn't sent a friend request to
-    non_buddies = Profile.objects.exclude(id__in=buddies_ids).exclude(id=user_profile.id).exclude(id__in=requested_ids)
+    non_buddies = Profile.objects.exclude(id__in=buddies_ids).exclude(
+        id=user_profile.id).exclude(id__in=requested_ids)
 
     # Check if user_profile has coordinates
     # coordinates = user_profile.profile.coordinates
@@ -292,19 +313,19 @@ def get_non_buddies(request):
     #     non_buddies = sorted(non_buddies, key=lambda p: dist(lat, long, float(p.coordinates.split(',')[0]), float(p.coordinates.split(',')[1])))
 
     # Serialize the profiles using the NonBuddyProfileSerializer
-    serializer = NonBuddyProfileSerializer(non_buddies, many=True, context={'request': request})
+    serializer = NonBuddyProfileSerializer(
+        non_buddies, many=True, context={'request': request})
 
     # Return the serialized profiles
     return Response(serializer.data)
 
 
-
-@api_view(['POST'])
+@api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def create_activity(request):
-    serializer = ActivitySerializer(data=request.data)
-    if serializer.is_valid():
-        activity = serializer.save()
-        return Response({'id': activity.id, 'name': activity.name}, status=status.HTTP_201_CREATED)
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    name = request.data['name']
+    activity, _ = Activity.objects.get_or_create(name=name)
+    profile = request.user.profile
+    profile.activities.add(activity)
+    serializer = ActivitySerializer(activity)
+    return Response({"message": "Hey! That activity was already added to your profile!"}, status=status.HTTP_400_BAD_REQUEST)

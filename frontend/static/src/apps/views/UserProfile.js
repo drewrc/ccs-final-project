@@ -9,10 +9,15 @@ import { TextField, Button } from "@mui/material";
 import Cookies from "js-cookie";
 import { useMediaQuery } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMountainSun, faVideo, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMountainSun,
+  faVideo,
+  faPencil,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import ProfileFeed from "../components/Profile-feed";
-import Form from 'react-bootstrap/esm/Form'
-import { AuthContext } from '../auth/auth-context/AuthContext';
+import Form from "react-bootstrap/esm/Form";
+import { AuthContext } from "../auth/auth-context/AuthContext";
 import ProfileEditForm from "../components/ProfileEditForm";
 import Spinner from "react-bootstrap/esm/Spinner";
 
@@ -20,7 +25,8 @@ function UserProfile() {
   const { isAuthenticated, userID } = useContext(AuthContext);
 
   React.useEffect(() => {
-    document.body.style.background = 'linear-gradient(217deg, rgba(255, 100, 98, 0.3), rgb(255, 158, 61, 0.8))'
+    document.body.style.background =
+      "linear-gradient(217deg, rgba(255, 100, 98, 0.3), rgb(255, 158, 61, 0.8))";
   }, []);
 
   const [userStories, setUserStories] = useState([]);
@@ -31,9 +37,8 @@ function UserProfile() {
   const [activeCard, setActiveCard] = useState("posts");
   const [timelineId, setTimelineId] = useState(null);
   const [preview, setPreview] = useState("");
-  const [profile, setProfile] = useState({})
-  const [user, setUser] = useState(userID.username)
-
+  const [profile, setProfile] = useState({});
+  const [user, setUser] = useState(userID.username);
 
   const handleLike = async (id) => {
     const response = await fetch(`/api_v1/stories/${id}/like/`, {
@@ -46,7 +51,7 @@ function UserProfile() {
       throw new Error("Network response was not OK");
     }
   };
-//------------------- > fetching TIMELINE ID  <--------------------//
+  //------------------- > fetching TIMELINE ID  <--------------------//
   useEffect(() => {
     const fetchTimelineId = async () => {
       const response = await fetch("/api_v1/timelines/");
@@ -59,22 +64,23 @@ function UserProfile() {
   //------------------- > fetching PROFILE FOR USER (SELF)  <--------------------//
   useEffect(() => {
     const fetchUserProfile = async () => {
-      const response = await fetch('/api_v1/current_user/')
+      const response = await fetch("/api_v1/current_user/");
       const data = await response.json();
       setProfile(data);
-      console.log({data})
-    }
+    };
     fetchUserProfile();
   }, []);
-  console.log({profile})
+  console.log({ profile });
 
   // const filterUser = profile.user === userID.pk ? (
   //   <ProfileFeed {...profile} />
   // ) : null;
- 
+
   const bioHTML = (
     <div key={profile.id}>
-      <p className="profile-content">Name: {profile.first_name} {profile.last_name}</p>
+      <p className="profile-content">
+        Name: {profile.first_name} {profile.last_name}
+      </p>
       <p className="profile-content">Location: {profile.gym_location}</p>
       <p className="profile-content">Pronouns: {profile.pronouns}</p>
       <p className="profile-content">Gender: {profile.gender}</p>
@@ -102,7 +108,7 @@ function UserProfile() {
     const reader = new FileReader();
 
     reader.onloadend = () => {
-      setPreview(reader.result); // set preview 
+      setPreview(reader.result); // set preview
     };
 
     reader.readAsDataURL(file);
@@ -126,14 +132,14 @@ function UserProfile() {
 
     //users/<int:pk>/
 
-    const getStoriesInterval = setInterval(getUserStories, 3000);
+    const getStoriesInterval = setInterval(getUserStories, 300000);
     return () => {
       clearInterval(getStoriesInterval);
     };
   }, []);
-  
-  // const userFeedHTML = 
-  
+
+  // const userFeedHTML =
+
   // userStories.map((post) => (
   //   <Post
   //     {...post}
@@ -144,23 +150,21 @@ function UserProfile() {
   //   />
   // ));
 
-  const userFeedHTML = userStories
-        .map((post) => (
-        <Post
-          {...post}
-          author={post.author}
-          showFullText={showFullText}
-          toggleText={toggleText}
-          timelineId = {timelineId}
-          handleLike={handleLike}
-        />
-      ));
-  
-  
+  const userFeedHTML = userStories.map((post) => (
+    <Post
+      {...post}
+      author={post.author}
+      showFullText={showFullText}
+      toggleText={toggleText}
+      timelineId={timelineId}
+      handleLike={handleLike}
+    />
+  ));
+
   // const userFeedHTML = (post) => {
   //   if (userStories.length === 0) {
   //         return <div>Is loading ...</div>;
-  //       } else { 
+  //       } else {
   //       return userStories
   //       .map((post) => (
   //       <Post
@@ -174,21 +178,20 @@ function UserProfile() {
   //   }
   // }
 
-//   const userFeedHTML = (post) => {
-//     if (userStories.length === 0) {
-//       return <div>Is loading ...</div>;
-//     } else {
-//     userStories.filter((post) => post.author === user).map((post) => (
-//       <Post
-//         {...post}
-//         showFullText={showFullText}
-//         toggleText={toggleText}
-//         timelineId = {timelineId}
-//       />
-//     ));
-//     }
-// }
-
+  //   const userFeedHTML = (post) => {
+  //     if (userStories.length === 0) {
+  //       return <div>Is loading ...</div>;
+  //     } else {
+  //     userStories.filter((post) => post.author === user).map((post) => (
+  //       <Post
+  //         {...post}
+  //         showFullText={showFullText}
+  //         toggleText={toggleText}
+  //         timelineId = {timelineId}
+  //       />
+  //     ));
+  //     }
+  // }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -209,7 +212,7 @@ function UserProfile() {
     const response = await fetch("/api_v1/stories/", options);
     const data = await response.json();
     setNewPost("");
-    setPreview("")
+    setPreview("");
   };
 
   const isMobile = useMediaQuery("(max-width:600px)");
@@ -219,7 +222,7 @@ function UserProfile() {
       <Container>
         <Row>
           <Col className="profile-top">
-          {/* <div className="profile-banner"></div> */}
+            {/* <div className="profile-banner"></div> */}
             {/* <h1>{authUser.username}</h1> */}
             {/* {filterUser} */}
             {profile ? (
@@ -235,15 +238,16 @@ function UserProfile() {
             )}
 
             {isMobile && (
-              <div className="profile-nav">
-                <Button onClick={() => setActiveCard("bio")}>Bio</Button>
-                <Button onClick={() => setActiveCard("pictures")}>
+              <div 
+              className="profile-nav">
+                <Button id="profile-nav-button" onClick={() => setActiveCard("bio")}>Bio</Button>
+                <Button id="profile-nav-button" onClick={() => setActiveCard("pictures")}>
                   Pictures
                 </Button>
-                <Button onClick={() => setActiveCard("createNew")}>
+                <Button id="profile-nav-button" onClick={() => setActiveCard("createNew")}>
                   Create New Post
                 </Button>
-                <Button onClick={() => setActiveCard("posts")}>
+                <Button id="profile-nav-button" onClick={() => setActiveCard("posts")}>
                   Your Posts
                 </Button>
               </div>
@@ -256,22 +260,36 @@ function UserProfile() {
             <Col className="mobile-profile-container">
               <>
                 {activeCard === "bio" && (
-                  <Card  id="bio-display" className="profile-left-side">
+                  <Card 
+                  style={{ background: 'linear-gradient(217deg, rgba(243, 185, 209, 0.3), rgba(248, 158, 73, 0.1) 70.71%), linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1) 70.71%), linear-gradient(336deg, rgba(0, 51, 255, 0.2), rgba(234, 234, 35, 0.1) 70.71%)', }}
+                  id="bio-display" className="profile-left-side">
                     <h2 className="profile-header">Bio</h2>
                     {bioHTML}
                     <p className="trash-button">
-                    <ProfileEditForm 
-                    // onCancel={handleCancel}
-                    />
+                      <ProfileEditForm
+                      // onCancel={handleCancel}
+                      />
                     </p>
                   </Card>
                 )}
                 {activeCard === "pictures" && (
-                  <Card id="picture-display" className="profile-left-side">
+                  <Card 
+                  style={{ background: 'linear-gradient(217deg, rgba(243, 185, 209, 0.3), rgba(248, 158, 73, 0.1) 70.71%), linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1) 70.71%), linear-gradient(336deg, rgba(0, 51, 255, 0.2), rgba(234, 234, 35, 0.1) 70.71%)', }}
+                  id="picture-display" className="profile-left-side">
                     <h2 className="profile-header">Pictures</h2>
-                    <p className="profile-content">img 1</p>
-                    <p className="profile-content">img 2</p>
-                    <p className="profile-content">img 3</p>
+                   {userStories.map((story, index) => (
+                      <p id="profile-images" className="profile-content">
+                        <img
+                          style={{
+                            height: "40%",
+                            width: "40%",
+                          }}
+                          key={index}
+                          src={story.img}
+                          alt={`User story ${index + 1}`}
+                        />
+                      </p>
+                    ))}
                   </Card>
                 )}
                 {activeCard === "createNew" && (
@@ -280,32 +298,40 @@ function UserProfile() {
                     <form className="profile-content" onSubmit={handleSubmit}>
                       {/* ------------- image preview div ------------ */}
                       {preview && (
-                      <div className="center-preview">
-                        <img className="preview-image" src={preview} height="100" />
-                      </div>
+                        <div className="center-preview">
+                          <img
+                            className="preview-image"
+                            src={preview}
+                            height="100"
+                          />
+                        </div>
                       )}
 
                       {/* ------------------ form div ----------------- */}
-                      <Form.Group className="mb-3" controlId="new-post-textarea">
-                        <Form.Label style={{display: 'none'}}>
+                      <Form.Group
+                        className="mb-3"
+                        controlId="new-post-textarea"
+                      >
+                        <Form.Label style={{ display: "none" }}>
                           for later?
                         </Form.Label>
 
-                      {/* ------------------- textarea ------------------- */}
-                        <Form.Control 
-                        value={newPost}
-                        onChange={(e) => setNewPost(e.target.value)}
-                        as="textarea" rows={2} 
+                        {/* ------------------- textarea ------------------- */}
+                        <Form.Control
+                          value={newPost}
+                          onChange={(e) => setNewPost(e.target.value)}
+                          as="textarea"
+                          rows={2}
                         />
                       </Form.Group>
 
                       {/* ---------------- UPLOAD A FILE BUTTON ------------ */}
                       <div id="post-button-container">
-                        <label 
-                        htmlFor="file-upload" 
-                        style={{backgroundColor: '#CACACA' }} 
-                        className="btn"
-                        id="send-button"
+                        <label
+                          htmlFor="file-upload"
+                          style={{ backgroundColor: "#CACACA" }}
+                          className="btn"
+                          id="send-button"
                         >
                           <FontAwesomeIcon icon={faMountainSun} /> Upload a file
                         </label>
@@ -314,16 +340,13 @@ function UserProfile() {
                           className="file-input"
                           type="file"
                           onChange={handleImage}
-                          style={{display: 'none'}}
+                          style={{ display: "none" }}
                         />
-                      <Button type="submit" id="send-button" size="medium">
-                        Post
-                      </Button>
+                        <Button type="submit" id="send-button" size="medium">
+                          Post
+                        </Button>
                       </div>
-                      </form>
-
-
-
+                    </form>
                   </Card>
                 )}
                 {activeCard === "posts" && <>{userFeedHTML}</>}
@@ -338,57 +361,60 @@ function UserProfile() {
               <Card id="bio-display" className="profile-left-side">
                 <h2 className="profile-header">Bio</h2>
                 {bioHTML}
-                <p className="trash-button" >
-                <ProfileEditForm />
+                <p className="trash-button">
+                  <ProfileEditForm />
                 </p>
-
               </Card>
               <Card id="picture-display" className="profile-left-side">
                 <h2 className="profile-header">Pictures</h2>
                 {userStories.map((story, index) => (
                   <p id="profile-images" className="profile-content">
-                      <img 
+                    <img
                       style={{
-                        height: '40%',
-                        width: '40%'
+                        height: "40%",
+                        width: "40%",
                       }}
-                      key={index} 
-                      src={story.img} 
-                      alt={`User story ${index + 1}`} />
-                      </p>
-                    ))}
+                      key={index}
+                      src={story.img}
+                      alt={`User story ${index + 1}`}
+                    />
+                  </p>
+                ))}
               </Card>
             </Col>
             <Col>
               <Card id="new-post" className="new-post-card">
                 <h2 className="profile-header">Create New Post</h2>
                 <form className="profile-content" onSubmit={handleSubmit}>
-
                   {/* ---------- image preview div ------------ */}
                   {preview && (
-                  <div className="center-preview">
-                    <img className="preview-image" src={preview} height="100" />
-                  </div>
+                    <div className="center-preview">
+                      <img
+                        className="preview-image"
+                        src={preview}
+                        height="100"
+                      />
+                    </div>
                   )}
 
-                  <div class="upload-btn-wrapper">
-                  </div>
+                  <div class="upload-btn-wrapper"></div>
                   <Form.Group className="mb-3" controlId="new-post-textarea">
-                    <Form.Label style={{display: 'none'}}>
+                    <Form.Label style={{ display: "none" }}>
                       for later?
                     </Form.Label>
-                    <Form.Control 
-                    value={newPost}
-                    onChange={(e) => setNewPost(e.target.value)}
-                    as="textarea" rows={2} 
+                    <Form.Control
+                      value={newPost}
+                      onChange={(e) => setNewPost(e.target.value)}
+                      as="textarea"
+                      rows={2}
                     />
                   </Form.Group>
                   <div id="post-button-container">
-                    <label 
-                    htmlFor="file-upload" 
-                    style={{backgroundColor: '#CACACA' }} 
-                    className="btn"
-                    id="send-button"
+                    <label
+                      htmlFor="file-upload"
+                      style={{ backgroundColor: "#CACACA" }}
+                      className="btn"
+                      id="send-button"
                     >
                       <FontAwesomeIcon icon={faMountainSun} /> Upload a file
                     </label>
@@ -397,12 +423,12 @@ function UserProfile() {
                       className="file-input"
                       type="file"
                       onChange={handleImage}
-                      style={{display: 'none'}}
+                      style={{ display: "none" }}
                     />
-                    
-                  <Button type="submit" id="send-button" size="medium">
-                    Post
-                  </Button>
+
+                    <Button type="submit" id="send-button" size="medium">
+                      Post
+                    </Button>
                   </div>
                 </form>
               </Card>

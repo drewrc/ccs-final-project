@@ -30,7 +30,7 @@ export const AuthContextProvider = ({ children }) => {
     //set authentication, if successful to TRUE instead of NULL
     setIsAuthenticated(true);
     //return home using ROUTER
-    navigate("/user-feed");
+    navigate("/profile");
   };
 
   const register = async (user) => {
@@ -51,7 +51,7 @@ export const AuthContextProvider = ({ children }) => {
     //set authentication, if successful to TRUE instead of NULL
     setIsAuthenticated(true);
     //return home using ROUTER
-    navigate("/");
+    navigate("/profile");
   };
 
   const logout = async () => {
