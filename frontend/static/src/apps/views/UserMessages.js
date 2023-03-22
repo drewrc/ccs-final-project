@@ -1,5 +1,6 @@
 import Message from "../components/Message";
 import { useState, useEffect, componentWillUnmount, useContext } from "react";
+import { useMediaQuery } from '@mui/material'
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
@@ -34,17 +35,11 @@ function UserMessages() {
   const [showUserInfo, setShowUserInfo] = useState(true);
   const { userID } = useContext(AuthContext);
   const username = userID.username;
-  // const isMobile = useMediaQuery("(max-width:600px)");
+  const isMobile = useMediaQuery("(max-width:600px)");
 
-  // console.log({selectedConversation})
-  // React.useEffect(() => {
-  //   document.body.style.backgroundColor = "rgba(198, 133, 239, 0.1)";
-  // }, []);
   React.useEffect(() => {
     document.body.style.background = 'linear-gradient(217deg, rgba(255, 0, 98, 0.2), rgb(255, 158, 61, 0.3))'
   }, []);
-
-  //background-color: rgba(198, 133, 239, 0.1);
 
   useEffect(() => {
     const getFriendProfile = async () => {
@@ -59,19 +54,6 @@ function UserMessages() {
       getFriendProfile();
     }
   }, [selectedConversation]);
-
-  //fetch to display current selected friend profile data (right side)
-  // useEffect(() => {
-  //   const getFriendProfile = async () => {
-  //     const response = await fetch(`/api_v1/users/${selectedConversation}/`);
-  //     if (!response.ok) {
-  //       throw new Error("Network response not OK");
-  //     }
-  //     const data = await response.json();
-  //     setSelectedProfile([data]);
-  //   };
-  //   getFriendProfile();
-  // }, [selectedConversation]);
 
   //fetch current authenticated user
   useEffect(() => {
@@ -205,7 +187,6 @@ function UserMessages() {
       </div>
     ));
 
-  // console.log({ friends });
   const friendsHTML = friends?.map((friend) => (
     <>
       <button
@@ -214,23 +195,14 @@ function UserMessages() {
         className="button-orange"
         onClick={() => {
           setSelectedConversation(friend.profile.user);
-          // setCurrentFriendProfile(friend.profile.user);
           setOpenPanel(true);
         }}
       >
         <img className="friend-list-img" src={friend.profile.profile_pic} />
-
-        {/* {friend.profile.username} */}
       </button>
-      {/* <button onClick={() => handleDeleteFriend(friend.id)}>
-        remove {friend.to_user === username ? friend.from_user : friend.to_user}
-        as friend?
-      </button> */}
     </>
   ));
 
-  // console.log({currentFriendProfile})
-  // console.log({friends})
   const selectedFriend = friends?.filter(
     (friend) => friend.profile.user === selectedConversation
   );
@@ -239,7 +211,6 @@ function UserMessages() {
     <>
       <div id="profile-hover" className="card-bg">
         <div
-          // style={{borderRadius: '10px 0',}}
           className="profile-banner-tinder-card"
         >
           <img
@@ -276,14 +247,11 @@ function UserMessages() {
                 remove {friend.profile.username} as friend?
               </button>
             </p>
-            {/* {showDeletedMessage && <p>Friend deleted</p>} */}
           </div>
         </div>
       </div>
     </>
   ));
-
-  // console.log({ currentFriendProfile });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -312,7 +280,6 @@ function UserMessages() {
     );
     const data2 = await response2.json();
   };
-  // console.log({messageHTML})
   return (
     <>
       <ToastContainer />
@@ -320,16 +287,12 @@ function UserMessages() {
         fluid
         className="message-container"
         style={{
-          // border: '10px solid black',
           backgroundColor: "rgba(298, 133, 239, 0.1)",
           background:
             "linear-gradient(217deg, rgba(255, 0, 98, 0.1), rgb(255, 158, 61, 0.2) )",
-          // padding: "30px",
           marginTop: "-15px",
           width: "100vw",
           position: "relative",
-          // top: '0',
-          // paddingLeft: '1%',
         }}
       >
         <Row
@@ -369,7 +332,7 @@ function UserMessages() {
           <Col xs={9}>
             <div className="message-card">
               {!selectedConversation && messageHTML.length < 1 && (
-                <div className="no-message">
+                <div className={`no-message ${!openPanel ? 'no-message-fx' : ''} ${openPanel ? 'no-message-fx-2' : ''}`}>
                 <FontAwesomeIcon icon={faArrowPointer} /> Select a friend to send a message!
                 </div>
               )}

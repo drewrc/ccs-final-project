@@ -404,17 +404,29 @@ font-family: 'Ubuntu', sans-serif; */
     }
   }
 
-  @keyframes slideUp {
+  @keyframes slideDown {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(0%);
+    }
+  }
+
+  @keyframes slideUP {
     0% {
       transform: translateY(0%);
     }
     100% {
-      transform: translateY(-100%);
+      transform: translateY(100%);
     }
   }
   
   .no-message-fx {
-    animation: slideUp 3s backwards;
+    animation: slideDown 3s forwards;
+  }
+  .no-message-fx-2 {
+    animation: slideDown 1s forwards;
   }
 
 .no-message {
@@ -704,7 +716,7 @@ font-family: 'Ubuntu', sans-serif; */
   }
   
   .slide-in {
-    animation: slideIn 0.3s forwards;
+    animation: slideIn 0.5s forwards;
   }
   
   .slide-out {

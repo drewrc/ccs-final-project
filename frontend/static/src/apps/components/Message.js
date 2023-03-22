@@ -9,9 +9,6 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
     const [editMode, setEditMode] = useState(false);
     const [editText, setEditText] = useState(text);
 
-    console.log({username})
-
-
     const handleEdit = async () => {
         const formData = new FormData();
         formData.append('text', editText);
@@ -48,32 +45,32 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
      };
 
 
-      // const editHTML = { username === sender && (
-      //   <>
-      //     <p className="trash-button" >
-      //     <button 
-      //         onClick={handleEditClick}
-      //         className="trash-button" 
-      //         type="submit">
-      //             <FontAwesomeIcon 
-      //             style={{
-      //                 color: 'white', 
-      //               }}
-      //             icon={faPencil} />
-      //     </button>
-      //     <button 
-      //         onClick={handleDelete}
-      //         className="trash-button" 
-      //         type="submit">
-      //             <FontAwesomeIcon 
-      //             style={{
-      //                 color: 'white', 
-      //               }}
-      //             icon={faTrash} />
-      //     </button>
-      //     </p>
-      //     </>
-      //   )}
+     const editHTML = user_from === username && (
+      <>
+        <p className="trash-button">
+          <button 
+            onClick={handleEditClick}
+            className="trash-button" 
+            type="submit">
+            <FontAwesomeIcon 
+              style={{
+                color: 'white', 
+              }}
+              icon={faPencil} />
+          </button>
+          <button 
+            onClick={handleDelete}
+            className="trash-button" 
+            type="submit">
+            <FontAwesomeIcon 
+              style={{
+                color: 'white', 
+              }}
+              icon={faTrash} />
+          </button>
+        </p>
+      </>
+    );
   
   
          
@@ -105,7 +102,6 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
                 <button 
                 className="trash-button"
                 onClick={handleCancelClick}
-                
                 >
                 <FontAwesomeIcon 
                 style={{
@@ -118,33 +114,8 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
             ):(
             <div>
             <p>{text}</p>
-
-            <p className="trash-button" >
-            <button 
-                onClick={handleEditClick}
-                className="trash-button" 
-                type="submit">
-                    <FontAwesomeIcon 
-                    style={{
-                        color: 'white', 
-                      }}
-                    icon={faPencil} />
-            </button>
-            <button 
-                onClick={handleDelete}
-                className="trash-button" 
-                type="submit">
-                    <FontAwesomeIcon 
-                    style={{
-                        color: 'white', 
-                      }}
-                    icon={faTrash} />
-            </button>
-            </p>
-            {/* {editHTML} */}
+            {editHTML}
             </div>
-
-
             )}
         </div>
     );

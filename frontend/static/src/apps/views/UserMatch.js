@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import Popper from '@mui/material/Popper';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
-
+import { useMediaQuery } from "@mui/material";
 
 function UserMatch (from_user, id) {
     const [profiles, setProfiles] = useState([]);
@@ -20,6 +20,7 @@ function UserMatch (from_user, id) {
     const [friendRequests, setFriendRequests] = useState([])
     const [anchorEl, setAnchorEl] = useState(null);
     const cardRef = useRef(null);
+    const isMobile = useMediaQuery("(max-width:600px)");
 
     const handleClick = (event) => {
       setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -31,11 +32,6 @@ function UserMatch (from_user, id) {
     React.useEffect(() => {
         document.body.style.background = 'linear-gradient(217deg, rgba(255, 0, 98, 0.2), rgb(255, 158, 61, 0.3))'
       }, []);
-
-              // backgroundColor = "rgba(198, 133, 239, 0.1)";
-    // React.useEffect(() => {
-    //     document.body.style.backgroundColor = "rgba(160, 160, 160, 0.2)";
-    //   }, []);
     
     useEffect(() => {
       const getProfiles = async () => {
@@ -111,20 +107,20 @@ function UserMatch (from_user, id) {
         <div>
             <p>
                 {request.from_user}
-            </p>
+                </p>
                 <p>
+                <button>
+                    accept
+                </button>
                     <button>
-                        accept
+                        delete
                     </button>
-                        <button>
-                            delete
-                        </button>
                 </p>
         </div>
         </>
     ))
-
-
+// console.log({currentProfileIndex})
+console.log({currentProfileIndex})
     return (
         <div>
             <Container
@@ -190,9 +186,20 @@ function UserMatch (from_user, id) {
                                 </TinderCard>
                             )}
                             <div className="desktop-buttons"> 
-                            <button className="match-button"><FontAwesomeIcon icon={faAnglesLeft} /> next</button>
-                            <button className="match-button">match <FontAwesomeIcon icon={faAnglesRight} />
+                            {!isMobile && (
+                                <>
+                                <button className="match-button">
+                                <FontAwesomeIcon icon={faAnglesLeft} 
+                                onClick={() => setCurrentProfileIndex(currentProfileIndex + 1)}
+                                /> next
+                                </button>
+                            <button className="match-button" 
+                            onClick={() => sendMatchRequest(currentProfile.id)}
+                            >
+                                match <FontAwesomeIcon icon={faAnglesRight} />
                             </button> 
+                            </>
+                            )}
                             </div>
                         </div>
                         <div className="swipe-direction">
@@ -200,8 +207,6 @@ function UserMatch (from_user, id) {
                             You swiped {lastDirection}</h2> : <h2 className='infoText' />}
                         </div>
                     </Col>
-                    {/* <Col md={2}>
-                    </Col> */}
                 </Row>
             </Container>
         </div>
