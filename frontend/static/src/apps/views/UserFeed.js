@@ -35,6 +35,17 @@ function UserFeed() {
   const [user, setUser] = useState(userID.username)
 
 
+  const handleLike = async (id) => {
+    const response = await fetch(`/api_v1/stories/${id}/like/`, {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not OK");
+    }
+  };
 //------------------- > fetching TIMELINE ID  <--------------------//
   useEffect(() => {
     const fetchTimelineId = async () => {
@@ -141,9 +152,10 @@ function UserFeed() {
           showFullText={showFullText}
           toggleText={toggleText}
           timelineId = {timelineId}
+          handleLike={handleLike}
         />
       ));
-    
+  
   
   // const userFeedHTML = (post) => {
   //   if (userStories.length === 0) {
@@ -333,9 +345,18 @@ function UserFeed() {
               </Card>
               <Card id="picture-display" className="profile-left-side">
                 <h2 className="profile-header">Pictures</h2>
-                <p className="profile-content">img 1</p>
-                <p className="profile-content">img 2</p>
-                <p className="profile-content">img 3</p>
+                {userStories.map((story, index) => (
+                  <p id="profile-images" className="profile-content">
+                      <img 
+                      style={{
+                        height: '40%',
+                        width: '40%'
+                      }}
+                      key={index} 
+                      src={story.img} 
+                      alt={`User story ${index + 1}`} />
+                      </p>
+                    ))}
               </Card>
             </Col>
             <Col>

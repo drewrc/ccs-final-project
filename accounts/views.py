@@ -53,6 +53,10 @@ class UserProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
 
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
     def perform_update(self, serializer):
         profile = serializer.save()
         if profile.gym_location:

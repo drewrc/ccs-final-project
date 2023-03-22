@@ -167,6 +167,18 @@ font-family: 'Ubuntu', sans-serif; */
     justify-content: center; 
 }
 
+.image-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .image-wrapper {
+    flex-basis: 45%;
+    margin-bottom: 20px;
+  }
+  
+
 /***** Styles for User Message component *****/
 #read-message {
     text-align: right;
@@ -248,7 +260,6 @@ font-family: 'Ubuntu', sans-serif; */
   #profile-hover:hover {
     transform: translateY(-5px) scale(1.01);
     border-radius: 10px;
-
   }
 
 #message-close {
@@ -260,6 +271,14 @@ font-family: 'Ubuntu', sans-serif; */
    color: rgb(75, 75, 75, 0.5);
    box-shadow: 1px 1px 5px rgba(147, 147, 147, 0.5);
 }
+@media screen and (max-width: 600px) {
+    #message-close {
+        right: 2%;
+        top: 1%;
+    }
+  }
+
+
 #message-close:hover {
     background-color: rgba(88, 87, 87, 0.1);
     border-color: rgb(75, 75, 75, 0.7);
@@ -302,7 +321,6 @@ font-family: 'Ubuntu', sans-serif; */
     text-transform: uppercase;
     font-family: 'Oswald', sans-serif;
     background-color: rgb(255, 145, 61);
-    
     transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
     opacity: 0.8;
     transform: translateX(0%);
@@ -353,30 +371,64 @@ font-family: 'Ubuntu', sans-serif; */
       box-shadow: 0 0 0 20px rgba(255,200,0, 0);
     }
   }
+
+    #button {
+        border-radius: 4px;
+        /* background-color: rgb(255, 200, 0); */
+        background-color: transparent;
+        border: none;
+        text-shadow: 1px 1px 1px rgb(23, 0, 198);
+        margin-bottom: 20px;
+        color:rgb(255, 0, 251);
+        font-family: 'oswald';
+        text-align: center;
+        transition: all 0.5s;
+        cursor: pointer;
+        margin-left: auto;
+        margin-right: auto;
+        text-transform: uppercase;
+        font-size: 14px;
+        /* width: 100%; */
+        /* padding: 20px; */
+        z-index: 4000;
+        transform: scale(1); /* you need a scale here to allow it to transition in both directions */
+        transition: 0.15s all ease;
+        display: flex;
+      }
+
   
-  #button {
-    border-radius: 4px;
-    /* background-color: rgb(255, 200, 0); */
-    background-color: transparent;
-    border: none;
-    text-shadow: 1px 1px 1px rgb(23, 0, 198);
-    margin-bottom: 20px;
-    color:rgb(255, 0, 251);
-    font-family: 'oswald';
-    text-align: center;
-    transition: all 0.5s;
-    cursor: pointer;
-    margin-left: auto;
-    margin-right: auto;
-    text-transform: uppercase;
-    font-size: 14px;
-    /* width: 100%; */
-    /* padding: 20px; */
-    z-index: 4000;
-    transform: scale(1); /* you need a scale here to allow it to transition in both directions */
-    transition: 0.15s all ease;
-    display: flex;
-  }
+
+@media screen and (min-width: 601px) {
+    #button {
+        border-radius: 4px;
+        background-color: rgb(255, 200, 0);
+        /* background-color: transparent; */
+        border: none;
+        text-shadow: 1px 1px 1px rgb(23, 0, 198);
+        margin-bottom: 20px;
+        color:rgb(255, 0, 251);
+        font-family: 'oswald';
+        text-align: center;
+        transition: all 0.5s;
+        cursor: pointer;
+        /* margin-left: 50%; */
+        margin-right: 50%;
+        text-transform: uppercase;
+        font-size: 24px;
+        width: 100%;
+        /* padding-left: 30%;
+        padding-right: 30%; */
+        z-index: 4000;
+     /* you need a scale here to allow it to transition in both directions */
+        transition: 0.15s all ease;
+        transform: translateY(0%);
+        display: flex;
+      }
+    #button:hover {
+        animation: none 0s none;
+        transform: translateY(10%);
+      }
+}
   
   .friend-list-img {
     border-radius: 100%;
@@ -744,10 +796,29 @@ font-family: 'Ubuntu', sans-serif; */
 #bell-icon-parent {
   position: relative;
 }
+
 #alert-notification {
     position: absolute;
     top: 17px;
-    left: 72px;
+    left: 75px;
+    font-size: 7px;
+    z-index: 2000;
+    background-color: blue;
+}
+
+@media screen and (max-width: 600px) {
+    #alert-notification {
+        left: 85px;
+    }
+    #bell-icon-parent {
+        margin-right: -10px !important;
+        margin-left: -10px !important;
+      }
+}
+#message-notification {
+    position: absolute;
+    top: 17px;
+    left: 115px;
     font-size: 7px;
     z-index: 2000;
 }

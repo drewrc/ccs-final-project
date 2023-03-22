@@ -54,6 +54,12 @@ class Activity(models.Model):
         return self.name
 
 class Profile(models.Model):
+
+    def default_profile_pic():
+        return os.path.join(settings.MEDIA_ROOT, 'images/profilepicdefault.png')
+    def default_banner():
+        return os.path.join(settings.MEDIA_ROOT, 'images/defaultbanner_Ar155VZ.png')
+
     MALE = 'Male'
     FEMALE = 'Female'
     NONBINARY = 'Non-binary'
@@ -69,11 +75,11 @@ class Profile(models.Model):
     ]
 
     user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, related_name="profile", on_delete=models.CASCADE)
+        settings.AUTH_USER_MODEL, related_name="profile", on_delete=models.CASCADE, blank=True)
     pronouns = models.CharField(max_length=255, blank=True)
     gender = models.CharField(max_length=20, choices=GENDER_CHOICES, blank=True)
-    profile_pic = models.ImageField(upload_to='images/', blank=True, default='media/images/profilepicdefault.png')
-    profile_banner = models.ImageField(upload_to='images/', blank=True, default='/media/images/defaultbanner_Ar155VZ.png')
+    profile_pic = models.ImageField(upload_to='images/', blank=True, default=default_profile_pic)
+    profile_banner = models.ImageField(upload_to='images/', blank=True, default=default_banner)
     gym_location = models.CharField(max_length=255, blank=True)
     coordinates = models.CharField(max_length=255, blank=True)
     biography = models.CharField(max_length=255, blank=True)

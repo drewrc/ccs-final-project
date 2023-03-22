@@ -8,7 +8,7 @@ import { TextField, Button } from "@mui/material";
 import Conversation from "../components/Conversation";
 import Cookies from "js-cookie";
 import MessageFriendProfile from "../components/MessageUserProfile";
-import { faAnglesLeft, faArrowPointer, faCheckDouble, faHandPointLeft, faX } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesLeft, faArrowPointer, faCheckDouble, faHandPointLeft, faSmileWink, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SlidingPanel from "react-sliding-side-panel";
 import { useSwipeable } from "react-swipeable";
@@ -33,6 +33,8 @@ function UserMessages() {
   const [panelSize, setPanelSize] = useState(100);
   const [noBackdrop, setNoBackdrop] = useState(false);
   const [showUserInfo, setShowUserInfo] = useState(true);
+
+
   const { userID } = useContext(AuthContext);
   const username = userID.username;
   const isMobile = useMediaQuery("(max-width:600px)");
@@ -115,6 +117,31 @@ function UserMessages() {
     setMessage(message.filter((message) => message.id !== id));
   };
 
+
+//sets message.is_read to 'read' when it renders 
+useEffect(() => {
+  if (!message.is_read) {
+    handleReadMessage();
+  }
+}, [message]);
+
+const handleReadMessage = async () => {
+  await updateRead(message.id);
+  setMessage({...message, is_read: true});
+}
+
+  const updateRead = async (message_id) => {
+    const response = await fetch(`/read_messages/${message_id}/`, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': Cookies.get('csrftoken'),
+      },
+    })
+    if (!response.ok) {
+      throw new Error('Network response not OK');
+    }
+  }
+
   const handleDeleteFriend = async (id) => {
     const response = await fetch(`/api_v1/buddies_detail/${id}/`, {
       method: "DELETE",
@@ -129,6 +156,8 @@ function UserMessages() {
     }
     toast.success("Friend deleted");
   };
+
+  // console.log({messages})
 
   // filter messages based on whether *SENDER id* and *RECEIVER id* matches *authUser.pk*
   // or *selected friend* using the state value of 'selectedConversation'
@@ -181,8 +210,10 @@ function UserMessages() {
           })()}
         </div>
         <div id="read-message">
-          read?
-          <FontAwesomeIcon icon={faCheckDouble} />
+        {message.sender === authUser.pk && (
+        <>{message.is_read ? 'seen ' : 'not seen '}
+        <FontAwesomeIcon icon={faCheckDouble} />
+        </>)}
         </div>
       </div>
     ));
@@ -198,7 +229,12 @@ function UserMessages() {
           setOpenPanel(true);
         }}
       >
-        <img className="friend-list-img" src={friend.profile.profile_pic} />
+        {isMobile ? (
+          <img className="friend-list-img" src={friend.profile.profile_pic} />
+        ) : (
+          <p>{friend.profile.username}</p>
+        )}
+
       </button>
     </>
   ));
@@ -394,9 +430,11 @@ function UserMessages() {
                             {selectedConversation && (
                               <div className="conversation-box">
                                 {messageHTML.length < 1 ? (
-                                  <div className="no-message">
-                                    no messages yet, why don't you send a
-                                    message first?
+                                  <div className="no-message-message">
+                                   <p> no messages yet... </p>
+                                    <p>why don't you send a
+                                    message first? <FontAwesomeIcon icon={faSmileWink} />
+                                    </p>
                                   </div>
                                 ) : (
                                   <div>{messageHTML}</div>
@@ -441,7 +479,11 @@ function UserMessages() {
                                 !showUserInfo ? "slide-in" : ""
                               } ${showUserInfo ? "slide-out" : ""}`}
                             >
-                              <h3>User info</h3>
+                              <h3 
+                              style={{
+                                padding: '20px'
+                              }}
+                              className='infoText'>User info</h3>
                               {friendProfileHTML}
                             </div>
                           </Col>

@@ -46,6 +46,7 @@ import Menu from '@mui/material/Menu';
         const [gender, setGender] = useState("")
         const [biography, setBiography] = useState("")
         const [username, setUsername] = useState("")
+        const user = profile.user
        
         const profiles = Object.keys(profile).length;
         const [anchorEl, setAnchorEl] = React.useState(null);
@@ -93,8 +94,7 @@ import Menu from '@mui/material/Menu';
             fetchUserProfile();
         }, []);
 
-        console.log({profile})
-
+console.log({profile})
         const handleEdit = async (e) => {
             e.preventDefault();
 
@@ -107,6 +107,7 @@ import Menu from '@mui/material/Menu';
             formData.append("pronouns", pronouns);
             formData.append("gender", gender);
             formData.append("biography", biography);
+            // formData.append("user", user);
            
                 const options = {
                     method: "PUT",
@@ -153,16 +154,30 @@ import Menu from '@mui/material/Menu';
                 Location: <input
                     type="text"
                     value={gymLocation}
-                    onChange={(e) => setLastName(e.target.value)}
+                    onChange={(e) => setGymLocation(e.target.value)}
                     />
               </p>
               <p className="profile-content">
                 Pronouns: <input
                     type="text"
                     value={pronouns}
-                    onChange={(e) => setLastName(e.target.value)}
+                    onChange={(e) => setPronouns(e.target.value)}
                     />
                 </p>
+                <p className="profile-content">
+                Bio: <input
+                    type="text"
+                    value={biography}
+                    onChange={(e) => setBiography(e.target.value)}
+                    />
+                </p>
+                {/* <p className="profile-content">
+                Activities: <input
+                    type="text"
+                    value={biography}
+                    onChange={(e) => (e.target.value)}
+                    />
+                </p> */}
               <p className="profile-content">
                 <List
                     component="nav"

@@ -22,6 +22,7 @@ function AuthenticatedHeader({id}) {
   const [friendRequests, setFriendRequests] = useState([])
   const { logout } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [messageNotifications, setMessageNotifications] = useState(0);
 
 
   const handleClick = (event) => {
@@ -44,7 +45,32 @@ function AuthenticatedHeader({id}) {
     getMatches();
   }, []);
 
-
+  // useEffect(() => {
+  //   const getMessageNotifications = async () => {
+  //     const response = await fetch (`/api_v1/unread_messages/`);
+  //     if (!response.ok) {
+  //       throw new Error('Network response not OK');
+  //     }
+  //     const data = await response.json();
+  //     setMessageNotifications(data);
+  //   };
+  //   getMessageNotifications()
+  // }, []);
+  useEffect(() => {
+  const getMessageNotifications = async () => {
+    const options = {
+      method: "GET",
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+    };
+    const response = await fetch(`/api_v1/unread_messages/`, options);
+    const data = await response.json();
+    setMessageNotifications(data.unread_messages_count);
+  };
+  getMessageNotifications()
+});
+  // console.log({messageNotifications})
 
   useEffect(() => {
     const fetchMatchRequests = async () => {
@@ -80,10 +106,10 @@ function AuthenticatedHeader({id}) {
             {request.from_user}
         </p>
             <p>
-            <button onClick={() => handleAcceptFriendRequest(request.id)}>accept</button>
-                    <button>
-                        delete
-                    </button>
+              <button onClick={() => handleAcceptFriendRequest(request.id)}>accept</button>
+              <button>
+                  delete
+              </button>
             </p>
     </div>
     </>
@@ -99,21 +125,41 @@ function AuthenticatedHeader({id}) {
                 <Link to="/user-feed" className="left-nav" id="nav">
                   HOME
                 </Link>
-                {matchRequestCount > 0 && (
+                {/* {matchRequestCount > 0 && (
                   <span
                     id="alert-notification"
                     className="badge bg-danger ms-2"
                   >
                     {matchRequestCount}
                   </span>
-                )}
+                )} */}
                 {/* <Link to="/user-match" className="left-nav" id="nav"> */}
-                    <button id="notification-button" aria-describedby={openRequests} type="button" onClick={handleClick}>
+                    <button 
+                    style={{
+                      backgroundcolor: 'none', 
+                      background: 'none', 
+                      border: 'none', 
+                      // marginRight: '-10px',
+                  }}
+                    // id="notification-button" 
+                    aria-describedby={openRequests} 
+                    type="button" onClick={handleClick}>
                             <FontAwesomeIcon
                             className="fa-fw "
                             id="bell-icon-parent"
                             icon={faBell}
+                            style={{
+                              color: 'white'
+                            }}
                           />
+                            {matchRequestCount > 0 && (
+                                <span
+                                  id="alert-notification"
+                                  className="badge bg-danger ms-2"
+                                >
+                                  {matchRequestCount}
+                                </span>
+                              )}
                     </button>
                     <Popper id={openRequests} open={open} anchorEl={anchorEl}>
                         <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
@@ -123,6 +169,14 @@ function AuthenticatedHeader({id}) {
                 {/* </Link> */}
                 <Link to="/user-messages" className="left-nav" id="nav">
                   <FontAwesomeIcon icon={faMessage} />
+                  {messageNotifications > 0 && (
+                  <span
+                    id="message-notification"
+                    className="badge bg-danger ms-2"
+                  >
+                    {messageNotifications}
+                  </span>
+                 )} 
                 </Link>
               </div>
               <Navbar.Toggle
