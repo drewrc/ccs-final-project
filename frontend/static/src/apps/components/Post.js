@@ -90,7 +90,13 @@ function Post ({id, text, img, author, showFullText, toggleText, timelineId, han
                     onCancel={() => setEditPost(false)}
                   />
                 )}  
-
+            <p
+            style={{
+              position: 'absolute',
+              left: '10%',
+              fontSize: '15px',
+          }}
+            >
             <button 
                 onClick={() => handleLike(id)}
                 className="trash-button" 
@@ -98,16 +104,24 @@ function Post ({id, text, img, author, showFullText, toggleText, timelineId, han
                     <FontAwesomeIcon icon={faThumbsUp} /> {likes}
             </button>
    
-            <button 
+            {/* <button 
                 // onClick={handleLove}
                 className="trash-button" 
                 type="submit">
                     <FontAwesomeIcon icon={faHeart} />
-            </button>
-
+            </button> */}
+            </p>
             {!editPost && author === user && (
             <>
-            <p className="trash-button" >
+            <p 
+            style={{
+              position: 'relative',
+              marginRight: '5%',
+              fontSize: '15px'
+              // backgroundColor: 'black',
+            }}
+            id="edit-delete-buttons"
+            className="trash-button" >
             <button 
                 onClick={handleEditClick}
                 className="trash-button" 

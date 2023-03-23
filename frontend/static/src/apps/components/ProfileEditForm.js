@@ -399,6 +399,7 @@ export default function ProfileEditForm() {
                   }}
                   >
                   <FontAwesomeIcon 
+                    
                   icon={faPlus} />
                   </strong>
                 </button>
@@ -454,8 +455,21 @@ export default function ProfileEditForm() {
         width: '100%',
       }}
     >
-      <Button type="submit" id="open-edit-profile" onClick={handleOpen}>
-          click to edit <FontAwesomeIcon icon={faPencil} />
+      <Button 
+      style={{
+        padding: '5px',
+      }}
+      type="submit" id="send-button" onClick={handleOpen}>
+          <span 
+          style={{
+            padding: '3px',
+            textTransform:'none',
+            fontSize: '18px',
+          }}
+          >
+            <strong>Click to Edit </strong></span>
+          
+          <FontAwesomeIcon icon={faPencil} />
       </Button>
       <Modal
         open={open}

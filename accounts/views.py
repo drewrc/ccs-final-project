@@ -312,6 +312,7 @@ def get_non_buddies(request):
     #     lat, long = map(float, coordinates.split(','))
     #     non_buddies = sorted(non_buddies, key=lambda p: dist(lat, long, float(p.coordinates.split(',')[0]), float(p.coordinates.split(',')[1])))
 
+
     # Serialize the profiles using the NonBuddyProfileSerializer
     serializer = NonBuddyProfileSerializer(
         non_buddies, many=True, context={'request': request})

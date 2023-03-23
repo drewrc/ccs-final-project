@@ -31,12 +31,20 @@ function App() {
         <UnauthenticatedHeader />
       )}
       <Routes>
-        <Route path="UnauthHome" element={<UnauthHome />} />
+        <Route index element={<UnauthHome />} />
         <Route
           path="login"
           element={<Login isAuthenticated={isAuthenticated} login={login} />}
         />
-        <Route path="register" element={<Registration isAuthenticated={isAuthenticated} register={register} />} />
+        <Route
+          path="register"
+          element={
+            <Registration
+              isAuthenticated={isAuthenticated}
+              register={register}
+            />
+          }
+        />
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="profile" element={<UserProfile />} />
           <Route path="user-messages" element={<UserMessages />} />

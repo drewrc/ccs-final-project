@@ -78,20 +78,20 @@ export const AuthContextProvider = ({ children }) => {
     navigate("/login");
   };
 
-  useEffect(() => {
-    // check if the user is authenticated or not
-    if (isAuthenticated) {
-      // delay the redirect by 3 seconds
-      const redirectTimer = setTimeout(() => {
-        navigate("/profile");
-      }, 3000);
+  // useEffect(() => {
+  //   // check if the user is authenticated or not
+  //   if (isAuthenticated) {
+  //     // delay the redirect by 3 seconds
+  //     const redirectTimer = setTimeout(() => {
+  //       navigate("/profile");
+  //     }, 3000);
 
-      // cleanup function to cancel the timer if the component unmounts
-      return () => {
-        clearTimeout(redirectTimer);
-      };
-    }
-  }, [isAuthenticated, navigate]);
+  //     // cleanup function to cancel the timer if the component unmounts
+  //     return () => {
+  //       clearTimeout(redirectTimer);
+  //     };
+  //   }
+  // }, [isAuthenticated, navigate]);
 
   useEffect(() => {
     const getUser = async () => {

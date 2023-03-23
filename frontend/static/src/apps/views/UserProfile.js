@@ -22,6 +22,7 @@ import { AuthContext } from "../auth/auth-context/AuthContext";
 import ProfileEditForm from "../components/ProfileEditForm";
 import Spinner from "react-bootstrap/esm/Spinner";
 import ProfileHelp from "../components/ProfileInfo";
+import { textAlign } from "@mui/system";
 
 function UserProfile() {
   const { isAuthenticated, userID } = useContext(AuthContext);
@@ -82,14 +83,103 @@ console.log({profile})
 
   const bioHTML = (
     <div key={profile.id}>
-      <p className="profile-content">
+      <div
+      style={{
+              marginLeft: '2%',
+              marginRight:'8%',
+            }}
+      >
+      <p 
+        style={{
+          // borderBottom: '1px solid',
+          marginLeft: '5%',
+          marginRight:'5%',
+          paddingTop: '2%',
+        }}
+      
+      className="profile-content">
         Name: <span id="profile-text">{profile.first_name} {profile.last_name}</span>
       </p>
-      <p className="profile-content">Location: <span id="profile-text">{profile.gym_location}</span></p>
-      <p className="profile-content">Pronouns: <span id="profile-text"> {profile.pronouns}</span></p>
-      <p className="profile-content">Gender:<span id="profile-text"> {profile.gender} </span></p>
-      <p className="profile-content-bio">Activities: <span id="profile-text" >{profile.activity_names}</span></p>
-      <p className="profile-content-bio"> <span id="profile-text" > {profile.biography}</span></p>
+      <p 
+        style={{
+          // borderBottom: '1px solid',
+          marginLeft: '5%',
+          marginRight:'5%',
+          paddingTop: '2%',
+        }}
+      className="profile-content">Location: <span id="profile-text">
+        {profile.gym_location}  
+        </span></p>
+      <p 
+            style={{
+              // borderBottom: '1px solid rgba(189, 67, 7, 0.5)',
+              // borderColor: 'rgb(189, 67, 7, 0.5) !important',
+              marginLeft: '5%',
+              marginRight:'5%',
+              paddingTop: '2%',
+            }}
+      
+      className="profile-content">
+        Pronouns: <span id="profile-text"> {profile.pronouns}</span></p>
+      <p 
+      
+      style={{
+        // borderBottom: '1px solid',
+        marginLeft: '5%',
+        marginRight:'5%',
+        paddingTop: '2%',
+      }}
+      className="profile-content">Gender:
+
+      <span id="profile-text"> 
+      {profile.gender} 
+      </span>
+      </p>
+      <p   
+      style={{
+        // borderBottom: '1px solid',
+        marginLeft: '5%',
+        marginRight:'5%',
+        paddingTop: '2%',
+        paddingBottom: '1%',
+        backgroundColor: 'rgba(232, 192, 152, 0.1)'
+
+      }}    
+      className="profile-content-bio">Preferred Activities: 
+      <p
+      style={{
+        width: '90%',
+        marginTop: '1%',
+        marginBottom: '1%',
+        marginLeft: '1%',
+        marginRight: '50px',
+        
+      }}
+      >
+      <span id="profile-text" >{profile.activity_names}</span>
+      </p>
+      </p>
+      <p
+      style={{
+        backgroundColor: 'rgba(232, 192, 152, 0.1)',
+        paddingTop: '3%',
+      }}
+      className="profile-content-bio"> 
+      <p>About:</p>
+      <div 
+      style={{
+        
+        width: '90%',
+        marginBottom: '10%',
+        marginLeft: '1%',
+        marginRight: '1%',
+        textAlign: 'center',
+      }}
+      id="bio-container">
+      <span id="profile-text" >{profile.biography}</span>
+     </div>
+     </p>
+     </div>
     </div>
   );
 
@@ -223,7 +313,10 @@ console.log({profile})
 
   return (
     <div>
-      <Container>
+      <Container
+      id="profile-container-id"
+      // style={{backgroundColor: 'black',}}
+      >
         <Row>
           <Col className="profile-top">
             {/* <div className="profile-banner"></div> */}
@@ -290,7 +383,9 @@ console.log({profile})
                   id="picture-display" className="profile-left-side">
                     <h2 className="profile-header">Media</h2>
                    {userStories.map((story, index) => (
-                      <p id="profile-images" className="profile-content">
+                      <p 
+
+                      id="profile-images" className="profile-content" >
                         <img
                           style={{
                             height: "40%",
@@ -397,7 +492,11 @@ console.log({profile})
               <Card id="picture-display" className="profile-left-side">
                 <h2 className="profile-header">Media</h2>
                 {userStories.map((story, index) => (
-                  <p id="profile-images" className="profile-content">
+                  <p 
+                  style={{
+                    paddingLeft: '5%',
+                  }}
+                  id="profile-images">
                     <img
                       style={{
                         height: "40%",
