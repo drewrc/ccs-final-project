@@ -126,13 +126,13 @@ class Profile(models.Model):
                 return str(point)
         except GeocoderTimedOut:
             return None
-
         return None
 
     def save(self, *args, **kwargs):
         if self.gym_location and not self.coordinates:
             # Retrieve coordinates for gym_location and set the coordinates field
             coordinates = self.get_gym_location_coordinates()
+            print(coordinates)
             if coordinates:
                 self.coordinates = f"{coordinates[0]}, {coordinates[1]}"
         super(Profile, self).save(*args, **kwargs)

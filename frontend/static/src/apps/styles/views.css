@@ -1343,12 +1343,14 @@ font-family: 'Ubuntu', sans-serif; */
     margin: 0 auto; /* Center the block element horizontally */
     background-color: rgb(255, 132, 0);
     color: white;
-    padding: 10px 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     border-radius: 5px;
     font-size: 16px;
     border: none;
     cursor: pointer;
     width: 80%;
+    
   }
   
   #save-button:hover {
@@ -1391,6 +1393,34 @@ font-family: 'Ubuntu', sans-serif; */
         width: 100%;
     }
 }
+
+#Gender-box {
+    font-family: "Arial, sans-serif";
+}
+
+#add-activity {
+    background-color: rgb(236, 107, 2);
+    border: none;
+    transition: activity-pulse 0.2s ease-in-out; 
+}
+#add-activity:hover {
+    animation: activity-pulse 1.5s;
+}
+
+@keyframes activity-pulse {
+    0% {
+      transform: scale(1);
+      background-color: rgb(255, 132, 0);
+    }
+    50% {
+      transform: scale(1.05);
+      background-color: rgb(255, 174, 0);
+    }
+    100% {
+      transform: scale(1);
+      background-color: rgb(255, 132, 0);
+    }
+  }
 .tinder-card-info {
     font-family: 'Raleway', sans-serif;
     padding-top: 60px;

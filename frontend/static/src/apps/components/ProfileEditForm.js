@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMugSaucer, faPencil, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faGear, faGears, faMugSaucer, faPencil, faPhone, faPlus, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import List from "@mui/material/List";
@@ -193,9 +193,9 @@ export default function ProfileEditForm() {
             }}
             xs={6}>
             <p className="profile-content">
-              Username:{" "}
+             <strong> Username:</strong>
               <input
-                    style={{ width: '80%', padding: '2px', borderRadius: '10px' }}
+                    style={{ width: '90%', padding: '2px', borderRadius: '10px' }}
                 placeholder={username}
                 type="text"
                 value={username}
@@ -203,10 +203,10 @@ export default function ProfileEditForm() {
               />
             </p>
             <p className="profile-content">
-              First name:{" "}
+            <strong>First name:{" "}</strong>
               <input
               style={{
-                width: "80%",
+                width: "90%",
                 marginLeft: 'auto',
                 marginRight: 'auto',
                 fontFamily: "Arial, sans-serif",
@@ -220,10 +220,10 @@ export default function ProfileEditForm() {
               />
             </p>
             <p className="profile-content">
-              Last name:{" "}
+            <strong> Last name:{" "}</strong>
               <input
               style={{
-                width: "80%",
+                width: "90%",
                 padding: "2px",
                 marginLeft: 'auto',
                 marginRight: 'auto',
@@ -238,24 +238,34 @@ export default function ProfileEditForm() {
               />
             </p>
             <p className="profile-content">
-              Phone:{" "}
+            <strong> Phone:{" "}</strong>
               <input
               style={{
-                width: "80%",
+                width: "90%",
                 padding: "2px",
-                marginLeft: 'auto',
-                marginRight: 'auto',
+                // marginLeft: '20px',
+                // marginRight: '20px',
                 fontFamily: "Arial, sans-serif",
                 fontSize: "16px",
                 color: "#333",
                 borderRadius: '10px',
               }}
+              id="profile-input"
                 type="text"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
             </p>
-      
+            <p className="profile-content">
+            <strong> Location:{" "}</strong>
+              <input
+                    style={{ width: '90%', padding: '2px', borderRadius: '10px' }}
+                placeholder={gymLocation}
+                type="text"
+                value={gymLocation}
+                onChange={(e) => setGymLocation(e.target.value)}
+              />
+            </p>
             </Col>
             <Col 
             style={{
@@ -265,13 +275,14 @@ export default function ProfileEditForm() {
             }}
             xs={6}>
                 <p className="profile-content">
-                Pronouns:{" "}
+                <strong> Pronouns:{" "}</strong>
                 <input
                   style={{
                     width: "100%",
                     padding: "2px",
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
+                    // marginLeft: '20px',
+                    // marginRight: '20px',
+                 
                     fontFamily: "Arial, sans-serif",
                     fontSize: "16px",
                     color: "#333",
@@ -283,15 +294,21 @@ export default function ProfileEditForm() {
                 />
               </p>
        
-                     <p className="profile-content">
-              <List
+            <p className="profile-content">
+          <List
             component="nav"
             aria-label="Device settings"
-            sx={{ bgcolor: "background.paper" }}
+            // sx={{ bgcolor: "background.paper" }}
           >
             <ListItem
               button
-              id="lock-button"
+              style={{
+                fontFamily: "Arial, sans-serif",
+              }}
+              // sx={{
+              //   fontFamily: "Arial, sans-serif",
+              // }}
+              id="Gender-box lock-button"
               aria-haspopup="listbox"
               aria-controls="lock-menu"
               aria-label="Gender"
@@ -299,6 +316,7 @@ export default function ProfileEditForm() {
               onClick={handleClickListItem}
             >
               <ListItemText
+            
                 primary="Gender"
                 secondary={options[selectedIndex]}
               />
@@ -338,7 +356,7 @@ export default function ProfileEditForm() {
                   left: '90%',
                 }}
                 ><ActivityHelp /> </div>
-                New Activity:
+                <strong>New Activity:</strong>
                 <input
                   style={{
                     width: "100%",
@@ -355,10 +373,34 @@ export default function ProfileEditForm() {
                   onChange={(e) => setActivity(e.target.value)}
                 />
                 <button
+                
+                style={{
+                  width: "40%",
+                  paddingTop: "15px",
+                  paddingBottom: "15px",
+                  marginTop: '2%',
+                  marginLeft: '30%',
+                  marginRight: 'auto',
+                  fontSize: "16px",
+                  color: "#333",
+                  borderRadius: '20px',
+                  color: 'white',
+                }}
                   type="submit"
+                  id="add-activity"
                   // onClick={(e) => handleActivities(activity)}
                 >
-                  submit activity
+                  <strong
+                  >submit activity </strong>
+                  <strong 
+                  style={{
+                    paddingLeft: '5px',
+                    color: 'white',
+                  }}
+                  >
+                  <FontAwesomeIcon 
+                  icon={faPlus} />
+                  </strong>
                 </button>
               </p>
               
@@ -436,17 +478,18 @@ export default function ProfileEditForm() {
           <Typography 
            sx={{ p: 1, 
             fontFamily: 'Roboto Condensed',
-            padding: '15px',
+         
             fontSize: '38px',
             letterSpacing: '0.5px',
             textAlign: 'center',
-            borderBottom: '1px solid black',
+            borderBottom: '3px solid black',
             marginBottom: '20px',
+            textShadow: '1px 2px 3.5px black',
             }}
           // variant="h6" component="h2"
           
           >
-            Profile Settings
+            Profile Settings <FontAwesomeIcon icon={faGears} />
           </Typography>
           <Typography id="make-me-responsive" sx={{ mt: 2 }}>
             {bioHTML}

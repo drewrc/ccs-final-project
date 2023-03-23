@@ -29,6 +29,8 @@
     background-size: cover;
     min-width: 100%;
     min-height: 50vh;
+    padding-top: 15% !important;
+    padding-bottom: 15% !important;
     box-shadow: 5px 5px 10px rgb(39, 1, 0);
 }
 .entrance-text{
@@ -116,6 +118,20 @@
       background: linear-gradient(to bottom right, rgba(252, 140, 21, 0.9), rgb(238, 17, 54));
     }
   }
+  @keyframes push {
+    0% {
+      transform: translateX(-300px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  .enter-button {
+    animation: push 1s ease forwards;
+  }
+
 .header-text {
     position: absolute;
     text-align: center;
@@ -124,21 +140,29 @@
     width: 100vw;
     transform: translate(-50%, -50%);
     z-index: 999;
-    font-size: 80px;
-    color: rgb(253, 245, 237);
+    font-size: 70px;
+    color: rgb(250, 246, 241);
     /* font-family: Roboto Condensed, sans-serif; */
     /* font-family: Permanent Marker, serif; */
     /* font-family: Rock Salt, sans-serif; */
     font-family: 'Monoton', cursive;
     letter-spacing: 1px;
-    font-size: 50px;
-    padding-top: 75px;
-    padding-bottom: 75px;
+    /* font-size: 50px; */
+    padding-top: 100px;
+    padding-bottom: 100px;
     background-color: rgba(244, 222, 193, 0.3);
     /* text-transform: uppercase; */
-    border: 2px solid rgb(250, 239, 239, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     text-shadow: 1px 2px 5px rgb(108, 2, 28);
     opacity: 0.9;
+}
+
+@media screen and (max-width: 600px) {
+    .header-text {
+        font-size: 50px;
+        padding-top: 75px;
+        padding-bottom: 75px;
+    }
 }
 
 @keyframes rotate {

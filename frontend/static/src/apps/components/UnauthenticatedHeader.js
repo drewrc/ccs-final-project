@@ -14,11 +14,9 @@ function UnauthenticatedHeader () {
 return (
     <>
     <div>
-        {['xxl',].map((expand) => (
+        {['xxxl',].map((expand) => (
             <Navbar id="header" key={expand} expand={expand} className="mb-3">
             <Container fluid>
-
-
                     <Link id="nav" to="/UnauthHome">
                     FitBuddies
                     </Link>
