@@ -91,9 +91,9 @@ class Profile(models.Model):
     gender = models.CharField(
         max_length=20, choices=GENDER_CHOICES, blank=True)
     profile_pic = models.ImageField(
-        upload_to='images/', blank=True, default=default_profile_pic)
+        upload_to='images/', blank=True, default="profilepicdefault.png")
     profile_banner = models.ImageField(
-        upload_to='images/', blank=True, default=default_banner)
+        upload_to='images/', blank=True, default="defaultbanner_Ar155VZ.png")
     gym_location = models.CharField(max_length=255, blank=True)
     coordinates = models.CharField(max_length=255, blank=True)
     biography = models.CharField(max_length=255, blank=True)

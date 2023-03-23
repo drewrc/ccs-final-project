@@ -12,26 +12,23 @@ import { faBell, faMessage } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../auth/auth-context/AuthContext";
 import "../styles/views.css";
-import Box from '@mui/material/Box';
-import Popper from '@mui/material/Popper';
+import Box from "@mui/material/Box";
+import Popper from "@mui/material/Popper";
 import Cookies from "js-cookie";
 
-
-function AuthenticatedHeader({id}) {
+function AuthenticatedHeader({ id }) {
   const [matchRequestCount, setMatchRequestCount] = useState(0);
-  const [friendRequests, setFriendRequests] = useState([])
+  const [friendRequests, setFriendRequests] = useState([]);
   const { logout } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [messageNotifications, setMessageNotifications] = useState(0);
-
 
   const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
 
   const open = Boolean(anchorEl);
-  const openRequests = open ? 'simple-popper' : undefined;
-
+  const openRequests = open ? "simple-popper" : undefined;
 
   useEffect(() => {
     const getMatches = async () => {
@@ -57,19 +54,19 @@ function AuthenticatedHeader({id}) {
   //   getMessageNotifications()
   // }, []);
   useEffect(() => {
-  const getMessageNotifications = async () => {
-    const options = {
-      method: "GET",
-      headers: {
-        "X-CSRFToken": Cookies.get("csrftoken"),
-      },
+    const getMessageNotifications = async () => {
+      const options = {
+        method: "GET",
+        headers: {
+          "X-CSRFToken": Cookies.get("csrftoken"),
+        },
+      };
+      const response = await fetch(`/api_v1/unread_messages/`, options);
+      const data = await response.json();
+      setMessageNotifications(data.unread_messages_count);
     };
-    const response = await fetch(`/api_v1/unread_messages/`, options);
-    const data = await response.json();
-    setMessageNotifications(data.unread_messages_count);
-  };
-  getMessageNotifications()
-});
+    getMessageNotifications();
+  });
   // console.log({messageNotifications})
 
   useEffect(() => {
@@ -83,37 +80,70 @@ function AuthenticatedHeader({id}) {
     };
     fetchMatchRequests();
   }, []);
-  console.log({friendRequests})
+  console.log({ friendRequests });
 
   const handleAcceptFriendRequest = async (id) => {
-  
-  const options = {
-    method: "POST",
-    headers: {
-      "X-CSRFToken": Cookies.get("csrftoken"),
-    },
-    // body: JSON.stringify(user)
+    const options = {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+      // body: JSON.stringify(user)
+    };
+
+    const response = await fetch(
+      `/api_v1/accept_match_request/${id}/`,
+      options
+    );
+    const data = await response.json();
+
+    const updatedFriendRequests = [...friendRequests];
+    const index = updatedFriendRequests.findIndex(
+      (request) => request.id === id
+    );
+    updatedFriendRequests.splice(index, 1);
+    setFriendRequests(updatedFriendRequests);
+
+    setMatchRequestCount(matchRequestCount - 1);
   };
-  
-  const response = await fetch(`/api_v1/accept_match_request/${id}/`, options);
-  const data = await response.json();
-};
 
   const matchHTML = friendRequests.map((request) => (
     <>
-    <div key={request.id}>
-        <p>
-            {request.from_user}
+      <div key={request.id}>
+        <p
+          style={{
+            paddingTop: "5%",
+            fontSize: "20px",
+            paddingLeft: "10px",
+            width: "15vw",
+          }}
+        >
+          {request.from_user}
         </p>
-            <p>
-              <button onClick={() => handleAcceptFriendRequest(request.id)}>accept</button>
-              <button>
-                  delete
-              </button>
-            </p>
-    </div>
+        <p>
+          <button
+            style={{
+              borderRadius: "10px",
+              border: "none",
+            }}
+            id="send-button"
+            onClick={() => handleAcceptFriendRequest(request.id)}
+          >
+            Accept
+          </button>
+          <button
+            style={{
+              borderRadius: "10px",
+              border: "none",
+            }}
+            id="send-button"
+          >
+            Delete
+          </button>
+        </p>
+      </div>
     </>
-))
+  ));
 
   return (
     <>
@@ -122,7 +152,7 @@ function AuthenticatedHeader({id}) {
           <Navbar id="header" key={expand} expand={expand} className="mb-3">
             <Container fluid>
               <div className="right-side-nav">
-                <Link to="/user-feed" className="left-nav" id="nav">
+                <Link to="/friend-stories" className="left-nav" id="nav">
                   HOME
                 </Link>
                 {/* {matchRequestCount > 0 && (
@@ -134,49 +164,67 @@ function AuthenticatedHeader({id}) {
                   </span>
                 )} */}
                 {/* <Link to="/user-match" className="left-nav" id="nav"> */}
-                    <button 
-                    style={{
-                      backgroundcolor: 'none', 
-                      background: 'none', 
-                      border: 'none', 
-                      // marginRight: '-10px',
+                <button
+                  style={{
+                    backgroundcolor: "none",
+                    background: "none",
+                    border: "none",
+                    // marginRight: '-10px',
                   }}
-                    // id="notification-button" 
-                    aria-describedby={openRequests} 
-                    type="button" onClick={handleClick}>
-                            <FontAwesomeIcon
-                            className="fa-fw "
-                            id="bell-icon-parent"
-                            icon={faBell}
-                            style={{
-                              color: 'white'
-                            }}
-                          />
-                            {matchRequestCount > 0 && (
-                                <span
-                                  id="alert-notification"
-                                  className="badge bg-danger ms-2"
-                                >
-                                  {matchRequestCount}
-                                </span>
-                              )}
-                    </button>
-                    <Popper id={openRequests} open={open} anchorEl={anchorEl}>
-                        <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
-                        {matchHTML}
-                        </Box>
-                    </Popper>
+                  // id="notification-button"
+                  aria-describedby={openRequests}
+                  type="button"
+                  onClick={handleClick}
+                >
+                  <FontAwesomeIcon
+                    className="fa-fw "
+                    id="bell-icon-parent"
+                    icon={faBell}
+                    style={{
+                      color: "white",
+                    }}
+                  />
+                  {matchRequestCount > 0 && (
+                    <span
+                      id="alert-notification"
+                      className="badge bg-danger ms-2"
+                    >
+                      {matchRequestCount}
+                    </span>
+                  )}
+                </button>
+                <Popper id={openRequests} open={open} anchorEl={anchorEl}>
+                  <Box
+                    sx={{
+                      marginLeft: "10%",
+                      border: "none",
+                      borderRadius: "10px",
+                      border: 1,
+                      p: 3,
+                      bgcolor: "background.paper",
+                    }}
+                  >
+                    <h3
+                      style={{
+                        paddingTop: "5%",
+                      }}
+                    >
+                      New Matches:
+                    </h3>
+                    {matchHTML}
+                  </Box>
+                </Popper>
                 {/* </Link> */}
                 <Link to="/user-messages" className="left-nav" id="nav">
                   <FontAwesomeIcon icon={faMessage} />
                   {messageNotifications > 0 && (
-                  <span
-                    id="message-notification"
-                    className="badge bg-danger ms-2"
-                  >
-                    {messageNotifications}
-                  </span>
-                 )} 
+                    <span
+                      id="message-notification"
+                      className="badge bg-danger ms-2"
+                    >
+                      {messageNotifications}
+                    </span>
+                  )}
                 </Link>
               </div>
               <Navbar.Toggle

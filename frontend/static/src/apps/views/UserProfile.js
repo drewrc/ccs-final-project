@@ -513,7 +513,11 @@ console.log({profile})
             <Col>
               <Card id="new-post" className="new-post-card">
                 <h2 className="profile-header">Create New Post</h2>
-                <form className="profile-content" onSubmit={handleSubmit}>
+                <form 
+                style={{
+                  paddingLeft: '5%',
+                }}
+                onSubmit={handleSubmit}>
                   {/* ---------- image preview div ------------ */}
                   {preview && (
                     <div className="center-preview">

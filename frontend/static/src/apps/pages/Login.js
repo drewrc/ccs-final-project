@@ -60,12 +60,12 @@ function Login() {
                 <a id="help-links" href="#">
                   <h4>Create new account</h4>
                 </a>
-                <a id="help-links" href="#">
+                {/* <a id="help-links" href="#">
                   <h4>Forgot username?</h4>
                 </a>
                 <a id="help-links" href="#">
-                  <h4>Forgot password?</h4>
-                </a>
+                  <h4>Forgot password?</h4> */}
+                {/* </a> */}
               </div>
             </Col>
           </Row>

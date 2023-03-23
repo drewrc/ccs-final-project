@@ -101,7 +101,7 @@
 .enter-button:not([disabled]):hover {
     box-shadow: 1px 1px 10px rgba(211, 161, 108, 0.5);
     text-shadow: 1px 1px 1px rgba(246, 244, 235, 0.5);
-    animation: pulse 1s ease-in-out infinite;
+    animation: pulse 1s ease-in-out;
 }
 
 @keyframes pulse {
@@ -128,9 +128,9 @@
       opacity: 1;
     }
   }
-  .enter-button {
+  /* .enter-button {
     animation: push 1s ease forwards;
-  }
+  } */
 
 .header-text {
     position: absolute;

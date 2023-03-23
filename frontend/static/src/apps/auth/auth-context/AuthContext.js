@@ -36,8 +36,8 @@ export const AuthContextProvider = ({ children }) => {
     //set authentication, if successful to TRUE instead of NULL
     setIsAuthenticated(true);
     //return home using ROUTER
-    navigate("/profile");
-  };
+    navigate("/friend-stories");
+  };  
 
   const register = async (user) => {
     const options = {
@@ -149,6 +149,9 @@ export const AuthContextProvider = ({ children }) => {
       </div>
     );
   }
+  // if (isAuthenticated) {
+
+  // }
 
   return (
     //Every Context object comes with a Provider React component that allows
