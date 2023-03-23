@@ -74,14 +74,14 @@ class Profile(models.Model):
     MALE = 'Male'
     FEMALE = 'Female'
     NONBINARY = 'Non-binary'
-    TRANS = 'Trans-Gender'
+    TRANS = 'Transgender'
     OTHER = 'Other'
 
     GENDER_CHOICES = [
         (MALE, 'Male'),
         (FEMALE, 'Female'),
         (NONBINARY, 'Non-binary'),
-        (TRANS, 'Trans-Gender'),
+        (TRANS, 'Transgender'),
         (OTHER, 'Other'),
     ]
 

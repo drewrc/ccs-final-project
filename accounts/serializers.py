@@ -41,19 +41,21 @@ class UserProfileSerializer(serializers.ModelSerializer):
     buddies_count = serializers.SerializerMethodField()
     buddies_ids = serializers.SerializerMethodField()
     phone = serializers.CharField(source='user.phone', allow_blank=True)
-    # activities = serializers.PrimaryKeyRelatedField(
-    #     many=True,
-    #     queryset=Activity.objects.all(),
-    #     required=False
-    # )
+    activity_names = serializers.SerializerMethodField()
 
     def get_buddies(self, obj):
         return obj.user.buddies.values_list('username', flat=True)
 
+    
+
+    def get_activity_names(self, obj):
+        return [activity.name for activity in obj.activities.all()]
+
+
     class Meta:
         model = Profile
         fields = ['id', 'user', 'username', 'pronouns', 'gender', 'profile_pic', 'profile_banner', 'biography',
-                  'first_name', 'last_name', 'buddies', 'coordinates', 'gym_location', 'buddies_count', 'buddies_ids', 'phone',]
+                  'first_name', 'last_name', 'buddies', 'coordinates', 'gym_location', 'buddies_count', 'buddies_ids', 'phone', 'activity_names',]
 
     def get_buddies_ids(self, obj):
         return obj.user.buddies.values_list('id', flat=True)

@@ -7,43 +7,58 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell } from '@fortawesome/free-solid-svg-icons'
+import { faBell, faDumbbell, faArrowPointer } from '@fortawesome/free-solid-svg-icons'
 
 function UnauthenticatedHeader () {
 
 return (
     <>
     <div>
-        {[false].map((expand) => (
+        {['xxl',].map((expand) => (
             <Navbar id="header" key={expand} expand={expand} className="mb-3">
             <Container fluid>
-                <Link id="nav" to="/UnauthHome">
-                FitBuddies
-                </Link>
-                <Link to="/">
-                <FontAwesomeIcon icon="fa-duotone fa-bell" />
-                </Link>
-                <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
-                <Navbar.Offcanvas
-                id={`offcanvasNavbar-expand-${expand}`}
-                aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
-                placement="end"
-                >
-                        <Link to="/user-feed" id="side-nav">
-                        Home
-                         </Link>
-                    <Form className="d-flex">
-                        <Form.Control
-                        type="search"
-                        placeholder="Search"
-                        className="me-2"
-                         aria-label="Search"
+
+
+                    <Link id="nav" to="/UnauthHome">
+                    FitBuddies
+                    </Link>
+                    <Link to="/">
+                    <FontAwesomeIcon icon="fa-duotone fa-bell" />
+                    </Link>
+                    <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+                    <Navbar.Offcanvas
+                    id={`offcanvasNavbar-expand-${expand}`}
+                    aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+                    placement="end"
+                    >
+                    <p
+                        style={{ 
+                            marginTop: '100px'}}
+                    >
+                        <Link 
+                          style={{ 
+                            color: 'black'}}
+                            id="side-naviagation-links"
+                            to="/login">
+                        <FontAwesomeIcon 
+                        style={{ 
+
+                            marginRight: '10px'}}
+                        icon={faDumbbell}
+                                    
                         />
-                        <Button variant="outline-success">Search</Button>
-                        <Link to="/user-feed" id="nav">
-                        Home
-                         </Link>
-                        </Form>
+                        Click to Login !</Link></p>
+                        <p>
+                            <Link 
+                         style={{ 
+                            color: 'black'}}
+                        to="/register" id="side-naviagation-links">Create an Account !
+                        <FontAwesomeIcon 
+                        style={{ marginLeft: '10px'}}
+                        icon={faArrowPointer} />
+                        </Link>
+                        </p>
+                   
                 </Navbar.Offcanvas>
             </Container>
             </Navbar>

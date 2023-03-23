@@ -21,6 +21,7 @@ import Form from "react-bootstrap/esm/Form";
 import { AuthContext } from "../auth/auth-context/AuthContext";
 import ProfileEditForm from "../components/ProfileEditForm";
 import Spinner from "react-bootstrap/esm/Spinner";
+import ProfileHelp from "../components/ProfileInfo";
 
 function UserProfile() {
   const { isAuthenticated, userID } = useContext(AuthContext);
@@ -76,6 +77,8 @@ function UserProfile() {
   // const filterUser = profile.user === userID.pk ? (
   //   <ProfileFeed {...profile} />
   // ) : null;
+console.log({profile})
+
 
   const bioHTML = (
     <div key={profile.id}>
@@ -85,7 +88,7 @@ function UserProfile() {
       <p className="profile-content">Location: <span id="profile-text">{profile.gym_location}</span></p>
       <p className="profile-content">Pronouns: <span id="profile-text"> {profile.pronouns}</span></p>
       <p className="profile-content">Gender:<span id="profile-text"> {profile.gender} </span></p>
-      <p className="profile-content-bio">Activities: <span id="profile-text" ></span></p>
+      <p className="profile-content-bio">Activities: <span id="profile-text" >{profile.activity_names}</span></p>
       <p className="profile-content-bio"> <span id="profile-text" > {profile.biography}</span></p>
     </div>
   );
@@ -264,7 +267,15 @@ function UserProfile() {
                   <Card 
                   style={{ background: 'linear-gradient(217deg, rgba(243, 185, 209, 0.3), rgba(248, 158, 73, 0.1) 70.71%), linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1) 70.71%), linear-gradient(336deg, rgba(0, 51, 255, 0.2), rgba(234, 234, 35, 0.1) 70.71%)', }}
                   id="bio-display" className="profile-left-side">
-                    <h2 className="profile-header">Profile Seetings</h2>
+                    <h2 className="profile-header">Profile Settings
+                    </h2>
+                    <div style={{
+                      position: 'absolute',
+                      top: '3%',
+                      right: '5%',
+                    }}>
+                    <ProfileHelp />
+                    </div>
                     {bioHTML}
                     <p className="trash-button">
                       <ProfileEditForm
@@ -371,6 +382,13 @@ function UserProfile() {
             <Col>
               <Card id="bio-display" className="profile-left-side">
                 <h2 className="profile-header">Profile Settings</h2>
+                <div style={{
+                      position: 'absolute',
+                      top: '3%',
+                      right: '5%',
+                    }}>
+                    <ProfileHelp />
+                    </div>
                 {bioHTML}
                 <p className="trash-button">
                   <ProfileEditForm />

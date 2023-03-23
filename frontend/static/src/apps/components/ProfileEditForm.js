@@ -433,8 +433,20 @@ export default function ProfileEditForm() {
           borderRadius: '15px',
           padding: '40px',
           }}>
-          <Typography  variant="h6" component="h2">
-            Profile Settings:
+          <Typography 
+           sx={{ p: 1, 
+            fontFamily: 'Roboto Condensed',
+            padding: '15px',
+            fontSize: '38px',
+            letterSpacing: '0.5px',
+            textAlign: 'center',
+            borderBottom: '1px solid black',
+            marginBottom: '20px',
+            }}
+          // variant="h6" component="h2"
+          
+          >
+            Profile Settings
           </Typography>
           <Typography id="make-me-responsive" sx={{ mt: 2 }}>
             {bioHTML}

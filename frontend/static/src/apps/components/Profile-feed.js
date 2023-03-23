@@ -83,8 +83,6 @@ function ProfileFeed({
     const data = await response.json();
   };
 
-  console.log({ first_name });
-
   const handleSaveProfile = async (e) => {
     e.preventDefault();
     const formData = new FormData();

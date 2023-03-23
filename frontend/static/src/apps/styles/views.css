@@ -54,6 +54,8 @@ font-family: 'Ubuntu', sans-serif; */
     border-bottom: 3px solid rgba(198, 133, 239, 0.2);
     box-shadow: 1px 2px 10px rgba(198, 133, 239, 0.3);
 }
+
+
 .left-nav {
     margin: 5px;
 }
@@ -81,16 +83,18 @@ font-family: 'Ubuntu', sans-serif; */
     repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5) 5px, black 5px, black 10px);
     color: white;
     font-family: 'Raleway', sans-serif;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     animation: slide-in-footer 1s ease-out;
     font-family: 'Oswald', sans-serif;
     background-color: transparent;
     width: 100%;
     text-shadow: 1px 1px 3px rgb(90, 0, 106);
     color:rgb(244, 240, 247);
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-size: 20px;
     font-weight: bold;
+    border-top: 3px solid rgba(198, 133, 239, 0.2);
+    box-shadow: 1px 2px 10px rgba(198, 133, 239, 0.3);
 }
 
 .header {
@@ -1404,6 +1408,7 @@ font-family: 'Ubuntu', sans-serif; */
     color: rgb(20, 24, 28);
     font-weight: bold;
     text-shadow: 1.5px 1.5px 2px rgba(3, 24, 50, 0.3);
+    
 }
 
 .profile-pic-container {
@@ -1547,7 +1552,8 @@ font-family: 'Ubuntu', sans-serif; */
   
 
 .name-holder {
-    font-family: Open Sans Condensed, sans-serif;
+    font-family: Pacifico;
+    /* font-family: 'raleway', sans-serif; */
     text-align: center;
     margin-top: 30px;
     padding-bottom: 10px;
@@ -1558,12 +1564,17 @@ font-family: 'Ubuntu', sans-serif; */
     font-size: 52px;
     text-shadow: 1px 2px 4px rgb(124, 0, 162, 0.5);
     /* text-transform: uppercase; */
+        /* font-family: Permanent Marker, serif; */
+    /* font-family: Roboto Condensed, sans-serif; */
+    font-style: bold;
 }
 
 h1 {
     text-transform: capitalize;
 }
-
+#warning {
+    color: rgb(195, 29, 29);
+}
 .edit-profile-pic {
     position: absolute;
     top: 0;
