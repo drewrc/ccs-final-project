@@ -1,6 +1,12 @@
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+
+import React from "react";
+import { useLottie } from "lottie-react";
+import animationData from "./spinner/80684-yoga.json";
+//frontend/static/src/apps/auth/auth-context/s
+
 // current context value from the closest matching *Provider* above it
 // exporting AuthContext to allow use in other components
 export const AuthContext = createContext();
@@ -63,6 +69,8 @@ export const AuthContextProvider = ({ children }) => {
       },
     };
 
+    
+
     await fetch("/dj-rest-auth/logout/", options);
     Cookies.remove("Authorization");
     //set authentication, if successful to FALSE instead of TRUE
@@ -71,6 +79,24 @@ export const AuthContextProvider = ({ children }) => {
     //content meant only for users
     navigate("/login");
   };
+
+
+  useEffect(() => {
+    // check if the user is authenticated or not
+    if (isAuthenticated) {
+      // delay the redirect by 3 seconds
+      const redirectTimer = setTimeout(() => {
+        navigate("/profile");
+      }, 3000);
+  
+      // cleanup function to cancel the timer if the component unmounts
+      return () => {
+        clearTimeout(redirectTimer);
+      };
+    }
+  }, [isAuthenticated, navigate]);
+  
+
 
   useEffect(() => {
     const getUser = async () => {
@@ -99,11 +125,32 @@ export const AuthContextProvider = ({ children }) => {
     getUserID();
   }, []);
 
+  const lottieCat = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+  
+  const { View } = useLottie(lottieCat);
 
   //if isAuthenticated value of null, display 'is loading'
   //TODO add spinner
   if (isAuthenticated === null) {
-    return <div>Is loading ...</div>;
+    return <div 
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '10%',
+
+              }}
+              className="spinner-container">
+                {View}
+              </div>
+    ;
   }
 
   return (

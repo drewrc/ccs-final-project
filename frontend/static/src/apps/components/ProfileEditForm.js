@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faMugSaucer, faPencil, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import List from "@mui/material/List";
@@ -12,6 +12,9 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import { Col, Row, Container } from "react-bootstrap";
+import MouseOverPopover from "./Popover";
+import ActivityHelp from "./ActivityInfo";
 
 const style = {
   position: "absolute",
@@ -165,74 +168,123 @@ export default function ProfileEditForm() {
 
   const bioHTML = (
     <div key={profile.id}>
-      <form onSubmit={handleActivities}>
-        <p className="profile-content">
-          Enter an Activity to add to Profile:{" "}
-          <input
-            type="text"
-            value={activity}
-            onChange={(e) => setActivity(e.target.value)}
-          />
-          <button
-            type="submit"
-            // onClick={(e) => handleActivities(activity)}
+      <form onSubmit={handleEdit} style={{ display: 'flex', flexWrap: 'wrap' }}>
+        <div 
+      
+        style={{ 
+          fontFamily: 'Raleway',
+          width: '100%' }}>
+        <Container>
+          <Row
+
+          style={{
+            width: '100%',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
           >
-            submit activity
-          </button>
-        </p>
-      </form>
-      <form onSubmit={handleEdit}>
-        <p className="profile-content">
-          Username:{" "}
-          <input
-            placeholder={username}
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </p>
-        <p className="profile-content">
-          First name:{" "}
-          <input
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-        </p>
-        <p className="profile-content">
-          Last name:{" "}
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </p>
-        <p className="profile-content">
-          Location:{" "}
-          <input
-            type="text"
-            value={gymLocation}
-            onChange={(e) => setGymLocation(e.target.value)}
-          />
-        </p>
-        <p className="profile-content">
-          Pronouns:{" "}
-          <input
-            type="text"
-            value={pronouns}
-            onChange={(e) => setPronouns(e.target.value)}
-          />
-        </p>
-        <p className="profile-content">
-          Phone:{" "}
-          <input
-            type="text"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-        </p>
-        <p className="profile-content">
-          <List
+            <Col
+            
+            style={{
+              width: "50%",
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              padding: '0px',
+            }}
+            xs={6}>
+            <p className="profile-content">
+              Username:{" "}
+              <input
+                    style={{ width: '80%', padding: '2px', borderRadius: '10px' }}
+                placeholder={username}
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </p>
+            <p className="profile-content">
+              First name:{" "}
+              <input
+              style={{
+                width: "80%",
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                fontFamily: "Arial, sans-serif",
+                fontSize: "16px",
+                color: "#333",
+                borderRadius: '10px',
+              }}
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </p>
+            <p className="profile-content">
+              Last name:{" "}
+              <input
+              style={{
+                width: "80%",
+                padding: "2px",
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                fontFamily: "Arial, sans-serif",
+                fontSize: "16px",
+                color: "#333",
+                borderRadius: '10px',
+              }}
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </p>
+            <p className="profile-content">
+              Phone:{" "}
+              <input
+              style={{
+                width: "80%",
+                padding: "2px",
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                fontFamily: "Arial, sans-serif",
+                fontSize: "16px",
+                color: "#333",
+                borderRadius: '10px',
+              }}
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </p>
+      
+            </Col>
+            <Col 
+            style={{
+              width: "50%",
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+            xs={6}>
+                <p className="profile-content">
+                Pronouns:{" "}
+                <input
+                  style={{
+                    width: "100%",
+                    padding: "2px",
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    fontFamily: "Arial, sans-serif",
+                    fontSize: "16px",
+                    color: "#333",
+                    borderRadius: '10px',
+                  }}
+                  type="text"
+                  value={pronouns}
+                  onChange={(e) => setPronouns(e.target.value)}
+                />
+              </p>
+       
+                     <p className="profile-content">
+              <List
             component="nav"
             aria-label="Device settings"
             sx={{ bgcolor: "background.paper" }}
@@ -273,39 +325,118 @@ export default function ProfileEditForm() {
               </MenuItem>
             ))}
           </Menu>
-        </p>
-
-        <p className="profile-content-bio">
-          Bio:{" "}
-          <input
-            type="text"
-            value={biography}
-            onChange={(e) => setBiography(e.target.value)}
-          />
-        </p>
-        <button type="submit">Save</button>
+          </p>
+            <form onSubmit={handleActivities}>
+              <p 
+              style={{
+                position: 'relative'
+              }}
+              className="profile-content">
+                <div
+                style={{
+                  position: 'absolute',
+                  left: '90%',
+                }}
+                ><ActivityHelp /> </div>
+                New Activity:
+                <input
+                  style={{
+                    width: "100%",
+                    padding: "2px",
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    fontFamily: "Arial, sans-serif",
+                    fontSize: "16px",
+                    color: "#333",
+                    borderRadius: '10px',
+                  }}  
+                  type="text"
+                  value={activity}
+                  onChange={(e) => setActivity(e.target.value)}
+                />
+                <button
+                  type="submit"
+                  // onClick={(e) => handleActivities(activity)}
+                >
+                  submit activity
+                </button>
+              </p>
+              
+            </form>
+            </Col>
+            <p 
+            className="profile-content-bio-edit">
+              <p 
+              style={{
+                paddingTop: '5%',
+                paddingBottom: '2%',
+                textAlign: 'left'}}
+              >
+                  <MouseOverPopover />
+                </p>
+              <textarea
+                value={biography}
+                onChange={(e) => setBiography(e.target.value)}
+                style={{
+                  width: "100%",
+                  height: "120px",
+                  borderRadius: "10px",
+                  padding: "10px",
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                  fontFamily: "Arial, sans-serif",
+                  fontSize: "16px",
+                  color: "#333",
+                  border: "1px solid #ccc",
+                  boxShadow: "1px 1px 5px rgba(0, 0, 0, 0.1)",
+                  resize: "vertical",
+                }}
+              />
+            </p>
+          </Row>
+          <button 
+          id="save-button"
+          type="submit">
+            Save
+            </button>
+        </Container>
+        </div>
       </form>
+      
     </div>
   );
 
   return (
-    <div>
-      <Button onClick={handleOpen}>
-        <button className="trash-button" type="submit">
-          <FontAwesomeIcon icon={faPencil} />
-        </button>
+    <div 
+      style={{
+        width: '100%',
+      }}
+    >
+      <Button type="submit" id="open-edit-profile" onClick={handleOpen}>
+          click to edit <FontAwesomeIcon icon={faPencil} />
       </Button>
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Bio
+        <Box
+        id="make-me-bigger"
+        sx={{
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          marginTop: '2%',
+          width: '50%',
+          backgroundColor: 'white',
+          borderRadius: '15px',
+          padding: '40px',
+          }}>
+          <Typography  variant="h6" component="h2">
+            Profile Settings:
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography id="make-me-responsive" sx={{ mt: 2 }}>
             {bioHTML}
           </Typography>
         </Box>

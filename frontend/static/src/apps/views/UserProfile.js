@@ -8,6 +8,7 @@ import { Card } from "@mui/material";
 import { TextField, Button } from "@mui/material";
 import Cookies from "js-cookie";
 import { useMediaQuery } from "@mui/material";
+import { Carousel } from 'react-bootstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMountainSun,
@@ -79,13 +80,13 @@ function UserProfile() {
   const bioHTML = (
     <div key={profile.id}>
       <p className="profile-content">
-        Name: {profile.first_name} {profile.last_name}
+        Name: <span id="profile-text">{profile.first_name} {profile.last_name}</span>
       </p>
-      <p className="profile-content">Location: {profile.gym_location}</p>
-      <p className="profile-content">Pronouns: {profile.pronouns}</p>
-      <p className="profile-content">Gender: {profile.gender}</p>
-      <p className="profile-content-bio">Activities:</p>
-      <p className="profile-content-bio">{profile.biography}</p>
+      <p className="profile-content">Location: <span id="profile-text">{profile.gym_location}</span></p>
+      <p className="profile-content">Pronouns: <span id="profile-text"> {profile.pronouns}</span></p>
+      <p className="profile-content">Gender:<span id="profile-text"> {profile.gender} </span></p>
+      <p className="profile-content-bio">Activities: <span id="profile-text" ></span></p>
+      <p className="profile-content-bio"> <span id="profile-text" > {profile.biography}</span></p>
     </div>
   );
 
@@ -240,15 +241,15 @@ function UserProfile() {
             {isMobile && (
               <div 
               className="profile-nav">
-                <Button id="profile-nav-button" onClick={() => setActiveCard("bio")}>Bio</Button>
+                <Button id="profile-nav-button" onClick={() => setActiveCard("bio")}>Profile</Button>
                 <Button id="profile-nav-button" onClick={() => setActiveCard("pictures")}>
-                  Pictures
+                  Media
                 </Button>
                 <Button id="profile-nav-button" onClick={() => setActiveCard("createNew")}>
-                  Create New Post
+                  New Post
                 </Button>
                 <Button id="profile-nav-button" onClick={() => setActiveCard("posts")}>
-                  Your Posts
+                  Archived
                 </Button>
               </div>
             )}
@@ -263,7 +264,7 @@ function UserProfile() {
                   <Card 
                   style={{ background: 'linear-gradient(217deg, rgba(243, 185, 209, 0.3), rgba(248, 158, 73, 0.1) 70.71%), linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1) 70.71%), linear-gradient(336deg, rgba(0, 51, 255, 0.2), rgba(234, 234, 35, 0.1) 70.71%)', }}
                   id="bio-display" className="profile-left-side">
-                    <h2 className="profile-header">Bio</h2>
+                    <h2 className="profile-header">Profile Seetings</h2>
                     {bioHTML}
                     <p className="trash-button">
                       <ProfileEditForm
@@ -276,7 +277,7 @@ function UserProfile() {
                   <Card 
                   style={{ background: 'linear-gradient(217deg, rgba(243, 185, 209, 0.3), rgba(248, 158, 73, 0.1) 70.71%), linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1) 70.71%), linear-gradient(336deg, rgba(0, 51, 255, 0.2), rgba(234, 234, 35, 0.1) 70.71%)', }}
                   id="picture-display" className="profile-left-side">
-                    <h2 className="profile-header">Pictures</h2>
+                    <h2 className="profile-header">Media</h2>
                    {userStories.map((story, index) => (
                       <p id="profile-images" className="profile-content">
                         <img
@@ -349,7 +350,17 @@ function UserProfile() {
                     </form>
                   </Card>
                 )}
-                {activeCard === "posts" && <>{userFeedHTML}</>}
+                {activeCard === "posts" && <>
+                
+                <Carousel>
+                {userFeedHTML.map((item, index) => (
+                  <Carousel.Item key={index}>
+                    {item}
+                  </Carousel.Item>
+                ))}
+              </Carousel>
+                
+                </>}
               </>
             </Col>
           </Row>
@@ -359,14 +370,14 @@ function UserProfile() {
           <Row className="profile-mid">
             <Col>
               <Card id="bio-display" className="profile-left-side">
-                <h2 className="profile-header">Bio</h2>
+                <h2 className="profile-header">Profile Settings</h2>
                 {bioHTML}
                 <p className="trash-button">
                   <ProfileEditForm />
                 </p>
               </Card>
               <Card id="picture-display" className="profile-left-side">
-                <h2 className="profile-header">Pictures</h2>
+                <h2 className="profile-header">Media</h2>
                 {userStories.map((story, index) => (
                   <p id="profile-images" className="profile-content">
                     <img
@@ -410,21 +421,30 @@ function UserProfile() {
                     />
                   </Form.Group>
                   <div id="post-button-container">
-                    <label
-                      htmlFor="file-upload"
-                      style={{ backgroundColor: "#CACACA" }}
-                      className="btn"
-                      id="send-button"
-                    >
-                      <FontAwesomeIcon icon={faMountainSun} /> Upload a file
-                    </label>
-                    <input
-                      id="file-upload"
-                      className="file-input"
-                      type="file"
-                      onChange={handleImage}
-                      style={{ display: "none" }}
-                    />
+                  <label
+                    htmlFor="file-upload"
+                    className="btn"
+                    id="send-button"
+                    style={{
+                      
+                      color: "#FFFFFF",
+                      padding: "10px 20px",
+                      borderRadius: "5px",
+                      fontWeight: "bold",
+                      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)"
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faMountainSun} style={{ marginRight: "10px" }} />
+                    Upload a file
+                  </label>
+                  <input
+                    id="file-upload"
+                    className="file-input"
+                    type="file"
+                    onChange={handleImage}
+                    style={{ display: "none" }}
+                  />
+
 
                     <Button type="submit" id="send-button" size="medium">
                       Post
@@ -432,7 +452,13 @@ function UserProfile() {
                   </div>
                 </form>
               </Card>
-              {userFeedHTML}
+              <Carousel>
+                {userFeedHTML.map((item, index) => (
+                  <Carousel.Item key={index}>
+                    {item}
+                  </Carousel.Item>
+                ))}
+              </Carousel>
             </Col>
           </Row>
         )}

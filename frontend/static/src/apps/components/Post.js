@@ -39,7 +39,7 @@ function Post ({id, text, img, author, showFullText, toggleText, timelineId, han
 
     return (
     <div key={id}>
-    <Card id="post-display" key={id} sx={{ maxWidth: 545 }}>
+    <Card id="post-display" key={id} sx={{ maxWidth: 645 }}>
               <Typography id="post-header" gutterBottom variant="h5" component="div">
                 {author}
               </Typography>
@@ -55,7 +55,7 @@ function Post ({id, text, img, author, showFullText, toggleText, timelineId, han
                   />
                   <CardContent >
                     <Typography variant="body2" color="text.secondary">
-                    <p>{fullText}</p>
+                    <p id="post-text">{fullText}</p>
                     </Typography>
                   </CardContent>
                 </CardActionArea>
