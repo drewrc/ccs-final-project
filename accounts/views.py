@@ -18,6 +18,7 @@ from rest_framework.exceptions import NotFound
 from .permissions import IsAuthorOrReadOnly
 from conversations.models import Conversation, Message
 from math import dist
+from .utils import haversine
 
 
 class UserListAPIView(generics.ListCreateAPIView):
@@ -289,29 +290,38 @@ def send_message(request, user_id):
     return Response({'status': 'Message sent'})
 
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_non_buddies(request):
     # Get the authenticated user's profile
-    user_profile = request.user
+    user = request.user
+
+    #Authenticated profile:
+    user_profile = request.user.profile
 
     # Get the list of IDs of the profiles the authenticated user is already friends with
-    buddies_ids = user_profile.buddies.values_list('id', flat=True)
+    buddies_ids = user.buddies.values_list('id', flat=True)
 
     # Get the list of IDs of the profiles the authenticated user has sent friend requests to
     requested_ids = FriendRequest.objects.filter(
-        from_user=user_profile).values_list('to_user__id', flat=True)
+        from_user=user).values_list('to_user__id', flat=True)
 
     # Get the list of profiles the authenticated user is not friends with and hasn't sent a friend request to
     non_buddies = Profile.objects.exclude(id__in=buddies_ids).exclude(
-        id=user_profile.id).exclude(id__in=requested_ids)
+        id=user.id).exclude(id__in=requested_ids)
+    
+    # Filter the non-buddies based on their gender if the gender parameter is provided
+    gender = request.query_params.get('gender')
+    if gender:
+        non_buddies = non_buddies.filter(gender=gender)
 
-    # Check if user_profile has coordinates
-    # coordinates = user_profile.profile.coordinates
-    # if coordinates:
-    #     lat, long = map(float, coordinates.split(','))
-    #     non_buddies = sorted(non_buddies, key=lambda p: dist(lat, long, float(p.coordinates.split(',')[0]), float(p.coordinates.split(',')[1])))
-
+    # Filter the non-buddies based on their distance from the authenticated user's location (10 Miles)
+    coordinates = user_profile.coordinates
+    if coordinates:
+        lat, lon = map(float, coordinates.split(','))
+        non_buddies = [profile for profile in non_buddies if haversine(
+            lon, lat, float(profile.coordinates.split(',')[1]), float(profile.coordinates.split(',')[0])) <= 10]
 
     # Serialize the profiles using the NonBuddyProfileSerializer
     serializer = NonBuddyProfileSerializer(
@@ -319,6 +329,9 @@ def get_non_buddies(request):
 
     # Return the serialized profiles
     return Response(serializer.data)
+
+
+
 
 
 @api_view(['PUT'])

@@ -39,6 +39,9 @@ export default function MouseOverPopover() {
                 marginRight: '7px',
             }}
              > </strong> 
+             <span
+             id="matching-help"
+             >Help</span>
              <FontAwesomeIcon
              id="matching-help"
              icon={faQuestionCircle} />

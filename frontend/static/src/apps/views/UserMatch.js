@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesLeft, faAnglesRight, faReply, faShare } from "@fortawesome/free-solid-svg-icons";
 import { useMediaQuery } from "@mui/material";
 import MatchInfo from "../components/MatchInfo";
+import ToggleGender from "../components/ToggleGender";
 
 function UserMatch (from_user, id) {
     const [profiles, setProfiles] = useState([]);
@@ -149,16 +150,26 @@ console.log({currentProfileIndex})
                         position: 'relative',
                     }}
                     className="header">Match with Friends</h2>
+                     <div
+                     style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
 
+                     }}
+                     >
+                    <span>
+                    <ToggleGender />
+                    </span>
                     <span
-                    id="matching-help-icon"
+                    // id="matching-help-icon"
                     // style={{
                     //     position: 'absolute',
                     //     right: '25%',
                     //     top: '15%',
                     // }}
-                    ><MatchInfo /></span>
-                 
+                    > <MatchInfo /></span>
+                     </div>
 
                     {/* <p>swipe left to view next profile </p> */}
                         </div>
