@@ -47,7 +47,12 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
 
      const editHTML = user_from === username && (
       <>
-        <p className="trash-button">
+        <p
+        style={{
+          textAlign: 'right',
+          paddingRight: '1%',
+        }}
+        >
           <button 
             onClick={handleEditClick}
             className="trash-button" 
@@ -113,7 +118,13 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
             </span>
             ):(
             <div>
-            <p>{text}</p>
+            <p
+            id="message-text"
+            style={{
+              paddingBottom: '5%',
+              // color: 'white',
+            }}
+            >{text}</p>
             {editHTML}
             </div>
             )}

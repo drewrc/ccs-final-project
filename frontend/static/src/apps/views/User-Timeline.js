@@ -12,11 +12,17 @@ import { Button } from "react-bootstrap"
 import NewPost from "../components/NewPost"
 import { useLottie } from "lottie-react";
 import animationData from "../auth/auth-context/spinner/14592-loader-cat.json";
+import Slider from 'react-slick';
+// import "../styles/slick/slick.css";
+// import "../static/slick/slick-theme.css";
+
+
 
 function UserTimeline () {
 
   React.useEffect(() => {
     document.body.style.background = 'linear-gradient(217deg, rgba(255, 0, 98, 0.2), rgb(255, 158, 61, 0.3))'
+  
   }, []);
 
     const [ stories, setStories ] = useState([])
@@ -88,29 +94,36 @@ function UserTimeline () {
                 <div
                 style={{
                   display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  flexDirection: 'row',
+              
+                  // justifyContent: 'center',
+                  // alignItems: 'center',
                 }}
                 id="user-stories-div"
                 >
                   <p
                   style={{padding: '10%'}}
                   >
-                    {stories.length > 0 ? (
+                    {stories.length > 6 ? (
+                      <Slider
+                        dots={true}
+                        infinite={true}
+                        speed={500}
+                        slidesToShow={5}
+                        slidesToScroll={5}
+                      >
+                        {stories.map((post) => (
+                          <img src={post.img} alt={post.name} />
+                        ))}
+                      </Slider>
+                    ) : (
                       <div class="image-container">
-                          {stories.map((post) => (
-                              <img src={post.img} alt={post.name} />
-                          ))}
+                        {stories.map((post) => (
+                          <img src={post.img} alt={post.name} />
+                        ))}
                       </div>
-                  ) : (
-                      <div 
-                      // style={{
-                      //   borderRadius: '10px'
-                      // }}
-                      class="no-friends-timelines">
-                          Add new matches in order to view your friend's stories!
-                      </div>
-                  )}
+                    )}
+
                   </p>
                 </div>
                 </Col>

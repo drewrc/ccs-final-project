@@ -22,7 +22,7 @@ import React from "react";
 import { Modal } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { useLottie } from "lottie-react";
-import animationData from "../auth/auth-context/spinner/14592-loader-cat.json";
+import animationData from "../auth/auth-context/spinner/80684-yoga.json";
 
 function UserMessages() {
   const [message, setMessage] = useState("");
@@ -40,6 +40,7 @@ function UserMessages() {
   const [showModal, setShowModal] = useState(false);
   
 
+  console.log({openPanel})
   const { userID } = useContext(AuthContext);
   const username = userID.username;
   const isMobile = useMediaQuery("(max-width:600px)");
@@ -228,8 +229,14 @@ const handleReadMessage = async () => {
     <>
       <button
         key={friend.id}
-        id="button"
-        className="button-orange"
+        style={{
+          width: '100%',
+          paddingTop: '5%',
+          background: 'transparent',
+          border: 'none',
+        }}
+        // id="button"
+        // className="button-orange"
         onClick={() => {
           setSelectedConversation(friend.profile.user);
           setOpenPanel(true);
@@ -238,7 +245,9 @@ const handleReadMessage = async () => {
         {isMobile ? (
           <img className="friend-list-img" src={friend.profile.profile_pic} />
         ) : (
-          <p>{friend.profile.username}</p>
+          <p
+          id="button-friend-nav"
+          >{friend.profile.username}</p>
         )}
       </button>
     </>
@@ -356,6 +365,7 @@ const handleReadMessage = async () => {
           marginTop: "-15px",
           width: "100vw",
           position: "relative",
+          marginBottom: '5%',
         }}
       >
         <Row
@@ -474,6 +484,7 @@ const handleReadMessage = async () => {
               
                       <div
                         style={{
+                        
                           // height: '60vh',
                           marginBottom: "50px",
                           // paddingTop: '20px',
@@ -491,8 +502,10 @@ const handleReadMessage = async () => {
                         {showUserInfo ? (
                           <div
                             style={{
-                              background:
-                                "linear-gradient(217deg, rgba(255,255,255,.9), rgba(255,255,255,0.5) 70.71%), linear-gradient(180deg, rgba(230,250,255,0.8), rgba(255, 255, 255, 0.8) 70.71%), linear-gradient(336deg, rgba(130, 255, 255, 0.8), rgba(255, 255, 130, 1) 70.71%)",
+                              // backgroundColor: 'rgb(252,236,222,0.4)',
+                              // background:
+                  
+                              //   "linear-gradient(217deg, rgba(255,255,255,.9), rgba(255,255,255,0.5) 70.71%), linear-gradient(180deg, rgba(230,250,255,0.8), rgba(255, 255, 255, 0.8) 70.71%), linear-gradient(336deg, rgba(130, 255, 255, 0.8), rgba(255, 255, 130, 1) 70.71%)",
                               // background: 'linear-gradient(140deg, rgba(245, 253, 251, 0.8), rgba(255, 205, 252, 0.1))',
                             }}
                             id="message-parent"
@@ -552,10 +565,12 @@ const handleReadMessage = async () => {
                                     marginLeft: "10px",
                                     marginRight: "10px",
                                     marginTop: "5px",
+                                    border: 'none',
+                                    borderRadius: '20px',
                                   }}
                                   type="submit"
                                   id="send-button"
-                                  class="button_fill "
+                                  // class="button_fill "
                                 >
                                   send
                                 </button>
@@ -584,16 +599,14 @@ const handleReadMessage = async () => {
                   </Row>
                 </div>
               </SlidingPanel>
-              <div
-                id='warning-message-spinner'
-              >
-                  {View}
-                  <p
-                  id="no-message-warning"
-                  >
-                    Looks like you don't have any messages yet!
-                  </p>
-                </div>
+              {!openPanel ? (
+              <div 
+        
+              id='warning-message-spinner'>
+                {View}
+                <p id="no-message-warning">Open a conversation on the right!</p>
+              </div>
+            ) : null}
             </div>
           </Col>
         </Row>

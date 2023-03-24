@@ -1,17 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.0d817ae4.css",
-    "main.js": "/static/js/main.27ecc9df.js",
+    "main.css": "/static/css/main.e1cdda46.css",
+    "main.js": "/static/js/main.d7b6eb67.js",
     "static/js/787.9661e67c.chunk.js": "/static/js/787.9661e67c.chunk.js",
+    "static/media/defaultbanner1.png": "/static/media/defaultbanner1.8acf7e8962d18b396393.png",
     "static/media/workingoutwoman2.png": "/static/media/workingoutwoman2.5cdf58b53e434d6ab9d6.png",
     "static/media/gymscene.png": "/static/media/gymscene.6808ea39739aef437379.png",
+    "static/media/profilepicdefault_WXPRrRd.png": "/static/media/profilepicdefault_WXPRrRd.0a4ae0bf5495eda6ef9a.png",
     "index.html": "/index.html",
-    "main.0d817ae4.css.map": "/static/css/main.0d817ae4.css.map",
-    "main.27ecc9df.js.map": "/static/js/main.27ecc9df.js.map",
+    "main.e1cdda46.css.map": "/static/css/main.e1cdda46.css.map",
+    "main.d7b6eb67.js.map": "/static/js/main.d7b6eb67.js.map",
     "787.9661e67c.chunk.js.map": "/static/js/787.9661e67c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0d817ae4.css",
-    "static/js/main.27ecc9df.js"
+    "static/css/main.e1cdda46.css",
+    "static/js/main.d7b6eb67.js"
   ]
 }
