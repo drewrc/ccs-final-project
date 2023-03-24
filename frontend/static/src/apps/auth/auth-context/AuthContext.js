@@ -17,6 +17,10 @@ export const AuthContextProvider = ({ children }) => {
   const [userID, setUserID] = useState([]);
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    document.body.style.background =
+      "linear-gradient(217deg, rgba(255, 100, 98, 0.3), rgb(255, 158, 61, 0.8))";
+  }, []);
   //login request
   const login = async (user) => {
     const options = {
@@ -136,6 +140,12 @@ export const AuthContextProvider = ({ children }) => {
   //TODO add spinner
   if (isAuthenticated === null) {
     return (
+     <div 
+     style={{
+      width: '100vw',
+      height: '100vh',
+     }}
+     >
       <div
         style={{
           display: "flex",
@@ -146,6 +156,7 @@ export const AuthContextProvider = ({ children }) => {
         className="spinner-container"
       >
         {View}
+      </div>
       </div>
     );
   }

@@ -5,6 +5,13 @@ import { useState, useEffect } from "react"
 import Post from "../components/Post"
 import Cookies from "js-cookie"
 import React from "react"
+import { Card } from "@mui/material"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faMountain, faMountainSun } from "@fortawesome/free-solid-svg-icons"
+import { Button } from "react-bootstrap"
+import NewPost from "../components/NewPost"
+import { useLottie } from "lottie-react";
+import animationData from "../auth/auth-context/spinner/14592-loader-cat.json";
 
 function UserTimeline () {
 
@@ -47,19 +54,104 @@ function UserTimeline () {
        </>
        )
 
+       const lottieCat = {
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+          preserveAspectRatio: "xMidYMid slice",
+        },
+      };
+    
+      const { View } = useLottie(lottieCat);
+
     return (
-        <div>
-            <Container>
-                <Row>
-                    <Col xs={2}>
-                    </Col>
-                    <Col xs={8}>
-                    <h1>
-                        Friends Posts! 
-                    </h1>
-                        {storiesHTML}
-                    </Col>
-                    <Col xs={2}>
+        <div
+        style={{
+          width: '100vw',
+          height: '100vh',
+        
+        }}
+        >
+            <Container
+            style={{
+              width: '100%',
+            }}
+            >
+              <Row
+              style={{
+                marginBottom: '5%',
+              }}
+              className="timeline-container"
+              >
+                <Col>
+                <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                id="user-stories-div"
+                >
+                  <p
+                  style={{padding: '10%'}}
+                  >
+                    {stories.length > 0 ? (
+                      <div class="image-container">
+                          {stories.map((post) => (
+                              <img src={post.img} alt={post.name} />
+                          ))}
+                      </div>
+                  ) : (
+                      <div 
+                      // style={{
+                      //   borderRadius: '10px'
+                      // }}
+                      class="no-friends-timelines">
+                          Add new matches in order to view your friend's stories!
+                      </div>
+                  )}
+                  </p>
+                </div>
+                </Col>
+              </Row>
+                <Row
+                className="timeline-container"
+                >
+                    <Col 
+                    // className="middle-column-posts"
+                  >
+                    <div 
+                    className="center-posts"
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                    >
+                    <div 
+                      style={{
+                        width: '100%',
+                        padding:'5%',
+                      }}>
+                        <NewPost />
+                        {stories.length > 0 ? storiesHTML : 
+                        <div
+                        style={{
+                          borderRadius: '10px',
+                          marginBottom: '10%',
+                        }}
+                        id="oh-no-stories"
+                       >
+                          <p>No stories right now to view...</p>
+                           <p>
+                            {View}
+                           </p>
+                          <p>Check back later!</p>
+                          </div>}
+                      </div>
+                      
+                      </div>
                     </Col>
                 </Row>
             </Container>

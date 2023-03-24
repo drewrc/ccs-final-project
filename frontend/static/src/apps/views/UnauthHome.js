@@ -38,9 +38,7 @@ function UnauthHome() {
             <h2>stay healthy <FontAwesomeIcon icon={faReply} /></h2>
           </div> */}
             <p><Link to="/login" id="nav" className="enter-button">
-              <FontAwesomeIcon 
-              style={{ marginRight: '10px'}}
-              icon={faDumbbell} />
+           
               Click to Login</Link></p>
             <p><Link to="/register" id="nav" className="enter-button">Create an Account
             <FontAwesomeIcon 

@@ -129,6 +129,10 @@ font-family: 'Ubuntu', sans-serif; */
         margin-left: 10% !important;
         margin-right: 10% !important;
     }
+    #friend-list-help {
+        width: 90%;
+        font-size: 12px;
+    }
 }
 .tinder-card-placeholder {
     background: linear-gradient(140deg, rgb(255, 255, 255), rgba(231, 231, 231, 0.1));
@@ -1747,4 +1751,96 @@ h1 {
     color:rgba(212, 25, 0, 0.84);
     font-family: Roboto Condensed, sans-serif;
     font-size: 25px;
+}
+
+#friend-list-help {
+    background-color: rgb(202, 44, 9);
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    transition: all 0.2s ease-in-out;
+  }
+  #user-match-link:link, user-match-link:visited {
+   background-color: rgb(211, 53, 5);
+   padding: 10px;
+   margin: 2px;
+   border-radius: 20px;
+  }
+  #user-match-link:hover {
+    background-color: rgb(249, 120, 8);
+  }
+  
+  #friend-list-help:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background-color: rgb(226, 106, 1);
+  }
+  
+  /* ***** TIMELINES COMPONENT ***** */
+
+  .timeline-container {
+    background-color: rgb(255, 255, 255, 0.5);
+    padding-left: 10%;
+    padding-right: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+
+  #user-stories-div {
+    background-color: white;
+    padding-left: 10%;
+    padding-right: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+  .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.image-container img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.image-container img:hover {
+    opacity: 0.7;
+}
+.no-friends-timelines {
+    color:rgba(212, 25, 0, 0.84);
+    font-family: Roboto Condensed, sans-serif;
+    font-size: 25px;
+    text-align: center;
+}
+#oh-no-stories {
+    color:rgba(212, 25, 0, 0.84);
+    font-family: Roboto Condensed, sans-serif;
+    font-size: 25px;
+    text-align: center;
+    padding: 10%;
+    background-color: white;
+}
+
+#no-message-warning {
+    color:rgba(212, 25, 0, 0.84);
+    font-family: Roboto Condensed, sans-serif;
+    font-size: 25px;
+    text-align: center;
+}
+#warning-message-spinner {
+    
+}
+
+@media screen and (min-width: 900px) {
+    #warning-message-spinner {
+        /* top: 27%;
+        left: 75%; */
+        width: 50%;
+        margin-right: auto;
+        margin-left: auto;
+    }
 }

@@ -20,6 +20,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 import { Modal } from 'react-bootstrap';
+import { Link } from "react-router-dom";
+import { useLottie } from "lottie-react";
+import animationData from "../auth/auth-context/spinner/14592-loader-cat.json";
 
 function UserMessages() {
   const [message, setMessage] = useState("");
@@ -35,7 +38,7 @@ function UserMessages() {
   const [noBackdrop, setNoBackdrop] = useState(false);
   const [showUserInfo, setShowUserInfo] = useState(true);
   const [showModal, setShowModal] = useState(false);
-
+  
 
   const { userID } = useContext(AuthContext);
   const username = userID.username;
@@ -327,6 +330,18 @@ const handleReadMessage = async () => {
     setShowModal(false);
   }
   
+  
+  const lottieCat = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const { View } = useLottie(lottieCat);
+
 
   return (
     <>
@@ -385,7 +400,9 @@ const handleReadMessage = async () => {
                 }}
                 id="no-friends">
                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <button onClick={showWarning}>What is this <FontAwesomeIcon icon={faCircleQuestion} /></button>
+                  <button 
+                  id="friend-list-help"
+                  onClick={showWarning}>What is this <FontAwesomeIcon icon={faCircleQuestion} /></button>
                 </div>
 
                   <Modal show={showModal} onHide={hideModal}>
@@ -393,12 +410,21 @@ const handleReadMessage = async () => {
                   <Modal.Body
                   id="no-friends-yet"
                   style={{
-                    paddingTop: '20%',
+                    paddingTop: '15%',
                     textAlign: 'center',
                   }}
                   >
                     <p>You have no friends, yet... </p>
                       <p>Start adding friends to see their profiles!</p>
+                      <p>
+                      <Link 
+                      style={{
+                        fontWeight: 'bold',
+                        color: 'white',
+                      }}
+                      id="user-match-link"
+                      to="/user-match"> Click Here</Link> <FontAwesomeIcon icon={faArrowPointer} /></p>
+                      <p>To make new buddies! </p>
                   </Modal.Body>
                   <Modal.Footer>
                     <button 
@@ -417,6 +443,7 @@ const handleReadMessage = async () => {
             </div>
           </Col>
           <Col xs={9}>
+          
             <div className="message-card">
               {!selectedConversation && messageHTML.length < 1 && (
                 <div 
@@ -438,8 +465,13 @@ const handleReadMessage = async () => {
                 noBackdrop={noBackdrop}
               >
                 <div>
+          
+                
                   <Row>
                     <Col xs={12}>
+
+                    
+              
                       <div
                         style={{
                           // height: '60vh',
@@ -487,8 +519,10 @@ const handleReadMessage = async () => {
                                 {messageHTML.length < 1 ? (
                                   <div className="no-message-message">
                                    <p> no messages yet... </p>
-                                    <p>why don't you send a
-                                    message first? <FontAwesomeIcon icon={faSmileWink} />
+                                    <p>
+                                      why don't you send a
+                                    message first? 
+                                    <FontAwesomeIcon icon={faSmileWink} />
                                     </p>
                                   </div>
                                 ) : (
@@ -496,6 +530,7 @@ const handleReadMessage = async () => {
                                 )}
                               </div>
                             )}
+                           
 
                             <Col className="message-form">
                               <form onSubmit={handleSubmit}>
@@ -544,10 +579,21 @@ const handleReadMessage = async () => {
                           </Col>
                         )}
                       </div>
+                      
                     </Col>
                   </Row>
                 </div>
               </SlidingPanel>
+              <div
+                id='warning-message-spinner'
+              >
+                  {View}
+                  <p
+                  id="no-message-warning"
+                  >
+                    Looks like you don't have any messages yet!
+                  </p>
+                </div>
             </div>
           </Col>
         </Row>
