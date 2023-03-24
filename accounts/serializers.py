@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from phonenumber_field.modelfields import PhoneNumberField
 import phonenumbers
 
+
 class TokenSerializer(serializers.ModelSerializer):
     user_name = serializers.ReadOnlyField(source='user.username')
 
@@ -46,11 +47,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def get_buddies(self, obj):
         return obj.user.buddies.values_list('username', flat=True)
 
-    
-
     def get_activity_names(self, obj):
         return [activity.name for activity in obj.activities.all()]
-
 
     class Meta:
         model = Profile
@@ -68,6 +66,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         try:
+
             user_data = validated_data.pop('user', {})
             user = instance.user
 
@@ -125,12 +124,14 @@ class UserBuddySerializer(serializers.ModelSerializer):
         model = User
         fields = ('buddies',)
 
+
 class NonBuddyProfileSerializer(UserProfileSerializer):
     def to_representation(self, instance):
-        #prevent return of user profile 
+        # prevent return of user profile
         if instance == self.context['request'].user.profile:
             return None
         return super().to_representation(instance)
+
 
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:

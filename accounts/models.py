@@ -8,6 +8,9 @@ import os
 from geopy.geocoders import GoogleV3
 from geopy.exc import GeocoderTimedOut
 import datetime
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
 
 # api key ->>>>>>
 DJANGO_MAPS = os.environ['DJANGO_GOOGLE_MAPS_API_KEY']
@@ -91,11 +94,12 @@ class Profile(models.Model):
     gender = models.CharField(
         max_length=20, choices=GENDER_CHOICES, blank=True)
     profile_pic = models.ImageField(
-        upload_to='images/', blank=True, default="profilepicdefault.png")
+        upload_to='images/', blank=True, default="default_profile_pic"
+    )
     profile_banner = models.ImageField(
-        upload_to='images/', blank=True, default="defaultbanner_Ar155VZ.png")
+        upload_to='images/', blank=True, default="default_banner")
     gym_location = models.CharField(max_length=255, blank=True)
-    coordinates = models.CharField(max_length=255, blank=True)
+    coordinates = models.CharField(max_length=255, blank=True, default="0,0")
     biography = models.CharField(max_length=255, blank=True)
     activities = models.ManyToManyField(Activity, blank=True)
 
@@ -114,16 +118,18 @@ class Profile(models.Model):
 
         # Initialize the Geopy GoogleV3 geocoder
         geolocator = GoogleV3(DJANGO_MAPS)
-
+        print(geolocator)
         # Use Geopy to get the coordinates for the gym location
         try:
             location = geolocator.geocode(self.gym_location)
+            print(location)
             if location is not None:
                 # Create a Point object from the location latitude and longitude
-                point = Point(location.latitude, location.longitude)
-                self.coordinates = str(point)
+                point = Point(location.longitude, location.latitude)
+                print(point)
+                self.coordinates = f"{location.longitude},{location.latitude}"
                 self.save()  # Save the updated Profile instance
-                return str(point)
+                return self.coordinates
         except GeocoderTimedOut:
             return None
         return None

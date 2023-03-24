@@ -55,10 +55,11 @@ class UserProfileRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
 
-    # def perform_create(self, serializer):
-    #     serializer.save(user=self.request.user)
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
     def perform_update(self, serializer):
+
         profile = serializer.save()
         if profile.gym_location:
             # Retrieve coordinates for gym_location and set the coordinates field
@@ -290,14 +291,13 @@ def send_message(request, user_id):
     return Response({'status': 'Message sent'})
 
 
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_non_buddies(request):
     # Get the authenticated user's profile
     user = request.user
 
-    #Authenticated profile:
+    # Authenticated profile:
     user_profile = request.user.profile
 
     # Get the list of IDs of the profiles the authenticated user is already friends with
@@ -310,18 +310,18 @@ def get_non_buddies(request):
     # Get the list of profiles the authenticated user is not friends with and hasn't sent a friend request to
     non_buddies = Profile.objects.exclude(id__in=buddies_ids).exclude(
         id=user.id).exclude(id__in=requested_ids)
-    
+
     # Filter the non-buddies based on their gender if the gender parameter is provided
     gender = request.query_params.get('gender')
     if gender:
         non_buddies = non_buddies.filter(gender=gender)
 
     # Filter the non-buddies based on their distance from the authenticated user's location (10 Miles)
-    coordinates = user_profile.coordinates
-    if coordinates:
-        lat, lon = map(float, coordinates.split(','))
-        non_buddies = [profile for profile in non_buddies if haversine(
-            lon, lat, float(profile.coordinates.split(',')[1]), float(profile.coordinates.split(',')[0])) <= 10]
+    # coordinates = user_profile.coordinates
+    # if coordinates:
+    #     lat, lon = map(float, coordinates.split(','))
+    #     non_buddies = [profile for profile in non_buddies if haversine(
+    #         lon, lat, float(profile.coordinates.split(',')[1]), float(profile.coordinates.split(',')[0])) <= 10]
 
     # Serialize the profiles using the NonBuddyProfileSerializer
     serializer = NonBuddyProfileSerializer(
@@ -329,9 +329,6 @@ def get_non_buddies(request):
 
     # Return the serialized profiles
     return Response(serializer.data)
-
-
-
 
 
 @api_view(['PUT'])
