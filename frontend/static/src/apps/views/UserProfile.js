@@ -15,6 +15,7 @@ import {
   faVideo,
   faPencil,
   faTrash,
+  faFaceSadTear,
 } from "@fortawesome/free-solid-svg-icons";
 import ProfileFeed from "../components/Profile-feed";
 import Form from "react-bootstrap/esm/Form";
@@ -370,33 +371,43 @@ console.log({profile})
                     <ProfileHelp />
                     </div>
                     {bioHTML}
-                    <p className="trash-button">
+                    <p >
                       <ProfileEditForm
                       // onCancel={handleCancel}
                       />
                     </p>
                   </Card>
                 )}
-                {activeCard === "pictures" && (
-                  <Card 
-                  style={{ background: 'linear-gradient(217deg, rgba(243, 185, 209, 0.3), rgba(248, 158, 73, 0.1) 70.71%), linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1) 70.71%), linear-gradient(336deg, rgba(0, 51, 255, 0.2), rgba(234, 234, 35, 0.1) 70.71%)', }}
-                  id="picture-display" className="profile-left-side">
-                    <h2 className="profile-header">Media</h2>
-                   {userStories.map((story, index) => (
-                      <p 
-
-                      id="profile-images" className="profile-content" >
-                        <img
-                          style={{
-                            height: "40%",
-                            width: "40%",
-                          }}
-                          key={index}
-                          src={story.img}
-                          alt={`User story ${index + 1}`}
-                        />
-                      </p>
-                    ))}
+                          {activeCard === "pictures" && (
+                            <Card 
+                            style={{ background: 'linear-gradient(217deg, rgba(243, 185, 209, 0.3), rgba(248, 158, 73, 0.1) 70.71%), linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1) 70.71%), linear-gradient(336deg, rgba(0, 51, 255, 0.2), rgba(234, 234, 35, 0.1) 70.71%)', }}
+                            id="picture-display" className="profile-left-side">
+                              <h2 className="profile-header">Media</h2>
+                              {userStories.length < 1 ? (
+                            <div
+                            id="no-photos"
+                            >
+                              You haven't added any images, yet! Add some pictures to share your content!</div>
+                          ) : (
+                            userStories.map((story, index) => (
+                              <p 
+                                style={{
+                                  paddingLeft: '5%',
+                                }}
+                                id="profile-images"
+                                key={index}
+                              >
+                                <img
+                                  style={{
+                                    height: "40%",
+                                    width: "40%",
+                                  }}
+                                  src={story.img}
+                                  alt={`User story ${index + 1}`}
+                                />
+                              </p>
+                            ))
+                          )}
                   </Card>
                 )}
                 {activeCard === "createNew" && (
@@ -443,6 +454,7 @@ console.log({profile})
                           <FontAwesomeIcon icon={faMountainSun} /> Upload a file
                         </label>
                         <input
+
                           id="file-upload"
                           className="file-input"
                           type="file"
@@ -458,13 +470,31 @@ console.log({profile})
                 )}
                 {activeCard === "posts" && <>
                 
-                <Carousel>
-                {userFeedHTML.map((item, index) => (
-                  <Carousel.Item key={index}>
-                    {item}
-                  </Carousel.Item>
-                ))}
-              </Carousel>
+                <div
+                   
+                 >
+                  {userStories.length < 1 ? (
+                    <div
+                    id="no-posts"
+                    >
+                      
+                      <p>No posts, yet... <FontAwesomeIcon icon={faFaceSadTear} /></p> <p>Create a new post to share your</p> 
+                        
+                       <p> FitBuddy journey with others!</p>
+                      
+                      </div>
+                  ) : (
+                    activeCard === "posts" && (
+                      <Carousel>
+                        {userFeedHTML.map((item, index) => (
+                          <Carousel.Item key={index}>
+                            {item}
+                          </Carousel.Item>
+                        ))}
+                      </Carousel>
+                    )
+                  )}
+                </div>
                 
                 </>}
               </>
@@ -485,29 +515,39 @@ console.log({profile})
                     <ProfileHelp />
                     </div>
                 {bioHTML}
-                <p className="trash-button">
+                <p >
                   <ProfileEditForm />
                 </p>
               </Card>
               <Card id="picture-display" className="profile-left-side">
                 <h2 className="profile-header">Media</h2>
-                {userStories.map((story, index) => (
-                  <p 
-                  style={{
-                    paddingLeft: '5%',
-                  }}
-                  id="profile-images">
-                    <img
+                <div>
+                {userStories.length < 1 ? (
+                     <div
+                     id="no-photos"
+                     >
+                       You haven't added any images, yet! Add some pictures to share your content!</div>
+                ) : (
+                  userStories.map((story, index) => (
+                    <p 
                       style={{
-                        height: "40%",
-                        width: "40%",
+                        paddingLeft: '5%',
                       }}
+                      id="profile-images"
                       key={index}
-                      src={story.img}
-                      alt={`User story ${index + 1}`}
-                    />
-                  </p>
-                ))}
+                    >
+                      <img
+                        style={{
+                          height: "40%",
+                          width: "40%",
+                        }}
+                        src={story.img}
+                        alt={`User story ${index + 1}`}
+                      />
+                    </p>
+                  ))
+                )}
+              </div>
               </Card>
             </Col>
             <Col>
@@ -573,13 +613,29 @@ console.log({profile})
                   </div>
                 </form>
               </Card>
-              <Carousel>
-                {userFeedHTML.map((item, index) => (
-                  <Carousel.Item key={index}>
-                    {item}
-                  </Carousel.Item>
-                ))}
-              </Carousel>
+                 <div>
+                  {userStories.length < 1 ? (
+                         <div
+                         id="no-posts"
+                         >
+                           
+                           <p>No posts, yet... <FontAwesomeIcon icon={faFaceSadTear} /></p> <p>Create a new post to share your</p> 
+                             
+                            <p> FitBuddy journey with others!</p>
+                           
+                           </div>
+                  ) : (
+                    activeCard === "posts" && (
+                      <Carousel>
+                        {userFeedHTML.map((item, index) => (
+                          <Carousel.Item key={index}>
+                            {item}
+                          </Carousel.Item>
+                        ))}
+                      </Carousel>
+                    )
+                  )}
+                </div>
             </Col>
           </Row>
         )}

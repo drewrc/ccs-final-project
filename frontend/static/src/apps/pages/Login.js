@@ -23,7 +23,7 @@ function Login() {
   };
 
   if (isAuthenticated) {
-    return <Navigate to="/user-feed" replace={true} />;
+    return <Navigate to="/friend-stories" replace={true} />;
   }
 
   return (

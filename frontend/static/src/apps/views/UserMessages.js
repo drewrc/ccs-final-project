@@ -8,7 +8,7 @@ import { TextField, Button } from "@mui/material";
 import Conversation from "../components/Conversation";
 import Cookies from "js-cookie";
 import MessageFriendProfile from "../components/MessageUserProfile";
-import { faAnglesLeft, faArrowPointer, faCheckDouble, faHandPointLeft, faSmileWink, faX } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesLeft, faArrowPointer, faCheckDouble, faCircleQuestion, faCircleXmark, faHandPointLeft, faRectangleXmark, faSmileWink, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SlidingPanel from "react-sliding-side-panel";
 import { useSwipeable } from "react-swipeable";
@@ -19,6 +19,7 @@ import { AuthContext } from "../auth/auth-context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React from "react";
+import { Modal } from 'react-bootstrap';
 
 function UserMessages() {
   const [message, setMessage] = useState("");
@@ -33,6 +34,7 @@ function UserMessages() {
   const [panelSize, setPanelSize] = useState(100);
   const [noBackdrop, setNoBackdrop] = useState(false);
   const [showUserInfo, setShowUserInfo] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
 
   const { userID } = useContext(AuthContext);
@@ -158,6 +160,7 @@ const handleReadMessage = async () => {
   };
 
   // console.log({messages})
+  
 
   // filter messages based on whether *SENDER id* and *RECEIVER id* matches *authUser.pk*
   // or *selected friend* using the state value of 'selectedConversation'
@@ -315,6 +318,16 @@ const handleReadMessage = async () => {
     );
     const data2 = await response2.json();
   };
+
+  function showWarning() {
+    setShowModal(true);
+  }
+  
+  function hideModal() {
+    setShowModal(false);
+  }
+  
+
   return (
     <>
       <ToastContainer />
@@ -341,24 +354,63 @@ const handleReadMessage = async () => {
         >
           <Col
             style={{
+              
               background:
                 "linear-gradient(140deg, rgba(245, 253, 251, 0.8), rgba(255, 205, 252, 0.1))",
               // backgroundColor: 'rgba(0, 130, 255, 0.9)',
-              boxShadow: "1px 5px 10px rgba(0, 0, 255, 0.5)",
+              boxShadow: "1px 5px 10px rgba(0, 0, 255, 0.2)",
               background:
                 "linear-gradient(217deg, rgba(255,255,255,.9), rgba(255,255,255,0.5) 70.71%), linear-gradient(180deg, rgba(230,250,255,1), rgba(190, 255, 255, 0.2) 70.71%), linear-gradient(336deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 6, 0.1) 70.71%)",
             }}
             xs={3}
             className="friends-column"
           >
-            <div style={{}} className="conversations-side-bar">
-              <h3 className="friends-list-header">Buddies</h3>
-              {friends ? (
+            <div 
+            style={{ 
+              background: 'linear-gradient(217deg, rgba(243, 185, 209, 0.2), rgba(248, 158, 73, 0.2) 70.71%), linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1) 70.71%), linear-gradient(336deg, rgba(0, 51, 255, 0.2), rgba(234, 234, 35, 0.1) 70.71%)', }}
+            className="conversations-side-bar">
+              <h3 
+              style={{
+                color: 'rgb(205, 46, 2)',
+              }}
+              className="friends-list-header">Buddies List</h3>
+              {friends.length ? (
                 friendsHTML
               ) : (
-                <p>
-                  You have no friends. Start adding friends to see their
-                  profiles.
+                <p 
+                style={{
+                  width: '100%',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                }}
+                id="no-friends">
+                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <button onClick={showWarning}>What is this <FontAwesomeIcon icon={faCircleQuestion} /></button>
+                </div>
+
+                  <Modal show={showModal} onHide={hideModal}>
+      
+                  <Modal.Body
+                  id="no-friends-yet"
+                  style={{
+                    paddingTop: '20%',
+                    textAlign: 'center',
+                  }}
+                  >
+                    <p>You have no friends, yet... </p>
+                      <p>Start adding friends to see their profiles!</p>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <button 
+                         id="close-button"
+                         onClick={hideModal}>
+                    <FontAwesomeIcon 
+               
+                    icon={faRectangleXmark} />
+                    </button>
+                  </Modal.Footer>
+                </Modal>
+
                 </p>
               )}
               <div></div>
@@ -367,7 +419,11 @@ const handleReadMessage = async () => {
           <Col xs={9}>
             <div className="message-card">
               {!selectedConversation && messageHTML.length < 1 && (
-                <div className={`no-message ${!openPanel ? 'no-message-fx' : ''} ${openPanel ? 'no-message-fx-2' : ''}`}>
+                <div 
+                style={{
+                color: 'rgb(205, 46, 2)',
+                background: 'linear-gradient(217deg, rgba(243, 185, 209, 0.3), rgba(248, 158, 73, 0.1) 70.71%), linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1) 70.71%), linear-gradient(336deg, rgba(0, 51, 255, 0.2), rgba(234, 234, 35, 0.1) 70.71%)', }}
+                className={`no-message ${!openPanel ? 'no-message-fx' : ''} ${openPanel ? 'no-message-fx-2' : ''}`}>
                 <FontAwesomeIcon icon={faArrowPointer} /> Select a friend to send a message!
                 </div>
               )}

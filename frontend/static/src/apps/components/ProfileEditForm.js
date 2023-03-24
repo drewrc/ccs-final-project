@@ -375,11 +375,11 @@ export default function ProfileEditForm() {
                 <button
                 
                 style={{
-                  width: "40%",
+                  width: "50%",
                   paddingTop: "15px",
                   paddingBottom: "15px",
                   marginTop: '2%',
-                  marginLeft: '30%',
+                  marginLeft: '25%',
                   marginRight: 'auto',
                   fontSize: "16px",
                   color: "#333",
@@ -391,7 +391,9 @@ export default function ProfileEditForm() {
                   // onClick={(e) => handleActivities(activity)}
                 >
                   <strong
-                  >submit activity </strong>
+                  id="add-activity"
+                  >
+                    Activity 
                   <strong 
                   style={{
                     paddingLeft: '5px',
@@ -399,8 +401,9 @@ export default function ProfileEditForm() {
                   }}
                   >
                   <FontAwesomeIcon 
-                    
+
                   icon={faPlus} />
+                  </strong>
                   </strong>
                 </button>
               </p>

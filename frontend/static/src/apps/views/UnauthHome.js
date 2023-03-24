@@ -9,6 +9,9 @@ import './workingoutwoman2.png'
 
 function UnauthHome() {
   React.useEffect(() => {
+    // background-color: rgb(223, 10, 59);
+    //  background-color: rgb(144, 1, 53);
+    // document.body.style.backgroundColor = 'rgb(125, 10, 9)'
     // document.body.style.background = 'linear-gradient(217deg, rgba(255, 0, 98, 1), rgba(203, 101, 0, .2))';
     document.body.style.backgroundSize = 'cover';
     document.body.style.backgroundRepeat = 'no-repeat';
@@ -38,8 +41,8 @@ function UnauthHome() {
               <FontAwesomeIcon 
               style={{ marginRight: '10px'}}
               icon={faDumbbell} />
-              Click to Login !</Link></p>
-            <p><Link to="/register" id="nav" className="enter-button">Create an Account !
+              Click to Login</Link></p>
+            <p><Link to="/register" id="nav" className="enter-button">Create an Account
             <FontAwesomeIcon 
               style={{ marginLeft: '10px'}}
               icon={faArrowPointer} />

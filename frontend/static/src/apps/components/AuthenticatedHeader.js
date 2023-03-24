@@ -15,20 +15,33 @@ import "../styles/views.css";
 import Box from "@mui/material/Box";
 import Popper from "@mui/material/Popper";
 import Cookies from "js-cookie";
+import { makeStyles, Popover } from "@mui/material";
+
 
 function AuthenticatedHeader({ id }) {
   const [matchRequestCount, setMatchRequestCount] = useState(0);
   const [friendRequests, setFriendRequests] = useState([]);
   const { logout } = useContext(AuthContext);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [anchorEl, setAnchorEl] = React.useState(null);
   const [messageNotifications, setMessageNotifications] = useState(0);
 
-  const handleClick = (event) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  const open = Boolean(anchorEl);
-  const openRequests = open ? "simple-popper" : undefined;
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+
+  // const handleClick = (event) => {
+  //   setAnchorEl(anchorEl ? null : event.currentTarget);
+  // };
+
+  // const open = Boolean(anchorEl);
+  // const openRequests = open ? "simple-popper" : undefined;
 
   useEffect(() => {
     const getMatches = async () => {
@@ -153,7 +166,7 @@ function AuthenticatedHeader({ id }) {
             <Container fluid>
               <div className="right-side-nav">
                 <Link to="/friend-stories" className="left-nav" id="nav">
-                  HOME
+                  FitBuddies
                 </Link>
                 {/* {matchRequestCount > 0 && (
                   <span
@@ -163,7 +176,7 @@ function AuthenticatedHeader({ id }) {
                     {matchRequestCount}
                   </span>
                 )} */}
-                {/* <Link to="/user-match" className="left-nav" id="nav"> */}
+               
                 <button
                   style={{
                     backgroundcolor: "none",
@@ -171,19 +184,23 @@ function AuthenticatedHeader({ id }) {
                     border: "none",
                     // marginRight: '-10px',
                   }}
-                  // id="notification-button"
-                  aria-describedby={openRequests}
-                  type="button"
-                  onClick={handleClick}
-                >
+                    type="button"
+                    className="btn btn-secondary"
+                    onMouseEnter={handlePopoverOpen}
+                    onMouseLeave={handlePopoverClose}
+                  >
+                     <Link to="/user-match" className="left-nav" id="nav">
                   <FontAwesomeIcon
+
                     className="fa-fw "
                     id="bell-icon-parent"
                     icon={faBell}
                     style={{
+                      fontSize: '20px',
                       color: "white",
                     }}
                   />
+                    </Link>
                   {matchRequestCount > 0 && (
                     <span
                       id="alert-notification"
@@ -193,28 +210,56 @@ function AuthenticatedHeader({ id }) {
                     </span>
                   )}
                 </button>
-                <Popper id={openRequests} open={open} anchorEl={anchorEl}>
+          
+                <Popover
+                  id="matches-popover"
+                  open={Boolean(anchorEl)}
+                  anchorEl={anchorEl}
+                  onClose={handlePopoverClose}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "center",
+                  }}
+                >
                   <Box
                     sx={{
-                      marginLeft: "10%",
+                      // marginLeft: "10%",
                       border: "none",
-                      borderRadius: "10px",
+                      // borderRadius: "10px",
                       border: 1,
                       p: 3,
                       bgcolor: "background.paper",
                     }}
                   >
-                    <h3
-                      style={{
-                        paddingTop: "5%",
-                      }}
-                    >
-                      New Matches:
-                    </h3>
-                    {matchHTML}
+                    <h3 style={{ 
+                         color:'rgba(212, 25, 0, 0.84)',
+                         fontFamily: 'Roboto Condensed, sans-serif',
+                         fontSize: '25px',
+                      textAlign: 'center',
+                      paddingTop: "5%" }}>New Matches</h3>
+                    {matchRequestCount > 0 ? (
+                      matchHTML
+                    ) : (
+                      <span>
+                        <p
+                        
+                          style={{
+                            textAlign: "center",
+                            color:'rgba(212, 25, 0, 0.84)',
+                            fontFamily: 'Roboto Condensed, sans-serif',
+                          }}
+                        >
+                          You have no matches right now...
+                        </p>
+                      </span>
+                    )}
                   </Box>
-                </Popper>
-                {/* </Link> */}
+                </Popover>
+
                 <Link to="/user-messages" className="left-nav" id="nav">
                   <FontAwesomeIcon icon={faMessage} />
                   {messageNotifications > 0 && (

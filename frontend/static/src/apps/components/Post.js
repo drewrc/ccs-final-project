@@ -76,68 +76,62 @@ function Post ({id, text, img, author, showFullText, toggleText, timelineId, han
                         </p>
                     </>
                   )}
-
-                {editPost && (
-                  <EditPost
-                    id = {id}
-                    text={text}
-                    img={img}
-                    timelineId={timelineId}
-                    onSubmit={(newText, newImg) => {
-                      // handleEditSubmit function here
-                      setEditPost(false);
+                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingBottom: '3%', paddingTop: '10%'}}>
+                  {editPost && (
+                    <EditPost
+                      id={id}
+                      text={text}
+                      img={img}
+                      timelineId={timelineId}
+                      onSubmit={(newText, newImg) => {
+                        setEditPost(false);
+                      }}
+                      onCancel={() => setEditPost(false)}
+                    />
+                  )}
+                  
+                  <button 
+                    style={{
+                      fontSize: '15px',
+                      marginLeft: '10%',
                     }}
-                    onCancel={() => setEditPost(false)}
-                  />
-                )}  
-            <p
-            style={{
-              position: 'absolute',
-              left: '10%',
-              fontSize: '15px',
-          }}
-            >
-            <button 
-                onClick={() => handleLike(id)}
-                className="trash-button" 
-                type="submit">
-                    <FontAwesomeIcon icon={faThumbsUp} /> {likes}
-            </button>
-   
-            {/* <button 
-                // onClick={handleLove}
-                className="trash-button" 
-                type="submit">
-                    <FontAwesomeIcon icon={faHeart} />
-            </button> */}
-            </p>
-            {!editPost && author === user && (
-            <>
-            <p 
-            style={{
-              position: 'relative',
-              marginRight: '5%',
-              fontSize: '15px'
-              // backgroundColor: 'black',
-            }}
-            id="edit-delete-buttons"
-            className="trash-button" >
-            <button 
-                onClick={handleEditClick}
-                className="trash-button" 
-                type="submit">
-                    <FontAwesomeIcon icon={faPencil} />
-            </button>
+                    onClick={() => handleLike(id)}
+                    id="like-button"
+                    type="submit">
+                      <FontAwesomeIcon icon={faThumbsUp} /> </button>
+                      <span
+                      style={{
+                        fontSize: '15px'
+                      }}
+                      >{likes}</span>
+                  {!editPost && author === user && (
+                    <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'row', paddingBottom: '5%', paddingTop: '5%', marginRight: '10%'}}>
+                    <button 
+                      onClick={handleEditClick}
+                      style={{
+                        marginRight: '5%',
+                        fontSize: '15px'
+                      }}
+                      className="trash-button" 
+                      type="submit">
+                      <FontAwesomeIcon icon={faPencil} />
+                    </button>
+                  
+                    <button 
+                      onClick={handleDelete}
+                      style={{
+                        marginRight: '5%',
+                        fontSize: '15px'
+                      }}
+                      className="trash-button" 
+                      type="submit">
+                      <FontAwesomeIcon icon={faTrashCan} />
+                    </button>
+                  </div>
+       
+                  )}
+                </div>
 
-            <button 
-                onClick={handleDelete}
-                className="trash-button" 
-                type="submit">
-                    <FontAwesomeIcon icon={faTrashCan} />
-            </button>
-          </p>
-          </>
-          )}
     </Card>
 
       </div>

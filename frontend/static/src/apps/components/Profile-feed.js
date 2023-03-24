@@ -10,6 +10,9 @@ import { AuthContext } from "../auth/auth-context/AuthContext";
 import Cookies from "js-cookie";
 import { Modal, Box, Typography } from "@mui/material";
 
+import './assets/defaultbanner1.png';
+import './assets/profilepicdefault_WXPRrRd.png'
+
 function ProfileFeed({
   username,
   profile_pic,
@@ -17,7 +20,8 @@ function ProfileFeed({
   id,
   first_name,
   last_name,
-}) {
+}) 
+{
   const { userID } = useContext(AuthContext);
   const [editProfilePic, setEditProfilePic] = useState(false);
   const [editProfileBanner, setEditProfileBanner] = useState(false);
@@ -38,6 +42,16 @@ function ProfileFeed({
     borderRadius: 3,
     boxShadow: 24,
     p: 4,
+  };
+
+  const fallbackImage = './assets/defaultbanner1.png'
+  const profileDefault = './assets/profilepicdefault_WXPRrRd.png'
+
+  const handleImageError = (e) => {
+    e.target.src = fallbackImage;
+  };
+  const handleProfilePicError = (e) => {
+    e.target.src = profileDefault;
   };
 
   const handleProfilePic = (e) => {
@@ -104,9 +118,10 @@ function ProfileFeed({
     setNewBannerPreview("");
   };
 
+  console.log({profile_banner})
   return (
     <div>
-      <div className="profile-banner" style={{ width: "100" }}>
+       <div className="profile-banner" style={{ width: "100" }}>
         {!editProfileBanner && username === userID.username && (
           <span className="edit-profile-banner">
             <button
@@ -166,22 +181,25 @@ function ProfileFeed({
           </>
         )}
 
-        <img
-          style={{
-            transform: "scale(1)",
-            transition: "transform 0.2s ease-in-out",
-          }}
-          onMouseOver={(e) => {
-            e.target.style.transform = "scale(1.1)";
-          }}
-          onMouseOut={(e) => {
-            e.target.style.transform = "scale(1)";
-          }}
-          className="profile-banner-display"
-          src={profile_banner}
-          height="100%"
-          width="100%"
-        />
+  
+              <img
+                style={{
+                  transform: "scale(1)",
+                  transition: "transform 0.2s ease-in-out",
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.transform = "scale(1.1)";
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.transform = "scale(1)";
+                }}
+                className="profile-banner-display"
+                src={profile_banner}
+                onError={handleImageError}
+                height="100%"
+                width="100%"
+              />
+      
 
         <div className="profile-pic-container">
           {!editProfilePic && username === userID.username && (
@@ -246,7 +264,12 @@ function ProfileFeed({
             </div>
           )}
 
-          <img className="profile-pic" src={profile_pic} height="250" />
+            <img
+                className="profile-pic"
+                src={profile_pic}
+                height="250"
+                onError={handleProfilePicError}
+              />
         </div>
       </div>
       <h1 className="name-holder">{username}</h1>
