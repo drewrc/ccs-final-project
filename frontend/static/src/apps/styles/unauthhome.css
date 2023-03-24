@@ -110,6 +110,33 @@
     animation: pulse 1s ease-in-out;
 }
 
+.nav-btn {
+    font-family: 'oswald', sans-serif;
+    width: 100%;
+    color: rgb(109, 90, 101) !important;
+    background-color: rgb(234, 183, 172, 0.5);
+    border-bottom: 5px solid rgb(141, 57, 75, 0.2) !important;
+    padding: 5px 10px;
+    text-decoration: none;
+    margin-right: 10px;
+    text-align: center;
+    padding: 20px;
+    font-size: 25px;
+  }
+  .nav-btn:hover {
+    font-family: 'oswald', sans-serif;
+    width: 100%;
+    color: rgb(74, 67, 80) !important;
+    background-color: rgb(234, 183, 172, 0.5);
+    border-bottom: 5px solid rgb(141, 57, 75, 0.5) !important;
+    padding: 5px 10px;
+    text-decoration: none;
+    margin-right: 10px;
+    text-align: center;
+    padding: 20px;
+    font-size: 25px;
+  }
+
 @keyframes pulse {
     0% {
       transform: scale(1);

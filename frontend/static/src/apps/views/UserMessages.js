@@ -185,6 +185,7 @@ const handleReadMessage = async () => {
       <div 
       key={message.id}>
         <div
+      
           className={
             message.sender === authUser.pk
               ? " user-message"
@@ -200,7 +201,13 @@ const handleReadMessage = async () => {
             message.sender === authUser.pk ? "triangle-right" : "triangle-left"
           }
         ></div>
-        <div id="message-date">
+        <div 
+      //   style={{
+    
+      //     marginBottom: '10%',
+      //     paddingBottom: '10%',
+      // }}
+        id="message-date">
           Sent:{" "}
           {(() => {
             const date = new Date(message.date_created);
@@ -216,7 +223,12 @@ const handleReadMessage = async () => {
             return formattedDateTime;
           })()}
         </div>
-        <div id="read-message">
+        <div 
+         style={{
+          paddingBottom:'10%',
+          // marginTop: '-18%',
+         }}
+        id="read-message">
         {message.sender === authUser.pk && (
         <>{message.is_read ? 'seen ' : 'not seen '}
         <FontAwesomeIcon icon={faCheckDouble} />
@@ -379,7 +391,6 @@ const handleReadMessage = async () => {
         >
           <Col
             style={{
-              
               background:
                 "linear-gradient(140deg, rgba(245, 253, 251, 0.8), rgba(255, 205, 252, 0.1))",
               // backgroundColor: 'rgba(0, 130, 255, 0.9)',
@@ -547,7 +558,7 @@ const handleReadMessage = async () => {
 
                             <Col className="message-form">
                               <form onSubmit={handleSubmit}>
-                                <TextField
+                                {/* <TextField
                                   label="Message"
                                   id="outlined-multiline-flexible"
                                   multiline
@@ -556,7 +567,23 @@ const handleReadMessage = async () => {
                                   onChange={(e) => setMessage(e.target.value)}
                                   style={{ width: "70%", marginBottom: "30px" }}
                                   className="textField"
+                                /> */}
+                                <textarea
+                                  id="message"
+                                  name="message"
+                                  value={message}
+                                  onChange={(e) => setMessage(e.target.value)}
+                                  placeholder="Type message here..."
+                                  rows={2}
+                                  cols={50}
+                                  style={{ 
+                                    border: 'black',
+                                    padding: '2%',
+                                    borderRadius: '20px',
+                                    width: "70%", 
+                                    marginBottom: "-20px",  }}
                                 />
+
                                 <button
                                   style={{
                                     width: "20%",
@@ -564,7 +591,8 @@ const handleReadMessage = async () => {
                                     paddingBottom: "10px",
                                     marginLeft: "10px",
                                     marginRight: "10px",
-                                    marginTop: "5px",
+                                    // marginBottom: '10%',
+                                    // marginTop: "5px",
                                     border: 'none',
                                     borderRadius: '20px',
                                   }}

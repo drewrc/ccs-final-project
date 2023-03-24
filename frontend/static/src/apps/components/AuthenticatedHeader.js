@@ -8,7 +8,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell, faMessage } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faBell, faEnvelope, faHouseChimney, faMessage, faPersonWalkingArrowRight, faUser, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../auth/auth-context/AuthContext";
 import "../styles/views.css";
@@ -162,7 +162,11 @@ function AuthenticatedHeader({ id }) {
     <>
       <div>
         {[false].map((expand) => (
-          <Navbar id="header" key={expand} expand={expand} className="mb-3">
+          <Navbar 
+          style={{
+            outline: 'none',
+          }}
+          id="header" key={expand} expand={expand} className="mb-3 border-1">
             <Container fluid>
               <div className="right-side-nav">
                 <Link to="/friend-stories" className="left-nav" id="nav">
@@ -272,45 +276,83 @@ function AuthenticatedHeader({ id }) {
                   )}
                 </Link>
               </div>
-              <Navbar.Toggle
-                aria-controls={`offcanvasNavbar-expand-${expand}`}
-              />
+              <Navbar.Toggle aria-controls="offcanvasNavbar" icon={<FontAwesomeIcon icon={faBars} />} />
               <Navbar.Offcanvas
                 id={`offcanvasNavbar-expand-${expand}`}
                 aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
                 placement="end"
+              
               >
                 <Offcanvas.Header closeButton>
-                  <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
+                  <Offcanvas.Title 
+                 
+                  id={`offcanvasNavbarLabel-expand-${expand}`}>
                     Side nav
                   </Offcanvas.Title>
                 </Offcanvas.Header>
-                <Offcanvas.Body>
-                  <Nav className="justify-content-end flex-grow-1 pe-3">
+                <Offcanvas.Body
+                style={{
+                  marginTop: '-1%',
+                  backgroundColor: 'rgb(249,206,196)',
+                }}
+                >
+                  <Nav >
                     {/* <Link to="/logout" id="side-nav">
                       Logout
                     </Link> */}
-                    <Button
-                      className="btn btn-link"
-                      type="button"
-                      onClick={logout}
-                    >
-                      Logout
-                    </Button>
-                    <Link to="/friend-stories" id="side-nav">
-                      Home
+                    <button 
+                
+                     style={{
+                       border: 'none',
+                     }}
+                     
+                   
+                    className="nav-btn" id="special-button side-nav" onClick={logout}>
+                    Logout
+                      <FontAwesomeIcon
+                      style={{
+                        paddingLeft: '5px',
+                      }}
+                      
+                      icon={faPersonWalkingArrowRight} />  
+                    </button>
+                    <Link to="/friend-stories" className="nav-btn" id="side-nav">
+                    
+                      <FontAwesomeIcon
+                      style={{
+                        paddingRight: '5px',
+                      }}
+                      
+                      icon={faHouseChimney} />  Home
                     </Link>
-                    <Link to="/user-messages" id="side-nav">
-                      Messages
+                    <Link to="/user-messages" className="nav-btn" id="side-nav">
+                    <FontAwesomeIcon
+                      style={{
+                        paddingRight: '5px',
+                      }}
+                      
+                      icon={faEnvelope} />  Messages
                     </Link>
-                    <Link to="/user-match" id="side-nav">
-                      Match
+                    <Link to="/user-match" className="nav-btn" id="side-nav">
+                    <FontAwesomeIcon
+                      style={{
+                        paddingLeft: '5px',
+                      }}
+                      
+                      icon={faUserGroup} />   Match 
                     </Link>
-                    <Link to="/profile" id="side-nav">
-                      Profile
+                    <Link to="/profile" className="nav-btn" id="side-nav">
+                    <FontAwesomeIcon
+                      style={{
+                        paddingLeft: '5px',
+                      }}
+                      
+                      icon={faUser} />  Profile
                     </Link>
 
-                    <NavDropdown
+
+                {/* SEARCHBAR */}
+                    {/* <NavDropdown
                       title="Dropdown"
                       id={`offcanvasNavbarDropdown-expand-${expand}`}
                     >
@@ -325,8 +367,10 @@ function AuthenticatedHeader({ id }) {
                         Something else here
                       </NavDropdown.Item>
                     </NavDropdown>
-                  </Nav>
-                  <Form className="d-flex">
+                  </Nav> */}
+
+                  {/* SEARCHBAR */}
+                  {/* <Form className="d-flex">
                     <Form.Control
                       type="search"
                       placeholder="Search"
@@ -334,7 +378,8 @@ function AuthenticatedHeader({ id }) {
                       aria-label="Search"
                     />
                     <Button variant="outline-success">Search</Button>
-                  </Form>
+                  </Form> */}
+                  </Nav>
                 </Offcanvas.Body>
               </Navbar.Offcanvas>
             </Container>

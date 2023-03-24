@@ -1,14 +1,26 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { AuthContext } from "../auth/auth-context/AuthContext";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Cookies from "js-cookie";
+// import '../views/workingoutwoman2.png' 
+import React from "react";
+import backgroundImage from '../views/workingoutwoman2.png';
+import { Link } from "react-router-dom";
 
 function Login() {
+
+  useEffect(() => {
+    document.body.style.backgroundImage = `url("workingoutwoman2.png")`;
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundRepeat = 'no-repeat';
+  }, []);
+
   const { isAuthenticated, login } = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +40,21 @@ function Login() {
 
   return (
     <>
-      <div className="login-page">
+      <div
+      style={{
+        marginTop: '-5%',
+        padding: '7%',
+        height: '100vh',
+        width: '100vw',
+
+        // backgroundImage: `url(${backgroundImage})`,
+        // backgroundSize: 'cover',
+        // backgroundPosition: 'center',
+        // backgroundRepeat: 'no-repeat',
+      }}
+      className="login-page"
+    >
+
         <Container id="login-container">
           <Row>
             <h3 id="login-header">Login below</h3>
@@ -36,7 +62,9 @@ function Login() {
           <Row>
             <Col>
               <Form onSubmit={handleSubmit}>
-                <div className="login-text">
+                <div 
+                
+                className="login-text">
                   <Form.Group controlId="username">
                     <Form.Label>Username:</Form.Label>
                     <Form.Control
@@ -53,13 +81,22 @@ function Login() {
                       onChange={(event) => setPassword(event.target.value)}
                     />
                   </Form.Group>
-                  <Button type="submit">Login</Button>
+                <p >
+                  <Button
+                  style={{
+                    marginTop: '10px',
+                    marginBottom: '10px',
+                  }}
+                  type="submit">Login</Button>
+                    </p>
                 </div>
               </Form>
               <div className="help-links">
-                <a id="help-links" href="#">
+                <Link 
+                id="help-link"
+                to="/register">
                   <h4>Create new account</h4>
-                </a>
+                </Link>
                 {/* <a id="help-links" href="#">
                   <h4>Forgot username?</h4>
                 </a>

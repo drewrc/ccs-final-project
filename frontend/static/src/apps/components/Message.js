@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash, faPencil, faFloppyDisk, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faPencil, faFloppyDisk, faXmark, faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import { useState, useContext } from 'react';
 import Cookies from 'js-cookie';
 import { TextField } from '@mui/material';
@@ -85,22 +85,43 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
             {editMode ? (
             <span id='edit-message-object'>
                 <div className='edit-form'>
-                <TextField 
+
+                <textarea
+                  id="message"
+                  name="message"
+                  value={editText} 
+                  onChange={handleChange}
+                  placeholder="Type message here..."
+                  rows={2}
+                  cols={50}
+                  style={{ 
+                    border: 'black',
+                    padding: '2%',
+                    borderRadius: '20px',
+                    width: "70%", 
+                    marginBottom: "0px",  }}
+                />
+                {/* <TextField 
                 className='edit-message-form'
                 label="Message"
                 id="outlined-multiline-flexible"
                 multiline
                 maxRows={4}  
-                value={editText} 
-                onChange={handleChange} />
+              
+                onChange={handleChange} /> */}
                 </div>
-                <div id='edit-buttons'>
-                <button 
+                <div 
+                style={{
+                  margin: '2%',
+                }}
+                id='edit-buttons'>
+                <button
                 className="trash-button"
                 onClick={handleSaveClick}>
                 <FontAwesomeIcon icon={faFloppyDisk} 
                 style={{
                     color: 'white', 
+                  
                   }}
                   />
                 </button>
@@ -110,9 +131,11 @@ function Message ({conversation, text, id, user_from, user_to, sender, receiver,
                 >
                 <FontAwesomeIcon 
                 style={{
+                  paddingLeft: '2px',
+                  paddingRight: '2px',
                     color: 'white', 
                   }}
-                icon={faTrash} />
+                icon={faXmark} />
                 </button>
                 </div>
             </span>

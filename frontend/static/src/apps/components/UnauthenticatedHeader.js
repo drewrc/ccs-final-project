@@ -17,26 +17,40 @@ return (
         {['xxxl',].map((expand) => (
             <Navbar id="header" key={expand} expand={expand} className="mb-3">
             <Container fluid>
-                    <Link id="nav" to="/UnauthHome">
+                    <Link id="nav" to="/">
                     FitBuddies
                     </Link>
                     <Link to="/">
                     <FontAwesomeIcon icon="fa-duotone fa-bell" />
                     </Link>
                     <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+                    
                     <Navbar.Offcanvas
+                     style={{
+                        marginTop: '0%',
+                        backgroundColor: 'rgb(249,206,196)',
+                      }}
                     id={`offcanvasNavbar-expand-${expand}`}
                     aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
                     placement="end"
                     >
-                    <p
+                          <Offcanvas.Header closeButton>
+                  <Offcanvas.Title 
+                 
+                  id={`offcanvasNavbarLabel-expand-${expand}`}>
+                    Side nav
+                  </Offcanvas.Title>
+                </Offcanvas.Header>
+                    {/* <p
                         style={{ 
                             marginTop: '100px'}}
-                    >
+                    > */}
                         <Link 
+                         className="nav-btn"
                           style={{ 
+                           
                             color: 'black'}}
-                            id="side-naviagation-links"
+                            // id="side-naviagation-links"
                             to="/login">
                         <FontAwesomeIcon 
                         style={{ 
@@ -45,17 +59,19 @@ return (
                         icon={faDumbbell}
                                     
                         />
-                        Click to Login !</Link></p>
-                        <p>
+                        Click to Login</Link>
+                        {/* <p> */}
                             <Link 
                          style={{ 
                             color: 'black'}}
-                        to="/register" id="side-naviagation-links">Create an Account !
-                        <FontAwesomeIcon 
-                        style={{ marginLeft: '10px'}}
+                        to="/register"  className="nav-btn">
+                             <FontAwesomeIcon 
+                        style={{ marginRight: '10px'}}
                         icon={faArrowPointer} />
+                            Create an Account 
+                       
                         </Link>
-                        </p>
+                        {/* </p> */}
                    
                 </Navbar.Offcanvas>
             </Container>
