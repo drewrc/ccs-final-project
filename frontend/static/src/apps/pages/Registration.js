@@ -35,6 +35,16 @@ function Registration() {
   }
 
   return (
+    <div
+    style={{
+      marginTop: '-5%',
+      marginBottom: '-25%',
+      padding: '7%',
+      height: '100vh',
+      width: '100vw',
+    }}
+    className="register-page"
+  >
     <Container className="registration-container">
       <Row id="registration-container">
         <Col>
@@ -96,6 +106,7 @@ function Registration() {
         </Col>
       </Row>
     </Container>
+    </div>
   );
 }
 

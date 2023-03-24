@@ -9,10 +9,10 @@ import './workingoutwoman2.png'
 
 function UnauthHome() {
   React.useEffect(() => {
-    // background-color: rgb(223, 10, 59);
+    // document.body.style.backgroundColor = 'rgb(223, 10, 59)';
     //  background-color: rgb(144, 1, 53);
     // document.body.style.backgroundColor = 'rgb(125, 10, 9)'
-    // document.body.style.background = 'linear-gradient(217deg, rgba(255, 0, 98, 1), rgba(203, 101, 0, .2))';
+    document.body.style.background = 'linear-gradient(217deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, .2))';
     document.body.style.backgroundSize = 'cover';
     document.body.style.backgroundRepeat = 'no-repeat';
   }, []);

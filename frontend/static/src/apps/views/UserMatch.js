@@ -10,8 +10,9 @@ import Row from "react-bootstrap/esm/Row";
 import Box from '@mui/material/Box';
 import Popper from '@mui/material/Popper';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesLeft, faAnglesRight, faReply, faShare } from "@fortawesome/free-solid-svg-icons";
 import { useMediaQuery } from "@mui/material";
+import MatchInfo from "../components/MatchInfo";
 
 function UserMatch (from_user, id) {
     const [profiles, setProfiles] = useState([]);
@@ -124,45 +125,48 @@ function UserMatch (from_user, id) {
 // console.log({currentProfileIndex})
 console.log({currentProfileIndex})
     return (
-        <div>
+        <div
+        style={{
+            width: '100vw',
+        }}
+        >
             <Container
+            id="tinder-cards-container-div"
             style={{
                 height: '100vh',
+                marginTop: '-5%',
+                // width: '80vw',
+                backgroundColor: 'rgb(255,255,255,0.5'
             }}
             >
-                <Row
-                //   style={{width: '50vw',
-                //     marginLeft: 'auto',
-                //     marginRight: 'auto',
-                // }}
-                
-                >
-                    {/* <Col className="new-matches-list-display" xs={3}>
-                    <h2>New Matches!</h2> */}
-{/* 
-                    <div>
-                    <button aria-describedby={openRequests} type="button" onClick={handleClick}>
-                        Matches
-                    </button>
-                    <Popper id={openRequests} open={open} anchorEl={anchorEl}>
-                        <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
-                        {matchHTML}
-                        </Box>
-                    </Popper>
-                    </div> */}
-
-
-{/*                    
-                    </Col> */}
+                <Row>
                     <Col >
                     <div>
-                    <h2 className="header">Swipe Right to add friends</h2>
+                    <h2 
+                    style={{
+                        fontSize: '40px',
+                        paddingTop: '10%',
+                        position: 'relative',
+                    }}
+                    className="header">Match with Friends</h2>
+
+                    <span
+                    id="matching-help-icon"
+                    // style={{
+                    //     position: 'absolute',
+                    //     right: '25%',
+                    //     top: '15%',
+                    // }}
+                    ><MatchInfo /></span>
+                 
+
                     {/* <p>swipe left to view next profile </p> */}
                         </div>
                         <div className="user-object-placeholder">
                        
                         {currentProfile && (
                                 <TinderCard 
+                                
                                 className="swipe" 
                                 key={currentProfile.id}
                                 preventSwipe={["up", "down"]} 
@@ -171,18 +175,38 @@ console.log({currentProfileIndex})
                               
                                 >
                                 <div 
+                                  style={{
+                                    padding: '10px',
+                                }}
                                 //   style={{background: 'rgb(120,120,255)'}}
                                 className="tinder-card-placeholder">
-                                <div className="profile-banner-tinder-card">
-                                <img className="profile-banner-display-tinder-card" src={currentProfile.profile_banner} width="100%" height='50%'  />
+                                <div 
+                                  style={{
+                                    padding: '5px',
+                                }}
+                                className="profile-banner-tinder-card">
+                                <img className="profile-banner-display-tinder-card" 
+                                src={currentProfile.profile_banner} width="100%" height='50%'  />
                                 <div className="profile-pic-container-tinder-card">
                                     <img className="profile-pic-tinder-card" src={currentProfile.profile_pic} />
                                 </div>
                                 <div className="tinder-card-info">
-                                <h2 className="tinder-username">{currentProfile.username}</h2>
-                                <p id="profile-pronouns"> ({currentProfile.pronouns})</p>
-                                <p id="profile-location">{currentProfile.gym_location}</p>
-                                <p>{currentProfile.biography}</p>
+                                <h2 
+                                style={{
+                                    // padding: '10px',
+                                }}
+                                className="tinder-username">{currentProfile.username}</h2>
+                                <p 
+                                  style={{
+                                    // padding: '2px',
+                                }}
+                                id="profile-pronouns"> ({currentProfile.pronouns})</p>
+                                <p 
+                                  style={{
+                                    // padding: '5px',
+                                }}
+                                id="profile-location">{currentProfile.gym_location}</p>
+                                <p >{currentProfile.biography}</p>
                                 </div>
                                 </div>
                                 </div>

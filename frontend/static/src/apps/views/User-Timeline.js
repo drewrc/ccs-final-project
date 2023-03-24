@@ -13,6 +13,7 @@ import NewPost from "../components/NewPost"
 import { useLottie } from "lottie-react";
 import animationData from "../auth/auth-context/spinner/14592-loader-cat.json";
 import Slider from 'react-slick';
+import { Carousel } from "react-bootstrap"
 // import "../styles/slick/slick.css";
 // import "../static/slick/slick-theme.css";
 
@@ -60,6 +61,13 @@ function UserTimeline () {
        </>
        )
 
+       const storiesImg = stories.map((post) => (
+        <img 
+        height="200px"
+        src={post.img} alt={post.name} key={post.id} />
+      ));
+      
+
        const lottieCat = {
         loop: true,
         autoplay: true,
@@ -70,6 +78,9 @@ function UserTimeline () {
       };
     
       const { View } = useLottie(lottieCat);
+      const isMobile = window.innerWidth < 768;
+
+      const desktopStories = stories.slice(0, 3);
 
     return (
         <div
@@ -95,16 +106,41 @@ function UserTimeline () {
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
-              
-                  // justifyContent: 'center',
-                  // alignItems: 'center',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
                 id="user-stories-div"
                 >
                   <p
                   style={{padding: '10%'}}
                   >
-                    {stories.length > 6 ? (
+                     <h2 
+                      style={{
+                        width: '100%',
+                        fontSize: '28px',
+                        paddingBottom: '30px',
+                        // paddingLeft: '20%',
+                        // paddingRight: '20%',
+                        // margin: '0px',
+                      }}
+                      id="popular-stories">Popular Stories </h2>
+
+                    {!isMobile && (
+                      <div className="desktop-stories">
+                        {desktopStories.map((post) => (
+                          <img 
+                          height="200px"
+                          src={post.img} alt={post.name} key={post.id} />
+                        ))}
+                      </div>
+                    )}
+                    {isMobile && (
+                         <Carousel indicators={false} controls={true}>
+                         {storiesImg}
+                       </Carousel>
+                    )}
+
+                    {/* {stories.length > 6 ? (
                       <Slider
                         dots={true}
                         infinite={true}
@@ -117,12 +153,22 @@ function UserTimeline () {
                         ))}
                       </Slider>
                     ) : (
+                      <>
+                      <h2 
+                      style={{
+                        width: '100%',
+                        fontSize: '28px',
+                        paddingBottom: '30px',
+                        // margin: '0px',
+                      }}
+                      id="popular-stories">Popular Stories </h2>
                       <div class="image-container">
                         {stories.map((post) => (
                           <img src={post.img} alt={post.name} />
                         ))}
                       </div>
-                    )}
+                      </>
+                    )} */}
 
                   </p>
                 </div>
@@ -134,25 +180,30 @@ function UserTimeline () {
                     <Col 
                     // className="middle-column-posts"
                   >
-                    <div 
-                    className="center-posts"
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                    >
-                    <div 
-                      style={{
-                        width: '100%',
-                        padding:'5%',
-                      }}>
+                   <div 
+                            className="center-posts"
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              flexWrap: 'nowrap', // set to nowrap
+                            }}
+                          >
+                            <div 
+                              style={{
+                                width: '100%',
+                                padding:'5%',
+                              }}
+                            >
                         <NewPost />
+                      
                         {stories.length > 0 ? storiesHTML : 
                         <div
                         style={{
-                          borderRadius: '10px',
-                          marginBottom: '10%',
+                        //  marginLeft: 'auto',
+                        //  marginRight: 'auto',
+                        //   borderRadius: '10px',
+                        //   marginBottom: '10%',
                         }}
                         id="oh-no-stories"
                        >

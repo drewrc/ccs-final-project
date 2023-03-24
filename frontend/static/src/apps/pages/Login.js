@@ -46,11 +46,6 @@ function Login() {
         padding: '7%',
         height: '100vh',
         width: '100vw',
-
-        // backgroundImage: `url(${backgroundImage})`,
-        // backgroundSize: 'cover',
-        // backgroundPosition: 'center',
-        // backgroundRepeat: 'no-repeat',
       }}
       className="login-page"
     >
