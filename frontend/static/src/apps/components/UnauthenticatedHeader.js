@@ -13,7 +13,9 @@ function UnauthenticatedHeader () {
 
 return (
     <>
-    <div>
+    <div
+    style={{width: '100vw',}}
+    >
         {['xxxl',].map((expand) => (
             <Navbar id="header" key={expand} expand={expand} className="mb-3">
             <Container fluid>

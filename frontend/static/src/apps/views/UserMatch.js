@@ -106,23 +106,27 @@ function UserMatch (from_user, id) {
       fetchMatchRequests();
     }, []);
 
+
+
     const matchHTML = friendRequests.map((request) => (
         <>
-        <div>
-            <p>
-                {request.from_user}
-                </p>
+            <div>
                 <p>
-                <button>
-                    accept
-                </button>
+                    {request.from_user}
+                    </p>
+                    <p>
                     <button>
-                        delete
+                        accept
                     </button>
-                </p>
-        </div>
+                        <button>
+                            delete
+                        </button>
+                    </p>
+            </div>
         </>
     ))
+
+
 // console.log({currentProfileIndex})
 console.log({currentProfileIndex})
     return (
@@ -170,6 +174,8 @@ console.log({currentProfileIndex})
                     // }}
                     > <MatchInfo /></span>
                      </div>
+          
+
 
                     {/* <p>swipe left to view next profile </p> */}
                         </div>

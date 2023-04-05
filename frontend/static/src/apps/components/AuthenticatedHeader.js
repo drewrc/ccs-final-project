@@ -160,7 +160,9 @@ function AuthenticatedHeader({ id }) {
 
   return (
     <>
-      <div>
+      <div
+       style={{width: '100vw',}}
+      >
         {[false].map((expand) => (
           <Navbar 
           style={{

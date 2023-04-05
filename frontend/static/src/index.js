@@ -17,21 +17,6 @@ root.render(
       <AuthContextProvider>
         <App />
       </AuthContextProvider>
-      {/* <Routes>
-        <Route path="/" element={<App />}>
-          <Route path="logout" element={<LogOut />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Registration />} />
-        </Route>
-        <Route
-          path="*"
-          element={
-            <main>
-              <p>There's nothing here!</p>
-            </main>
-          }
-        />
-      </Routes> */}
     </Router>
   </React.StrictMode>
 );

@@ -1002,7 +1002,7 @@ font-family: 'Ubuntu', sans-serif; */
 } */
 
 /******** login component ********/
-#login-header {
+#login-header, #registraiton-header {
     text-transform: uppercase;
     color: white;
     /* text-decoration: underline; */
@@ -1010,12 +1010,25 @@ font-family: 'Ubuntu', sans-serif; */
     font-size: 40px;
     text-shadow: 1px 2px 2px black;
 }
+
+
+.login-text {
+ padding: 20px;
+}
+
+
 #help-link:link, #help-link:visited {
     color: rgb(255, 255, 255);
   
 }
 #help-link:hover {
     color: rgb(255, 255, 255);
+
+}
+.error {
+  color: rgb(206, 60, 40);
+  text-transform: uppercase;
+  text-shadow: 1px 1px 1px black;
 }
 .login-page {
     background: linear-gradient(217deg, rgba(39, 14, 18, 0.2), rgba(255,0,0,0.1) 70.71%),            
@@ -1072,7 +1085,40 @@ font-family: 'Ubuntu', sans-serif; */
         margin-left: auto;
         margin-right: auto;
         margin-top: 15%;
+        height: 83vh;
+        margin-bottom: 70vh;
     }
+}
+
+
+@media screen and (min-width: 800px) {
+  #login-container {
+      width: 80vw;
+   
+      /* margin: 10%; */
+      /* padding-top: 20px; */
+  }
+  #registration-container {
+      width: 80vw !important;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 15%;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  #login-container {
+      width: 40vw;
+      height: 70vh;
+      /* margin: 10%; */
+      /* padding-top: 20px; */
+  }
+  #registration-container {
+      width: 40vw !important;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 15%;
+  }
 }
 
 @keyframes slide-up {
@@ -1093,6 +1139,7 @@ font-family: 'Ubuntu', sans-serif; */
 #help-links:visited, #help-links:link {
     text-align: left;
     font-size: 8px;
+    text-shadow: 1px 1px 1px black;
 }
 
 #help-links:hover {
